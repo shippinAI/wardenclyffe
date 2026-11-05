@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
@@ -17,7 +18,7 @@ import (
 
 func TestUserInviteRecord_TableName(t *testing.T) {
 	invite := UserInviteRecord{}
-	assert.Equal(t, "user_invites", invite.TableName())
+	assert.Equal(t, schema.RuntimeTableName("user_invites"), invite.TableName())
 }
 
 func TestGenerateInviteToken_Success(t *testing.T) {

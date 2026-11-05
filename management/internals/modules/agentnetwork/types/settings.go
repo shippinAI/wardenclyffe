@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 )
 
@@ -52,7 +53,9 @@ type Settings struct {
 
 // TableName puts the rows in their own table to keep the agent-network
 // schema cohesive.
-func (Settings) TableName() string { return "agent_network_settings" }
+func (Settings) TableName() string {
+	return schema.RuntimeTableName("agent_network_settings")
+}
 
 // DefaultSettings returns the settings an account observes before its row is
 // bootstrapped: log collection on with the default retention, everything else

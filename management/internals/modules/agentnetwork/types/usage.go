@@ -2,6 +2,8 @@ package types
 
 import (
 	"time"
+
+	"github.com/shippin/wardenclyffe/management/server/schema"
 )
 
 // AgentNetworkUsage is the stripped, always-collected per-request usage record
@@ -43,7 +45,9 @@ type AgentNetworkUsage struct {
 // TableName keeps usage records in their own stripped table. Named
 // distinctly (…_request_usage) to avoid colliding with any pre-existing
 // agent_network_usage table in a shared database.
-func (AgentNetworkUsage) TableName() string { return "agent_network_request_usage" }
+func (AgentNetworkUsage) TableName() string {
+	return schema.RuntimeTableName("agent_network_request_usage")
+}
 
 // TotalCostUSD is the request's total cost: the sum of the four per-bucket
 // costs. Derived rather than stored so it cannot disagree with the breakdown.
@@ -66,4 +70,6 @@ type AgentNetworkUsageGroup struct {
 }
 
 // TableName names the usage group child table.
-func (AgentNetworkUsageGroup) TableName() string { return "agent_network_request_usage_group" }
+func (AgentNetworkUsageGroup) TableName() string {
+	return schema.RuntimeTableName("agent_network_request_usage_group")
+}

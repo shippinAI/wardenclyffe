@@ -12,6 +12,7 @@ import (
 	"github.com/rs/xid"
 
 	"github.com/shippin/wardenclyffe/base62"
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/util/crypt"
 )
 
@@ -46,7 +47,7 @@ type UserInviteRecord struct {
 
 // TableName returns the table name for GORM
 func (UserInviteRecord) TableName() string {
-	return "user_invites"
+	return schema.RuntimeTableName("user_invites")
 }
 
 // GenerateInviteToken creates a new invite token with the format: nbi_<secret><checksum>

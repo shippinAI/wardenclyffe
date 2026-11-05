@@ -5,6 +5,7 @@ import (
 
 	"github.com/rs/xid"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 )
 
@@ -67,7 +68,9 @@ type PolicyBudgetLimit struct {
 
 // TableName forces a unique GORM table to avoid collision with the access
 // control Policy type, which also resolves to "policies" by default.
-func (Policy) TableName() string { return "agent_network_policies" }
+func (Policy) TableName() string {
+	return schema.RuntimeTableName("agent_network_policies")
+}
 
 // NewPolicy returns a new Policy with a freshly minted ID.
 func NewPolicy(accountID string) *Policy {

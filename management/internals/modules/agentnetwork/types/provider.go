@@ -7,6 +7,7 @@ import (
 
 	"github.com/rs/xid"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 	"github.com/shippin/wardenclyffe/util/crypt"
 )
@@ -98,7 +99,9 @@ type Provider struct {
 
 // TableName uses an explicit name so the Agent Network provider rows live
 // in their own table, separate from any future "providers"-named entity.
-func (Provider) TableName() string { return "agent_network_providers" }
+func (Provider) TableName() string {
+	return schema.RuntimeTableName("agent_network_providers")
+}
 
 // NewProvider returns a new Provider with a freshly minted ID.
 func NewProvider(accountID string) *Provider {

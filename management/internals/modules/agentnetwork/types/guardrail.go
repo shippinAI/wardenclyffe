@@ -5,6 +5,7 @@ import (
 
 	"github.com/rs/xid"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 )
 
@@ -38,7 +39,9 @@ type Guardrail struct {
 
 // TableName uses an explicit name so guardrail rows live in their own
 // table.
-func (Guardrail) TableName() string { return "agent_network_guardrails" }
+func (Guardrail) TableName() string {
+	return schema.RuntimeTableName("agent_network_guardrails")
+}
 
 // NewGuardrail returns a new Guardrail with a freshly minted ID.
 func NewGuardrail(accountID string) *Guardrail {

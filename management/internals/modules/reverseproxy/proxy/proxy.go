@@ -2,6 +2,8 @@ package proxy
 
 import (
 	"time"
+
+	"github.com/shippin/wardenclyffe/management/server/schema"
 )
 
 const (
@@ -42,7 +44,7 @@ type Proxy struct {
 }
 
 func (Proxy) TableName() string {
-	return "proxies"
+	return schema.RuntimeTableName("proxies")
 }
 
 // ClusterType is the source of a proxy cluster.

@@ -9,6 +9,7 @@ import (
 	"github.com/hashicorp/go-version"
 
 	nbpeer "github.com/shippin/wardenclyffe/management/server/peer"
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 	"github.com/shippin/wardenclyffe/shared/management/status"
 )
@@ -118,7 +119,7 @@ func (cd ChecksDefinition) Copy() ChecksDefinition {
 
 // TableName returns the name of the table for the Checks model in the database.
 func (*Checks) TableName() string {
-	return "posture_checks"
+	return schema.RuntimeTableName("posture_checks")
 }
 
 // Copy returns a copy of a posture checks.

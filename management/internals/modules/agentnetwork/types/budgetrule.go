@@ -5,6 +5,7 @@ import (
 
 	"github.com/rs/xid"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 )
 
@@ -32,7 +33,9 @@ type AccountBudgetRule struct {
 }
 
 // TableName puts budget rules in their own table.
-func (AccountBudgetRule) TableName() string { return "agent_network_budget_rules" }
+func (AccountBudgetRule) TableName() string {
+	return schema.RuntimeTableName("agent_network_budget_rules")
+}
 
 // NewAccountBudgetRule returns a new rule with a freshly minted ID.
 func NewAccountBudgetRule(accountID string) *AccountBudgetRule {

@@ -1,6 +1,10 @@
 package types
 
-import "time"
+import (
+	"time"
+
+	"github.com/shippin/wardenclyffe/management/server/schema"
+)
 
 // ConsumptionDimension classifies which kind of identity a consumption
 // row counts against. The proxy-side enforcement layer ticks one row
@@ -43,7 +47,9 @@ type Consumption struct {
 }
 
 // TableName forces a stable name independent of GORM's pluraliser.
-func (Consumption) TableName() string { return "agent_network_consumption" }
+func (Consumption) TableName() string {
+	return schema.RuntimeTableName("agent_network_consumption")
+}
 
 // ConsumptionKey identifies a single consumption counter within an account:
 // the (dim_kind, dim_id, window_seconds, window_start) part of the row's

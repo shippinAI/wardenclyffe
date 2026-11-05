@@ -3,6 +3,7 @@ package types
 import (
 	"time"
 
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/http/api"
 )
 
@@ -74,7 +75,9 @@ type AgentNetworkAccessLog struct {
 
 // TableName keeps agent-network access logs in their own table, separate from
 // the reverse-proxy AccessLogEntry table.
-func (AgentNetworkAccessLog) TableName() string { return "agent_network_access_log" }
+func (AgentNetworkAccessLog) TableName() string {
+	return schema.RuntimeTableName("agent_network_access_log")
+}
 
 // CostUSDSQLExpr is the SQL sum of the per-bucket cost columns — the total cost
 // of a row. Used wherever a query has to sort or aggregate on total cost now
@@ -355,4 +358,6 @@ type AgentNetworkAccessLogGroup struct {
 }
 
 // TableName names the access-log group child table.
-func (AgentNetworkAccessLogGroup) TableName() string { return "agent_network_access_log_group" }
+func (AgentNetworkAccessLogGroup) TableName() string {
+	return schema.RuntimeTableName("agent_network_access_log_group")
+}
