@@ -131,19 +131,7 @@ func NewSqlStore(ctx context.Context, db *gorm.DB, storeEngine types.Engine, met
 	if err := migratePreAuto(ctx, db); err != nil {
 		return nil, fmt.Errorf("migratePreAuto: %w", err)
 	}
-	err = db.AutoMigrate(
-		&types.SetupKey{}, &nbpeer.Peer{}, &types.User{}, &types.PersonalAccessToken{}, &types.ProxyAccessToken{},
-		&types.Group{}, &types.GroupPeer{},
-		&types.Account{}, &types.Policy{}, &types.PolicyRule{}, &route.Route{}, &nbdns.NameServerGroup{},
-		&installation{}, &types.ExtraSettings{}, &posture.Checks{}, &nbpeer.NetworkAddress{},
-		&networkTypes.Network{}, &routerTypes.NetworkRouter{}, &resourceTypes.NetworkResource{}, &types.AccountOnboarding{},
-		&types.Job{}, &zones.Zone{}, &records.Record{}, &types.UserInviteRecord{}, &rpservice.Service{}, &rpservice.Target{}, &domain.Domain{},
-		&accesslogs.AccessLogEntry{}, &proxy.Proxy{},
-		&agentNetworkTypes.Provider{}, &agentNetworkTypes.Policy{}, &agentNetworkTypes.Guardrail{}, &agentNetworkTypes.Settings{},
-		&agentNetworkTypes.Consumption{}, &agentNetworkTypes.AccountBudgetRule{},
-		&agentNetworkTypes.AgentNetworkAccessLog{}, &agentNetworkTypes.AgentNetworkAccessLogGroup{},
-		&agentNetworkTypes.AgentNetworkUsage{}, &agentNetworkTypes.AgentNetworkUsageGroup{},
-	)
+	err = db.AutoMigrate(managedStoreModels()...)
 	if err != nil {
 		return nil, fmt.Errorf("auto migratePreAuto: %w", err)
 	}
