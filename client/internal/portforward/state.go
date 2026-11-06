@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/shippin/wardenclyffe/go-nat"
-	"github.com/shippin/wardenclyffe/go-nat/pcp"
+	"github.com/netbirdio/go-nat"
+	"github.com/netbirdio/go-nat/pcp"
 	log "github.com/sirupsen/logrus"
 )
 

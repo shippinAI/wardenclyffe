@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/shippin/wardenclyffe/go-nat"
+	"github.com/netbirdio/go-nat"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

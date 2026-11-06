@@ -15,9 +15,8 @@ import (
 	"google.golang.org/grpc/status"
 	gproto "google.golang.org/protobuf/proto"
 
-	"github.com/shippin/wardenclyffe/signal-dispatcher/dispatcher"
-
 	"github.com/shippin/wardenclyffe/shared/signal/proto"
+	"github.com/shippin/wardenclyffe/signal/dispatcher"
 	"github.com/shippin/wardenclyffe/signal/metrics"
 	"github.com/shippin/wardenclyffe/signal/peer"
 )

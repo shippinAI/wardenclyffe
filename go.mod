@@ -83,9 +83,7 @@ require (
 	github.com/miekg/dns v1.1.72
 	github.com/mitchellh/hashstructure/v2 v2.0.2
 	github.com/moby/moby/api v1.54.1
-	github.com/shippin/wardenclyffe/go-nat v0.0.0-20260821095157-6b2c8c5c74e8
-	github.com/shippin/wardenclyffe/management-integrations/integrations v0.0.0-20260803100840-78e79ba20f87
-	github.com/shippin/wardenclyffe/signal-dispatcher/dispatcher v0.0.0-20250805121659-6b4ac470ca45
+	github.com/netbirdio/go-nat v0.0.0-20260821095157-6b2c8c5c74e8
 	github.com/oapi-codegen/runtime v1.1.2
 	github.com/okta/okta-sdk-golang/v2 v2.18.0
 	github.com/ory/dockertest/v4 v4.0.0
@@ -289,7 +287,6 @@ require (
 	github.com/moby/term v0.5.2 // indirect
 	github.com/morikuni/aec v1.0.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
-	github.com/netbirdio/netbird v0.75.1-0.20260803093422-9653b15d78a8 // indirect
 	github.com/nxadm/tail v1.4.11 // indirect
 	github.com/oklog/ulid v1.3.1 // indirect
 	github.com/openbao/openbao/api/v2 v2.5.1 // indirect
@@ -367,12 +364,6 @@ replace github.com/dexidp/dex/api/v2 => github.com/netbirdio/dex/api/v2 v2.0.0-2
 replace github.com/mailru/easyjson => github.com/netbirdio/easyjson v0.9.0
 
 replace github.com/wailsapp/wails/v3 => github.com/netbirdio/wails/v3 v3.0.0-beta.3.0.20260902163841-4a71f7b1d9e1
-
-replace github.com/shippin/wardenclyffe/go-nat => github.com/netbirdio/go-nat v0.0.0-20260821095157-6b2c8c5c74e8
-
-replace github.com/shippin/wardenclyffe/management-integrations/integrations => ./third_party/management-integrations/integrations
-
-replace github.com/shippin/wardenclyffe/signal-dispatcher/dispatcher => ./third_party/signal-dispatcher/dispatcher
 
 tool (
 	github.com/goreleaser/chglog/cmd/chglog

@@ -6,8 +6,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/shippin/wardenclyffe/management-integrations/integrations"
-
+	"github.com/shippin/wardenclyffe/management/internals/modules/agentnetwork"
 	"github.com/shippin/wardenclyffe/management/internals/modules/peers"
 	"github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/domain/manager"
 	"github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/proxy"
@@ -20,10 +19,10 @@ import (
 	recordsManager "github.com/shippin/wardenclyffe/management/internals/modules/zones/records/manager"
 	"github.com/shippin/wardenclyffe/management/server"
 	"github.com/shippin/wardenclyffe/management/server/account"
-	"github.com/shippin/wardenclyffe/management/internals/modules/agentnetwork"
 	"github.com/shippin/wardenclyffe/management/server/geolocation"
 	"github.com/shippin/wardenclyffe/management/server/groups"
 	"github.com/shippin/wardenclyffe/management/server/idp"
+	"github.com/shippin/wardenclyffe/management/server/integrations"
 	"github.com/shippin/wardenclyffe/management/server/networks"
 	"github.com/shippin/wardenclyffe/management/server/networks/resources"
 	"github.com/shippin/wardenclyffe/management/server/networks/routers"

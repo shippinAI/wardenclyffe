@@ -12,8 +12,6 @@ import (
 
 	"go.opentelemetry.io/otel/metric/noop"
 
-	"github.com/shippin/wardenclyffe/management-integrations/integrations"
-
 	accesslogsmanager "github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/accesslogs/manager"
 	"github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/domain/manager"
 	proxymanager "github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/proxy/manager"
@@ -41,6 +39,7 @@ import (
 	"github.com/shippin/wardenclyffe/management/server/groups"
 	http2 "github.com/shippin/wardenclyffe/management/server/http"
 	"github.com/shippin/wardenclyffe/management/server/http/testing/testing_tools"
+	"github.com/shippin/wardenclyffe/management/server/integrations"
 	"github.com/shippin/wardenclyffe/management/server/networks"
 	"github.com/shippin/wardenclyffe/management/server/networks/resources"
 	"github.com/shippin/wardenclyffe/management/server/networks/routers"

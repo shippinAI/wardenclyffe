@@ -12,10 +12,10 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.zx2c4.com/wireguard/wgctrl/wgtypes"
 
-	integrationsConfig "github.com/shippin/wardenclyffe/management-integrations/integrations/config"
 	"github.com/shippin/wardenclyffe/management/internals/controllers/network_map"
 	nbconfig "github.com/shippin/wardenclyffe/management/internals/server/config"
 	"github.com/shippin/wardenclyffe/management/server/groups"
+	integrationsConfig "github.com/shippin/wardenclyffe/management/server/integrations/config"
 	"github.com/shippin/wardenclyffe/management/server/settings"
 	"github.com/shippin/wardenclyffe/shared/management/proto"
 	auth "github.com/shippin/wardenclyffe/shared/relay/auth/hmac"

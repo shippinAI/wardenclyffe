@@ -11,6 +11,7 @@ import (
 	"github.com/shippin/wardenclyffe/shared/signal/proto"
 )
 
+// Dispatcher delivers messages to peers that are currently connected.
 type Dispatcher struct {
 	peerChannels map[string]peerChan
 	mu           sync.RWMutex
@@ -23,6 +24,7 @@ type peerChan struct {
 	cancel context.CancelFunc
 }
 
+// NewDispatcher creates a dispatcher bound to the server lifecycle context.
 func NewDispatcher(ctx context.Context, _ metric.Meter) (*Dispatcher, error) {
 	return &Dispatcher{
 		peerChannels: make(map[string]peerChan),
@@ -39,6 +41,7 @@ func newPeerChan(parentCtx context.Context) peerChan {
 	}
 }
 
+// SendMessage enqueues msg for the destination peer if currently connected.
 func (d *Dispatcher) SendMessage(ctx context.Context, msg *proto.EncryptedMessage) (*proto.EncryptedMessage, error) {
 	select {
 	case <-ctx.Done():
@@ -70,6 +73,7 @@ func (d *Dispatcher) SendMessage(ctx context.Context, msg *proto.EncryptedMessag
 	}
 }
 
+// ListenForMessages registers a peer receiver and streams enqueued messages.
 func (d *Dispatcher) ListenForMessages(ctx context.Context, id string, messageHandler func(context.Context, *proto.EncryptedMessage)) error {
 	peerChan := newPeerChan(ctx)
 

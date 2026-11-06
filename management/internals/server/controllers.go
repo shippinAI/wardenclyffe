@@ -5,8 +5,6 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"github.com/shippin/wardenclyffe/management-integrations/integrations"
-
 	"github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/proxy"
 	proxymanager "github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/proxy/manager"
 
@@ -18,6 +16,7 @@ import (
 	"github.com/shippin/wardenclyffe/management/internals/shared/grpc"
 	"github.com/shippin/wardenclyffe/management/server"
 	"github.com/shippin/wardenclyffe/management/server/auth"
+	"github.com/shippin/wardenclyffe/management/server/integrations"
 	"github.com/shippin/wardenclyffe/management/server/integrations/integrated_validator"
 	"github.com/shippin/wardenclyffe/management/server/integrations/integrated_validator/validator"
 	"github.com/shippin/wardenclyffe/management/server/integrations/port_forwarding"

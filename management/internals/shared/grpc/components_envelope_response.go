@@ -3,7 +3,7 @@ package grpc
 import (
 	"context"
 
-	integrationsConfig "github.com/shippin/wardenclyffe/management-integrations/integrations/config"
+	integrationsConfig "github.com/shippin/wardenclyffe/management/server/integrations/config"
 
 	"github.com/shippin/wardenclyffe/client/ssh/auth"
 	nbconfig "github.com/shippin/wardenclyffe/management/internals/server/config"

@@ -12,7 +12,7 @@ import (
 	nbversion "github.com/shippin/wardenclyffe/version"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
-	integrationsConfig "github.com/shippin/wardenclyffe/management-integrations/integrations/config"
+	integrationsConfig "github.com/shippin/wardenclyffe/management/server/integrations/config"
 
 	"github.com/shippin/wardenclyffe/client/ssh/auth"
 
