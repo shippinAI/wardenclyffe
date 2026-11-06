@@ -1,0 +1,4 @@
+FROM wardenclyffe-combined:runtime-check
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+COPY certs/cert.pem /usr/local/share/ca-certificates/wardenclyffe-local.crt
+RUN update-ca-certificates

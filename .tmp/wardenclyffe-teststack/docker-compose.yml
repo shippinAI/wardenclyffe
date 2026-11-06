@@ -1,0 +1,35 @@
+services:
+  wardenclyffe:
+    image: wardenclyffe-combined:runtime-check-trusted
+    container_name: wardenclyffe-teststack
+    restart: unless-stopped
+    environment:
+      - NB_DISABLE_GEOLOCATION=true
+    ports:
+      - "39173:33073"
+      - "39100:9000"
+    volumes:
+      - ./config.yaml:/etc/wardenclyffe/config.yaml:ro
+      - ./certs:/etc/wardenclyffe/certs:ro
+      - wc_test_data:/var/lib/wardenclyffe
+
+  dashboard:
+    image: wardenclyffe-dashboard:local
+    container_name: wardenclyffe-dashboard-test
+    restart: unless-stopped
+    depends_on:
+      - wardenclyffe
+    environment:
+      - AUTH_AUTHORITY=https://127.0.0.1:39173/oauth2
+      - AUTH_CLIENT_ID=wardenclyffe-dashboard
+      - AUTH_AUDIENCE=wardenclyffe-dashboard
+      - AUTH_SUPPORTED_SCOPES=openid profile email offline_access
+      - USE_AUTH0=false
+      - NETBIRD_MGMT_API_ENDPOINT=https://127.0.0.1:39173
+      - NETBIRD_MGMT_GRPC_API_ENDPOINT=https://127.0.0.1:39173
+      - NETBIRD_TOKEN_SOURCE=accessToken
+    ports:
+      - "39280:8080"
+
+volumes:
+  wc_test_data:

@@ -1,0 +1,30 @@
+server:
+  listenAddress: ":33073"
+  exposedAddress: "https://127.0.0.1:33073"
+  metricsPort: 9090
+  healthcheckAddress: ":9000"
+  logLevel: "info"
+  logFile: "console"
+  authSecret: "docker-verify-secret"
+  dataDir: "/var/lib/wardenclyffe"
+  tls:
+    certFile: "/etc/wardenclyffe/certs/cert.pem"
+    keyFile: "/etc/wardenclyffe/certs/key.pem"
+    letsencrypt:
+      enabled: false
+      dataDir: ""
+      domains: []
+      email: ""
+      awsRoute53: false
+  auth:
+    issuer: "https://127.0.0.1:39173/oauth2"
+    localAuthDisabled: false
+    signKeyRefreshEnabled: false
+    dashboardRedirectURIs:
+      - "http://localhost/nb-auth"
+    cliRedirectURIs:
+      - "http://localhost:53000/"
+  store:
+    engine: "sqlite"
+    encryptionKey: "MDEyMzQ1Njc4OWFiY2RlZjAxMjM0NTY3ODlhYmNkZWY="
+  stunPorts: []
