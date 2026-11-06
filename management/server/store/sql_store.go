@@ -40,12 +40,12 @@ import (
 	rpservice "github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/service"
 	"github.com/shippin/wardenclyffe/management/internals/modules/zones"
 	"github.com/shippin/wardenclyffe/management/internals/modules/zones/records"
+	"github.com/shippin/wardenclyffe/management/server/migration"
 	resourceTypes "github.com/shippin/wardenclyffe/management/server/networks/resources/types"
 	routerTypes "github.com/shippin/wardenclyffe/management/server/networks/routers/types"
 	networkTypes "github.com/shippin/wardenclyffe/management/server/networks/types"
 	nbpeer "github.com/shippin/wardenclyffe/management/server/peer"
 	"github.com/shippin/wardenclyffe/management/server/posture"
-	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/management/server/telemetry"
 	"github.com/shippin/wardenclyffe/management/server/types"
 	"github.com/shippin/wardenclyffe/management/server/util"
@@ -124,6 +124,10 @@ func NewSqlStore(ctx context.Context, db *gorm.DB, storeEngine types.Engine, met
 
 	log.WithContext(ctx).Infof("Set max open db connections to %d, max idle to %d, max lifetime to %v, max idle time to %v",
 		conns, conns, time.Hour, 3*time.Minute)
+
+	if err := migration.CreatePrefixedTableCopies(ctx, db); err != nil {
+		return nil, fmt.Errorf("prepare prefixed table copies: %w", err)
+	}
 
 	if err := validatePrefixedTableReadiness(ctx, db); err != nil {
 		return nil, err
@@ -3155,12 +3159,9 @@ func getGormConfig() *gorm.Config {
 	cfg := &gorm.Config{
 		Logger:          logger.Default.LogMode(logger.Silent),
 		CreateBatchSize: 400,
-	}
-
-	if schema.UsePrefixedTables() {
-		cfg.NamingStrategy = runtimeTableNamingStrategy{
+		NamingStrategy: runtimeTableNamingStrategy{
 			NamingStrategy: gschema.NamingStrategy{},
-		}
+		},
 	}
 
 	return cfg

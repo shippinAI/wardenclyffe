@@ -21,10 +21,6 @@ func (s runtimeTableNamingStrategy) TableName(str string) string {
 }
 
 func validatePrefixedTableReadiness(ctx context.Context, db *gorm.DB) error {
-	if !schema.UsePrefixedTables() {
-		return nil
-	}
-
 	for _, entry := range schema.TableNamingPlan() {
 		sourceExists := db.Migrator().HasTable(entry.CurrentTable)
 		targetExists := db.Migrator().HasTable(entry.TargetTable)
@@ -36,8 +32,8 @@ func validatePrefixedTableReadiness(ctx context.Context, db *gorm.DB) error {
 
 		if !targetExists {
 			return fmt.Errorf(
-				"prefixed table %s is missing while legacy table %s exists; run once with %s=false to populate compatibility tables",
-				entry.TargetTable, entry.CurrentTable, schema.EnvUsePrefixedTables,
+				"prefixed table %s is missing while legacy table %s exists; compatibility copy did not complete",
+				entry.TargetTable, entry.CurrentTable,
 			)
 		}
 
@@ -53,13 +49,13 @@ func validatePrefixedTableReadiness(ctx context.Context, db *gorm.DB) error {
 
 		if sourceCount > 0 && targetCount == 0 {
 			return fmt.Errorf(
-				"prefixed table %s is empty while legacy table %s has %d row(s); run once with %s=false to complete compatibility copy",
-				entry.TargetTable, entry.CurrentTable, sourceCount, schema.EnvUsePrefixedTables,
+				"prefixed table %s is empty while legacy table %s has %d row(s); compatibility copy did not complete",
+				entry.TargetTable, entry.CurrentTable, sourceCount,
 			)
 		}
 	}
 
-	log.WithContext(ctx).Infof("%s=true: using wardenclyffe_* runtime table names", schema.EnvUsePrefixedTables)
+	log.WithContext(ctx).Infof("using wardenclyffe_* runtime table names")
 	return nil
 }
 
