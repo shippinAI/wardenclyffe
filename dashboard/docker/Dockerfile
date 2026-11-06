@@ -15,8 +15,9 @@ COPY docker/default.conf /etc/nginx/http.d/default.conf
 COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/init_cert.sh /usr/local/init_cert.sh
 COPY docker/init_react_envs.sh /usr/local/init_react_envs.sh
-RUN chmod +x /usr/local/init_cert.sh && rm /etc/crontabs/root
-RUN chmod +x /usr/local/init_react_envs.sh
+RUN sed -i 's/\r$//' /usr/local/init_cert.sh /usr/local/init_react_envs.sh && \
+    chmod +x /usr/local/init_cert.sh /usr/local/init_react_envs.sh && \
+    rm /etc/crontabs/root
 
 # configure supervisor
 COPY docker/supervisord.conf /etc/supervisord.conf

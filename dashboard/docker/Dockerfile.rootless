@@ -20,6 +20,7 @@ RUN sed -i \
       -e 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/' \
       /etc/nginx/http.d/default.conf && \
     sed -i '/^user nginx;$/d' /etc/nginx/nginx.conf && \
+    sed -i 's/\r$//' /usr/local/init_react_envs.sh && \
     chmod +x /usr/local/init_react_envs.sh && \
     chgrp -R 0 /etc/nginx/http.d /usr/share/nginx/html /tmp/nginx && \
     chmod -R g=u /etc/nginx/http.d /usr/share/nginx/html /tmp/nginx
