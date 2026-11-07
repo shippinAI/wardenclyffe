@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { Node, useReactFlow, XYPosition } from "@xyflow/react";
+import { Node, OnNodeDrag, useReactFlow, XYPosition } from "@xyflow/react";
 import { useCanvasState } from "@/modules/control-center/contexts/ControlCenterContext";
 import { useControlCenterPolicy } from "@/modules/control-center/contexts/ControlCenterPolicyModals";
 import { useDraftMode } from "@/modules/control-center/draft/DraftModeContext";
@@ -262,7 +262,7 @@ export function useDragToGroup() {
   const lastHighlightCheck = useRef<XYPosition | null>(null);
 
   const onNodeDragStart = useCallback(
-    (_event: React.MouseEvent, draggedNode: Node) => {
+    (_event: Parameters<OnNodeDrag>[0], draggedNode: Node) => {
       frameDrag.current = null;
       lastHighlightCheck.current = null;
       if (!isDraft) return;
@@ -288,7 +288,7 @@ export function useDragToGroup() {
   );
 
   const onNodeDrag = useCallback(
-    (_event: React.MouseEvent, draggedNode: Node) => {
+    (_event: Parameters<OnNodeDrag>[0], draggedNode: Node) => {
       if (!isDraft) return;
 
       const frame = frameDrag.current;
@@ -398,7 +398,7 @@ export function useDragToGroup() {
   );
 
   const onNodeDragStop = useCallback(
-    (_event: React.MouseEvent, draggedNode: Node) => {
+    (_event: Parameters<OnNodeDrag>[0], draggedNode: Node) => {
       if (!isDraft) return;
 
       // Clear the highlight first: the branches below return early.
