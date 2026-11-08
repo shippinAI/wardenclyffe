@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	urlMacIntel = "https://pkgs.wardenclyffe.wardenclyffe.app/macos/amd64"
-	urlMacM1M2  = "https://pkgs.wardenclyffe.wardenclyffe.app/macos/arm64"
+	urlMacIntel = "https://pkgs.wardenclyffe.app/macos/amd64"
+	urlMacM1M2  = "https://pkgs.wardenclyffe.app/macos/arm64"
 )
 
 // DownloadUrl return with the proper download link

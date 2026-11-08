@@ -60,7 +60,7 @@ wardenclyffe	user-facing strings/UI/branding assets	315
 wardenclyffe	other	91
 wardenclyffe	Dockerfiles/build scripts/CI/packaging	93
 wardenclyffe	URLs/routes/domains	208
-wardenclyffe	env var prefixes (NETBIRD_*/NB_*)	160
+wardenclyffe	env var prefixes (WARDENCLYFFE_*/NB_*)	160
 wardenclyffe	binary names/cmd dirs	144
 wardenclyffe	default paths (/var/lib|/etc|/var/log wardenclyffe)	60
 wardenclyffe	LICENSE/NOTICE (list only, untouched)	4
@@ -71,7 +71,7 @@ dashboard	files with wardenclyffe in filename (incl. binary assets)	15
 dashboard	Dockerfiles/build scripts/CI/packaging	13
 dashboard	user-facing strings/UI/branding assets	422
 dashboard	URLs/routes/domains	143
-dashboard	env var prefixes (NETBIRD_*/NB_*)	28
+dashboard	env var prefixes (WARDENCLYFFE_*/NB_*)	28
 dashboard	binary names/cmd dirs	10
 dashboard	other	2
 dashboard	LICENSE/NOTICE (list only, untouched)	2
@@ -90,15 +90,15 @@ wardenclyffe/.github/pull_request_template.md	URLs/routes/domains; Dockerfiles/b
 wardenclyffe/.github/workflows/check-license-dependencies.yml	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/docs-ack.yml	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/forum.yml	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/.github/workflows/golang-test-darwin.yml	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/.github/workflows/golang-test-darwin.yml	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/golang-test-freebsd.yml	Dockerfiles/build scripts/CI/packaging
-wardenclyffe/.github/workflows/golang-test-linux.yml	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/.github/workflows/golang-test-linux.yml	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/golang-test-windows.yml	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/install-script-test.yml	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/no-new-replace.yml	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/.github/workflows/release.yml	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/.github/workflows/release.yml	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/.github/workflows/sync-tag.yml	Dockerfiles/build scripts/CI/packaging
-wardenclyffe/.github/workflows/test-infrastructure-files.yml	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/.github/workflows/test-infrastructure-files.yml	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/.github/workflows/update-docs.yml	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.github/workflows/wasm-build-validation.yml	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.gitignore	other
@@ -106,19 +106,19 @@ wardenclyffe/.goreleaser.yaml	binary names/cmd dirs; URLs/routes/domains; Docker
 wardenclyffe/.goreleaser_ui.yaml	binary names/cmd dirs; URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.goreleaser_ui_darwin.yaml	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/.goreleaser_ui_gtk3.yaml	binary names/cmd dirs; URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/AGENTS.md	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/AGENTS.md	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/AUTHORS	LICENSE/NOTICE (list only, untouched)
 wardenclyffe/CODE_OF_CONDUCT.md	URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/CONTRIBUTING.md	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/CONTRIBUTOR_LICENSE_AGREEMENT.md	LICENSE/NOTICE (list only, untouched); user-facing strings/UI/branding assets
 wardenclyffe/LICENSE	LICENSE/NOTICE (list only, untouched)
 wardenclyffe/LICENSES/BSD-3-Clause.txt	LICENSE/NOTICE (list only, untouched); user-facing strings/UI/branding assets
-wardenclyffe/README.md	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/README.md	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/SECURITY.md	URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/agent-network/README.md	URLs/routes/domains; user-facing strings/UI/branding assets
-wardenclyffe/client/Dockerfile	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/client/Dockerfile-rootless	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/client/Dockerfile-rootless.ubi	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/client/Dockerfile	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/client/Dockerfile-rootless	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/client/Dockerfile-rootless.ubi	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/client/android/client.go	Go module path/imports
 wardenclyffe/client/android/client_mdm.go	Go module path/imports
 wardenclyffe/client/android/connection_listener.go	Go module path/imports
@@ -139,7 +139,7 @@ wardenclyffe/client/cmd/capture.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/daemon_error.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/debug.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/debug_unix.go	Go module path/imports; binary names/cmd dirs
-wardenclyffe/client/cmd/debug_windows.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/cmd/debug_windows.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/cmd/down.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/expose.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/forwarding_rules.go	Go module path/imports; binary names/cmd dirs
@@ -150,20 +150,20 @@ wardenclyffe/client/cmd/login_test.go	Go module path/imports; binary names/cmd d
 wardenclyffe/client/cmd/logout.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/networks.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/profile.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
-wardenclyffe/client/cmd/root.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
-wardenclyffe/client/cmd/root_test.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/cmd/service.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/cmd/root.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/client/cmd/root_test.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/cmd/service.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/service_controller.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/service_installer.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/service_json_gateway.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/service_json_gateway_test.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/service_json_socket_test.go	binary names/cmd dirs
 wardenclyffe/client/cmd/service_params.go	Go module path/imports; binary names/cmd dirs
-wardenclyffe/client/cmd/service_params_test.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/cmd/service_params_test.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/cmd/service_pipe_windows.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/service_privileged_test.go	binary names/cmd dirs
 wardenclyffe/client/cmd/signer/artifactkey.go	Go module path/imports; binary names/cmd dirs
-wardenclyffe/client/cmd/signer/artifactsign.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/cmd/signer/artifactsign.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/cmd/signer/revocation.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/signer/rootkey.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/ssh.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
@@ -175,25 +175,25 @@ wardenclyffe/client/cmd/state.go	Go module path/imports; binary names/cmd dirs; 
 wardenclyffe/client/cmd/status.go	Go module path/imports; binary names/cmd dirs; URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/testutil_test.go	Go module path/imports; binary names/cmd dirs; URLs/routes/domains
 wardenclyffe/client/cmd/trace.go	Go module path/imports; binary names/cmd dirs
-wardenclyffe/client/cmd/up.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/cmd/up.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/up_daemon_test.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/up_test.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/client/cmd/update_supported.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/cmd/version.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/client/collect-licenses.sh	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/client/configs/configs.go	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/configs/configs.go	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/embed/capture.go	Go module path/imports
-wardenclyffe/client/embed/doc.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/embed/embed.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/embed/doc.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/embed/embed.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/embed/embed_test.go	Go module path/imports
 wardenclyffe/client/embed/expose.go	Go module path/imports
 wardenclyffe/client/firewall/allower_other.go	Go module path/imports
 wardenclyffe/client/firewall/allower_windows.go	Go module path/imports
 wardenclyffe/client/firewall/create.go	Go module path/imports
-wardenclyffe/client/firewall/create_linux.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/create_linux.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/firewalld/firewalld.go	other
 wardenclyffe/client/firewall/firewalld/firewalld_linux.go	other
-wardenclyffe/client/firewall/iface.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/iface.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/iptables/chains_linux.go	Go module path/imports
 wardenclyffe/client/firewall/iptables/dnat_linux.go	Go module path/imports
 wardenclyffe/client/firewall/iptables/dnat_refcount_linux_test.go	Go module path/imports
@@ -221,7 +221,7 @@ wardenclyffe/client/firewall/nftables/filter_linux.go	Go module path/imports
 wardenclyffe/client/firewall/nftables/interface_allower_integration_linux_test.go	Go module path/imports
 wardenclyffe/client/firewall/nftables/interface_allower_linux.go	Go module path/imports
 wardenclyffe/client/firewall/nftables/ipset_linux.go	Go module path/imports
-wardenclyffe/client/firewall/nftables/manager_linux.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/nftables/manager_linux.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/nftables/manager_linux_test.go	Go module path/imports
 wardenclyffe/client/firewall/nftables/router_linux_test.go	Go module path/imports
 wardenclyffe/client/firewall/nftables/routing_linux.go	Go module path/imports; user-facing strings/UI/branding assets
@@ -230,20 +230,20 @@ wardenclyffe/client/firewall/nftables/state_linux.go	Go module path/imports
 wardenclyffe/client/firewall/test/cases_linux.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/conntrack/common.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/conntrack/common_test.go	Go module path/imports
-wardenclyffe/client/firewall/uspfilter/conntrack/icmp.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/firewall/uspfilter/conntrack/tcp.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/firewall/uspfilter/conntrack/udp.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/firewall/uspfilter/filter.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/firewall/uspfilter/filter_bench_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/conntrack/icmp.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/conntrack/tcp.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/conntrack/udp.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/filter.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/filter_bench_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/uspfilter/filter_filter_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/filter_routeacl_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/filter_test.go	Go module path/imports; user-facing strings/UI/branding assets
 wardenclyffe/client/firewall/uspfilter/forwarder/endpoint.go	Go module path/imports
-wardenclyffe/client/firewall/uspfilter/forwarder/forwarder.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/forwarder/forwarder.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/uspfilter/forwarder/icmp.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/forwarder/tcp.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/forwarder/udp.go	Go module path/imports
-wardenclyffe/client/firewall/uspfilter/fragment.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/fragment.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/uspfilter/fragment_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/hooks_filter.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/interface_allower_windows.go	Go module path/imports
@@ -254,7 +254,7 @@ wardenclyffe/client/firewall/uspfilter/nat.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/nat_bench_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/nat_stateful_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/nat_test.go	Go module path/imports
-wardenclyffe/client/firewall/uspfilter/peer_acl_bench_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/firewall/uspfilter/peer_acl_bench_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/firewall/uspfilter/peer_acl_dedup_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/peer_acl_ipv6_test.go	Go module path/imports
 wardenclyffe/client/firewall/uspfilter/peer_family_scope_test.go	Go module path/imports
@@ -300,7 +300,7 @@ wardenclyffe/client/iface/iface_new_android.go	Go module path/imports
 wardenclyffe/client/iface/iface_new_ios.go	Go module path/imports
 wardenclyffe/client/iface/iface_new_js.go	Go module path/imports
 wardenclyffe/client/iface/iface_new_linux.go	Go module path/imports
-wardenclyffe/client/iface/iface_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/iface/iface_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/iface/mocks/README.md	user-facing strings/UI/branding assets
 wardenclyffe/client/iface/mocks/filter.go	Go module path/imports
 wardenclyffe/client/iface/udpmux/conn.go	other
@@ -312,7 +312,7 @@ wardenclyffe/client/iface/wgaddr/address.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/bind/proxy.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/ebpf/proxy.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/ebpf/wrapper.go	Go module path/imports
-wardenclyffe/client/iface/wgproxy/factory_kernel.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/iface/wgproxy/factory_kernel.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/iface/wgproxy/factory_usp.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/proxy_linux_test.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/proxy_seed_test.go	Go module path/imports
@@ -321,13 +321,13 @@ wardenclyffe/client/iface/wgproxy/rawsocket/rawsocket_privileged_test.go	Go modu
 wardenclyffe/client/iface/wgproxy/redirect_test.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/udp/proxy.go	Go module path/imports
 wardenclyffe/client/iface/wgproxy/udp/rawsocket.go	Go module path/imports
-wardenclyffe/client/installer.nsis	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/client/internal/acl/dispatch_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/internal/acl/grouping_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/installer.nsis	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/client/internal/acl/dispatch_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/internal/acl/grouping_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/acl/id/id.go	Go module path/imports
-wardenclyffe/client/internal/acl/legacy_fallback_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/acl/legacy_fallback_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/acl/manager.go	Go module path/imports; user-facing strings/UI/branding assets
-wardenclyffe/client/internal/acl/manager_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/acl/manager_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/acl/mocks/iface_mapper.go	Go module path/imports
 wardenclyffe/client/internal/auth/auth.go	Go module path/imports
 wardenclyffe/client/internal/auth/auth_test.go	other
@@ -338,7 +338,7 @@ wardenclyffe/client/internal/auth/pkce_flow_test.go	Go module path/imports
 wardenclyffe/client/internal/auth/sessionwatch/watcher.go	Go module path/imports
 wardenclyffe/client/internal/auth/sessionwatch/watcher_test.go	Go module path/imports
 wardenclyffe/client/internal/auth/util_test.go	other
-wardenclyffe/client/internal/conn_mgr.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/conn_mgr.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/conn_mgr_test.go	Go module path/imports
 wardenclyffe/client/internal/connect.go	Go module path/imports; user-facing strings/UI/branding assets
 wardenclyffe/client/internal/connect_android_default.go	Go module path/imports
@@ -356,7 +356,7 @@ wardenclyffe/client/internal/debug/debug.go	Go module path/imports; default path
 wardenclyffe/client/internal/debug/debug_linux.go	Go module path/imports
 wardenclyffe/client/internal/debug/debug_nonandroid.go	Go module path/imports
 wardenclyffe/client/internal/debug/debug_nonmobile.go	Go module path/imports
-wardenclyffe/client/internal/debug/debug_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/client/internal/debug/debug_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/client/internal/debug/debug_windows.go	Go module path/imports
 wardenclyffe/client/internal/debug/debug_windows_test.go	Go module path/imports
 wardenclyffe/client/internal/debug/format.go	Go module path/imports
@@ -370,7 +370,7 @@ wardenclyffe/client/internal/debug/wgshow.go	Go module path/imports
 wardenclyffe/client/internal/dns.go	Go module path/imports
 wardenclyffe/client/internal/dns/config/domains.go	Go module path/imports
 wardenclyffe/client/internal/dns/config/domains_test.go	URLs/routes/domains
-wardenclyffe/client/internal/dns/consts.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/dns/consts.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/dns/file_parser_unix_test.go	URLs/routes/domains
 wardenclyffe/client/internal/dns/file_repair_unix.go	Go module path/imports
 wardenclyffe/client/internal/dns/file_repair_unix_test.go	Go module path/imports; URLs/routes/domains
@@ -383,12 +383,12 @@ wardenclyffe/client/internal/dns/host_darwin.go	Go module path/imports; user-fac
 wardenclyffe/client/internal/dns/host_darwin_test.go	Go module path/imports; user-facing strings/UI/branding assets
 wardenclyffe/client/internal/dns/host_ios.go	Go module path/imports
 wardenclyffe/client/internal/dns/host_unix.go	other
-wardenclyffe/client/internal/dns/host_windows.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/internal/dns/host_windows.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/internal/dns/interface_index_test.go	other
-wardenclyffe/client/internal/dns/local/local.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/dns/local/local.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/dns/local/local_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/client/internal/dns/local/warmup_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/client/internal/dns/mgmt/mgmt.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/internal/dns/mgmt/mgmt.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/internal/dns/mgmt/mgmt_refresh_test.go	Go module path/imports
 wardenclyffe/client/internal/dns/mgmt/mgmt_resolve_test.go	Go module path/imports
 wardenclyffe/client/internal/dns/mgmt/mgmt_test.go	Go module path/imports; URLs/routes/domains
@@ -397,9 +397,9 @@ wardenclyffe/client/internal/dns/network_manager_unix.go	Go module path/imports
 wardenclyffe/client/internal/dns/notifier.go	Go module path/imports
 wardenclyffe/client/internal/dns/resolvconf_unix.go	Go module path/imports
 wardenclyffe/client/internal/dns/response_writer_test.go	Go module path/imports
-wardenclyffe/client/internal/dns/server.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
-wardenclyffe/client/internal/dns/server_privileged_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
-wardenclyffe/client/internal/dns/server_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/client/internal/dns/server.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
+wardenclyffe/client/internal/dns/server_privileged_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
+wardenclyffe/client/internal/dns/server_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/client/internal/dns/service.go	Go module path/imports
 wardenclyffe/client/internal/dns/service_listener.go	Go module path/imports
 wardenclyffe/client/internal/dns/service_listener_test.go	Go module path/imports
@@ -418,7 +418,7 @@ wardenclyffe/client/internal/dns_peer_activator_test.go	Go module path/imports; 
 wardenclyffe/client/internal/dns_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/client/internal/dnsfwd/forwarder.go	Go module path/imports
 wardenclyffe/client/internal/dnsfwd/forwarder_test.go	Go module path/imports
-wardenclyffe/client/internal/dnsfwd/manager.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/dnsfwd/manager.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/ebpf/ebpf/manager_linux.go	Go module path/imports
 wardenclyffe/client/internal/ebpf/instantiater_linux.go	Go module path/imports
 wardenclyffe/client/internal/ebpf/instantiater_nonlinux.go	Go module path/imports
@@ -471,10 +471,10 @@ wardenclyffe/client/internal/localmetrics/localmetrics.go	Go module path/imports
 wardenclyffe/client/internal/localmetrics/localmetrics_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/client/internal/message_convert.go	Go module path/imports
 wardenclyffe/client/internal/metrics/deployment_type.go	URLs/routes/domains
-wardenclyffe/client/internal/metrics/env.go	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/client/internal/metrics/env.go	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/client/internal/metrics/influxdb.go	other
 wardenclyffe/client/internal/metrics/influxdb_test.go	other
-wardenclyffe/client/internal/metrics/infra/README.md	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/client/internal/metrics/infra/README.md	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/client/internal/metrics/infra/docker-compose.yml	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/client/internal/metrics/infra/grafana/provisioning/dashboards/dashboard.yml	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/client/internal/metrics/infra/grafana/provisioning/dashboards/json/wardenclyffe-influxdb-metrics.json	user-facing strings/UI/branding assets
@@ -484,9 +484,9 @@ wardenclyffe/client/internal/metrics/infra/influxdb/scripts/create-tokens.sh	Doc
 wardenclyffe/client/internal/metrics/infra/ingest/go.mod	Go module path/imports
 wardenclyffe/client/internal/metrics/infra/ingest/main.go	binary names/cmd dirs
 wardenclyffe/client/internal/metrics/infra/ingest/main_test.go	other
-wardenclyffe/client/internal/metrics/metrics.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/metrics/metrics.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/metrics/prometheus.go	other
-wardenclyffe/client/internal/metrics/push.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/client/internal/metrics/push.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/client/internal/metrics/push_test.go	Go module path/imports
 wardenclyffe/client/internal/mobile_dependency.go	Go module path/imports
 wardenclyffe/client/internal/netflow/conntrack/conntrack.go	Go module path/imports
@@ -544,12 +544,12 @@ wardenclyffe/client/internal/profilemanager/config_mdm_test.go	Go module path/im
 wardenclyffe/client/internal/profilemanager/config_test.go	Go module path/imports
 wardenclyffe/client/internal/profilemanager/invoking_user_test.go	other
 wardenclyffe/client/internal/profilemanager/prefs.go	Go module path/imports
-wardenclyffe/client/internal/profilemanager/profilemanager_test.go	env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/internal/profilemanager/service.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/profilemanager/profilemanager_test.go	env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/internal/profilemanager/service.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/profilemanager/service_test.go	Go module path/imports
 wardenclyffe/client/internal/profilemanager/state.go	Go module path/imports
 wardenclyffe/client/internal/relay/relay.go	Go module path/imports
-wardenclyffe/client/internal/rosenpass/manager.go	env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/rosenpass/manager.go	env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/rosenpass/manager_test.go	other
 wardenclyffe/client/internal/rosenpass/wardenclyffe_handler.go	other
 wardenclyffe/client/internal/rosenpass/wardenclyffe_handler_test.go	other
@@ -592,16 +592,16 @@ wardenclyffe/client/internal/routemanager/systemops/systemops.go	Go module path/
 wardenclyffe/client/internal/routemanager/systemops/systemops_android.go	Go module path/imports
 wardenclyffe/client/internal/routemanager/systemops/systemops_darwin.go	Go module path/imports
 wardenclyffe/client/internal/routemanager/systemops/systemops_generic.go	Go module path/imports
-wardenclyffe/client/internal/routemanager/systemops/systemops_generic_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/routemanager/systemops/systemops_generic_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/routemanager/systemops/systemops_ios.go	Go module path/imports
 wardenclyffe/client/internal/routemanager/systemops/systemops_js.go	Go module path/imports
-wardenclyffe/client/internal/routemanager/systemops/systemops_linux.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/routemanager/systemops/systemops_linux.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/routemanager/systemops/systemops_linux_test.go	Go module path/imports
 wardenclyffe/client/internal/routemanager/systemops/systemops_routing_data_test.go	Go module path/imports
 wardenclyffe/client/internal/routemanager/systemops/systemops_test.go	Go module path/imports
-wardenclyffe/client/internal/routemanager/systemops/systemops_unix.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/internal/routemanager/systemops/systemops_unix.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/internal/routemanager/systemops/systemops_unix_test.go	Go module path/imports
-wardenclyffe/client/internal/routemanager/systemops/systemops_windows.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/routemanager/systemops/systemops_windows.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/routemanager/systemops/systemops_windows_test.go	Go module path/imports
 wardenclyffe/client/internal/routemanager/systemops/v6forwarding_linux.go	Go module path/imports
 wardenclyffe/client/internal/routeselector/routeselector.go	Go module path/imports
@@ -621,8 +621,8 @@ wardenclyffe/client/internal/templates/pkce_auth_msg_test.go	user-facing strings
 wardenclyffe/client/internal/tunnelnotifier/notifier.go	Go module path/imports
 wardenclyffe/client/internal/updater/doc.go	other
 wardenclyffe/client/internal/updater/downloader/downloader.go	Go module path/imports; user-facing strings/UI/branding assets
-wardenclyffe/client/internal/updater/installer/doc.go	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/internal/updater/installer/installer_common.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/internal/updater/installer/doc.go	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/internal/updater/installer/installer_common.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/internal/updater/installer/installer_common_test.go	other
 wardenclyffe/client/internal/updater/installer/installer_run_darwin.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); user-facing strings/UI/branding assets
 wardenclyffe/client/internal/updater/installer/installer_run_windows.go	Go module path/imports; binary names/cmd dirs
@@ -665,14 +665,14 @@ wardenclyffe/client/mobile/profile_state.go	Go module path/imports
 wardenclyffe/client/mobile/profile_state_test.go	other
 wardenclyffe/client/net/conn.go	Go module path/imports
 wardenclyffe/client/net/dialer_dial.go	Go module path/imports
-wardenclyffe/client/net/env.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/net/env.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/net/env_bound_iface.go	Go module path/imports
-wardenclyffe/client/net/env_linux.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/client/net/fwmark.go	env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/net/env_linux.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/client/net/fwmark.go	env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/net/listener_listen.go	Go module path/imports
 wardenclyffe/client/net/protectsocket_android.go	Go module path/imports
-wardenclyffe/client/wardenclyffe-entrypoint.sh	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/client/wardenclyffe.wxs	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/client/wardenclyffe-entrypoint.sh	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/client/wardenclyffe.wxs	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/client/netevents/netevents.go	Go module path/imports
 wardenclyffe/client/netevents/sweep/quick_retry.go	Go module path/imports
 wardenclyffe/client/netevents/sweep/sweep.go	Go module path/imports
@@ -697,14 +697,14 @@ wardenclyffe/client/server/logout_gate_test.go	Go module path/imports; URLs/rout
 wardenclyffe/client/server/mdm.go	Go module path/imports; user-facing strings/UI/branding assets
 wardenclyffe/client/server/network.go	Go module path/imports
 wardenclyffe/client/server/panic_windows.go	Go module path/imports
-wardenclyffe/client/server/server.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/server/server.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/server/server_connect_test.go	Go module path/imports
 wardenclyffe/client/server/server_jwt_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/client/server/server_privileged_test.go	Go module path/imports
 wardenclyffe/client/server/server_test.go	Go module path/imports
 wardenclyffe/client/server/setconfig_mdm_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/client/server/setconfig_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
-wardenclyffe/client/server/sleep.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/client/server/setconfig_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
+wardenclyffe/client/server/sleep.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/client/server/ssh_gate.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/client/server/ssh_gate_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/client/server/state.go	Go module path/imports
@@ -716,13 +716,13 @@ wardenclyffe/client/server/triggerupdate.go	Go module path/imports
 wardenclyffe/client/server/updateresult.go	Go module path/imports
 wardenclyffe/client/ssh/auth/auth.go	Go module path/imports
 wardenclyffe/client/ssh/auth/auth_test.go	Go module path/imports
-wardenclyffe/client/ssh/client/client.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/ssh/client/client.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/ssh/client/client_privileged_test.go	Go module path/imports
 wardenclyffe/client/ssh/client/client_test.go	Go module path/imports
 wardenclyffe/client/ssh/client/terminal_unix.go	Go module path/imports
 wardenclyffe/client/ssh/client/terminal_windows.go	Go module path/imports
 wardenclyffe/client/ssh/common.go	Go module path/imports
-wardenclyffe/client/ssh/config/manager.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/client/ssh/config/manager.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/client/ssh/config/manager_test.go	user-facing strings/UI/branding assets
 wardenclyffe/client/ssh/detection/detection.go	user-facing strings/UI/branding assets
 wardenclyffe/client/ssh/proxy/proxy.go	Go module path/imports; user-facing strings/UI/branding assets
@@ -765,7 +765,7 @@ wardenclyffe/client/system/info_test.go	other
 wardenclyffe/client/system/info_windows.go	Go module path/imports
 wardenclyffe/client/system/static_info_update.go	Go module path/imports
 wardenclyffe/client/system/static_info_update_windows.go	Go module path/imports
-wardenclyffe/client/test/json-socket-docker.sh	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/client/test/json-socket-docker.sh	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/client/ui/Taskfile.yml	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/client/ui/authsession/service.go	Go module path/imports
 wardenclyffe/client/ui/authsession/warning.go	Go module path/imports
@@ -802,7 +802,7 @@ wardenclyffe/client/ui/frontend/src/components/empty-state/DaemonOutdatedOverlay
 wardenclyffe/client/ui/frontend/src/components/empty-state/DaemonUnavailableOverlay.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/client/ui/frontend/src/components/switches/ToggleSwitch.tsx	user-facing strings/UI/branding assets
 wardenclyffe/client/ui/frontend/src/contexts/ClientVersionContext.tsx	user-facing strings/UI/branding assets
-wardenclyffe/client/ui/frontend/src/contexts/DebugBundleContext.tsx	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/client/ui/frontend/src/contexts/DebugBundleContext.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/client/ui/frontend/src/contexts/ProfileContext.tsx	user-facing strings/UI/branding assets
 wardenclyffe/client/ui/frontend/src/contexts/RestrictionsContext.tsx	user-facing strings/UI/branding assets
 wardenclyffe/client/ui/frontend/src/contexts/SettingsContext.tsx	user-facing strings/UI/branding assets
@@ -907,11 +907,11 @@ wardenclyffe/client/wasm/internal/websocket/websocket.go	Go module path/imports
 wardenclyffe/combined/Dockerfile	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/combined/Dockerfile.multistage	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/combined/cmd/admin.go	Go module path/imports; binary names/cmd dirs
-wardenclyffe/combined/cmd/admin_config_test.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/combined/cmd/admin_config_test.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/combined/cmd/config.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); URLs/routes/domains
-wardenclyffe/combined/cmd/root.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/combined/cmd/root.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/combined/cmd/server.go	Go module path/imports; binary names/cmd dirs
-wardenclyffe/combined/config.yaml.example	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/combined/config.yaml.example	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/combined/main.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/docs/agent-networks/01-end-to-end-flows.md	binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/docs/agent-networks/modules/30-proxy-middleware-framework.md	user-facing strings/UI/branding assets
@@ -933,7 +933,7 @@ wardenclyffe/e2e/agentnetwork/gateway_protocol_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/gateway_review_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/guardrail_block_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/guardrail_declared_ids_test.go	Go module path/imports
-wardenclyffe/e2e/agentnetwork/guardrail_groupswitch_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/e2e/agentnetwork/guardrail_groupswitch_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/e2e/agentnetwork/guardrail_multipolicy_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/guardrail_pergroup_providers_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/guardrail_test.go	Go module path/imports
@@ -943,14 +943,14 @@ wardenclyffe/e2e/agentnetwork/settings_bootstrap_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/skiptls_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/streaming_test.go	Go module path/imports
 wardenclyffe/e2e/agentnetwork/vllm_test.go	Go module path/imports
-wardenclyffe/e2e/harness/Dockerfile.client	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/e2e/harness/Dockerfile.client	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/e2e/harness/agentnetwork.go	Go module path/imports
-wardenclyffe/e2e/harness/bootstrap.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/e2e/harness/client.go	env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/e2e/harness/combined.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/e2e/harness/bootstrap.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/e2e/harness/client.go	env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/e2e/harness/combined.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/e2e/harness/doc.go	other
 wardenclyffe/e2e/harness/paths.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/e2e/harness/proxy.go	env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/e2e/harness/proxy.go	env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/e2e/remotejobs/main_test.go	Go module path/imports
 wardenclyffe/e2e/remotejobs/remotejobs_test.go	Go module path/imports
 wardenclyffe/encryption/encryption_test.go	Go module path/imports
@@ -975,32 +975,32 @@ wardenclyffe/idp/dex/web/templates/home.html	user-facing strings/UI/branding ass
 wardenclyffe/idp/dex/web/templates/webauthn_verify.html	user-facing strings/UI/branding assets
 wardenclyffe/idp/dex/web/themes/light/styles.css	user-facing strings/UI/branding assets
 wardenclyffe/idp/sdk/sdk.go	Go module path/imports
-wardenclyffe/infrastructure_files/base.setup.env	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/configure.sh	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/docker-compose.yml.tmpl	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/docker-compose.yml.tmpl.traefik	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/getting-started-enterprise.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/infrastructure_files/base.setup.env	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/configure.sh	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/docker-compose.yml.tmpl	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/docker-compose.yml.tmpl.traefik	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/getting-started-enterprise.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/infrastructure_files/getting-started-with-dex.sh	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/infrastructure_files/getting-started-with-zitadel.sh	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/getting-started.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/infrastructure_files/management.json.tmpl	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/migrate-to-enterprise.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/infrastructure_files/migrate.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/infrastructure_files/getting-started.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/infrastructure_files/management.json.tmpl	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/migrate-to-enterprise.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/infrastructure_files/migrate.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/infrastructure_files/nginx.tmpl.conf	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/infrastructure_files/observability/grafana/dashboards/client.json	Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/infrastructure_files/observability/grafana/dashboards/management.json	Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/infrastructure_files/observability/grafana/dashboards/readme.md	Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/infrastructure_files/observability/grafana/dashboards/relay.json	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/infrastructure_files/observability/grafana/dashboards/signal.json	Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/infrastructure_files/setup.env.example	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-wardenclyffe/infrastructure_files/tests/setup.env	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/setup.env.example	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
+wardenclyffe/infrastructure_files/tests/setup.env	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/integration_tests/management/network_map_db/account_settings_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/base_data.sql	other
 wardenclyffe/integration_tests/management/network_map_db/dns_settings_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/dns_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/domain_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/group_test.go	Go module path/imports
-wardenclyffe/integration_tests/management/network_map_db/main_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/integration_tests/management/network_map_db/main_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/integration_tests/management/network_map_db/nameserver_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/network_map_data.sql	other
 wardenclyffe/integration_tests/management/network_map_db/network_map_data_golden.json	user-facing strings/UI/branding assets
@@ -1015,7 +1015,7 @@ wardenclyffe/integration_tests/management/network_map_db/posture_test.go	Go modu
 wardenclyffe/integration_tests/management/network_map_db/route_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/service_test.go	Go module path/imports
 wardenclyffe/integration_tests/management/network_map_db/sqlite_test_store.go	Go module path/imports
-wardenclyffe/magefiles/test.go	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/magefiles/test.go	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/Dockerfile	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/management/Dockerfile.multistage	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/management/README.md	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); user-facing strings/UI/branding assets
@@ -1032,7 +1032,7 @@ wardenclyffe/management/cmd/proxy/proxy_test.go	Go module path/imports; binary n
 wardenclyffe/management/cmd/root.go	Go module path/imports; binary names/cmd dirs; user-facing strings/UI/branding assets
 wardenclyffe/management/cmd/token/token.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/management/internals/controllers/network_map/controller/cache/dns_config_cache.go	Go module path/imports
-wardenclyffe/management/internals/controllers/network_map/controller/controller.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/controllers/network_map/controller/controller.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/controllers/network_map/controller/controller_test.go	Go module path/imports
 wardenclyffe/management/internals/controllers/network_map/controller/ipv6_allowed_test.go	Go module path/imports
 wardenclyffe/management/internals/controllers/network_map/controller/metrics.go	Go module path/imports
@@ -1153,7 +1153,7 @@ wardenclyffe/management/internals/modules/agentnetwork/handlers/budget_handler.g
 wardenclyffe/management/internals/modules/agentnetwork/handlers/budget_handler_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/internals/modules/agentnetwork/handlers/consumption_handler.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/handlers/guardrails_handler.go	Go module path/imports
-wardenclyffe/management/internals/modules/agentnetwork/handlers/handlers_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/modules/agentnetwork/handlers/handlers_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/modules/agentnetwork/handlers/model_discovery_handler_test.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/handlers/policies_handler.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/handlers/providers_handler.go	Go module path/imports
@@ -1179,7 +1179,7 @@ wardenclyffe/management/internals/modules/agentnetwork/pricing/override_test.go	
 wardenclyffe/management/internals/modules/agentnetwork/provider_redaction_test.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/reconcile.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/reconcile_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/management/internals/modules/agentnetwork/settings_bootstrap_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/modules/agentnetwork/settings_bootstrap_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/modules/agentnetwork/synthesizer.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/synthesizer_guardrail_realstore_test.go	Go module path/imports
 wardenclyffe/management/internals/modules/agentnetwork/synthesizer_log_collection_realstore_test.go	Go module path/imports
@@ -1216,7 +1216,7 @@ wardenclyffe/management/internals/modules/reverseproxy/activity/manager/manager_
 wardenclyffe/management/internals/modules/reverseproxy/domain/manager/api.go	Go module path/imports
 wardenclyffe/management/internals/modules/reverseproxy/domain/manager/domain_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/internals/modules/reverseproxy/domain/manager/expiration.go	Go module path/imports
-wardenclyffe/management/internals/modules/reverseproxy/domain/manager/expiration_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/modules/reverseproxy/domain/manager/expiration_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/modules/reverseproxy/domain/manager/manager.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/internals/modules/reverseproxy/domain/manager/manager_realstore_test.go	Go module path/imports
 wardenclyffe/management/internals/modules/reverseproxy/domain/manager/manager_test.go	Go module path/imports; URLs/routes/domains
@@ -1237,7 +1237,7 @@ wardenclyffe/management/internals/modules/reverseproxy/service/manager/domain_va
 wardenclyffe/management/internals/modules/reverseproxy/service/manager/expose_tracker.go	Go module path/imports
 wardenclyffe/management/internals/modules/reverseproxy/service/manager/expose_tracker_test.go	Go module path/imports
 wardenclyffe/management/internals/modules/reverseproxy/service/manager/l4_port_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/management/internals/modules/reverseproxy/service/manager/manager.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/modules/reverseproxy/service/manager/manager.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/modules/reverseproxy/service/manager/manager_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/internals/modules/reverseproxy/service/service.go	Go module path/imports; user-facing strings/UI/branding assets
 wardenclyffe/management/internals/modules/reverseproxy/service/service_test.go	Go module path/imports; URLs/routes/domains
@@ -1250,7 +1250,7 @@ wardenclyffe/management/internals/modules/zones/records/manager/manager.go	Go mo
 wardenclyffe/management/internals/modules/zones/records/manager/manager_test.go	Go module path/imports
 wardenclyffe/management/internals/modules/zones/records/record.go	Go module path/imports
 wardenclyffe/management/internals/modules/zones/zone.go	Go module path/imports
-wardenclyffe/management/internals/network_map_db/factory/db_store.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/network_map_db/factory/db_store.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/network_map_db/network_map_data.go	Go module path/imports
 wardenclyffe/management/internals/network_map_db/network_map_data_test.go	Go module path/imports
 wardenclyffe/management/internals/network_map_db/pgsql/account_settings.go	Go module path/imports
@@ -1285,11 +1285,11 @@ wardenclyffe/management/internals/network_map_db/sqlite/policy.go	Go module path
 wardenclyffe/management/internals/network_map_db/sqlite/posture.go	Go module path/imports
 wardenclyffe/management/internals/network_map_db/sqlite/route.go	Go module path/imports
 wardenclyffe/management/internals/network_map_db/sqlite/service.go	Go module path/imports
-wardenclyffe/management/internals/network_map_db/sqlite/sqlite_store.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/network_map_db/sqlite/sqlite_store.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/server/boot.go	Go module path/imports
 wardenclyffe/management/internals/server/config/config.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/internals/server/controllers.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/management/internals/server/modules.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/internals/server/modules.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/internals/server/realip_test.go	Go module path/imports
 wardenclyffe/management/internals/server/server.go	Go module path/imports
 wardenclyffe/management/internals/server/server_resolve_domains_test.go	Go module path/imports
@@ -1304,8 +1304,8 @@ wardenclyffe/management/internals/shared/grpc/loginfilter.go	Go module path/impo
 wardenclyffe/management/internals/shared/grpc/loginfilter_test.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/peer_update_handler.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/peer_update_handler_test.go	Go module path/imports
-wardenclyffe/management/internals/shared/grpc/pkce_verifier.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/management/internals/shared/grpc/proxy.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/shared/grpc/pkce_verifier.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/management/internals/shared/grpc/proxy.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/shared/grpc/proxy_address_test.go	URLs/routes/domains
 wardenclyffe/management/internals/shared/grpc/proxy_auth.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/proxy_clone_test.go	Go module path/imports
@@ -1314,7 +1314,7 @@ wardenclyffe/management/internals/shared/grpc/proxy_group_access_test.go	Go modu
 wardenclyffe/management/internals/shared/grpc/proxy_llm_policy_limits_test.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/proxy_snapshot_test.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/proxy_test.go	Go module path/imports
-wardenclyffe/management/internals/shared/grpc/server.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/internals/shared/grpc/server.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/internals/shared/grpc/server_test.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/sync_mappings_test.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/sync_sender_mock.go	Go module path/imports
@@ -1324,17 +1324,17 @@ wardenclyffe/management/internals/shared/grpc/update_debouncer.go	Go module path
 wardenclyffe/management/internals/shared/grpc/update_debouncer_mock.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/update_debouncer_test.go	Go module path/imports
 wardenclyffe/management/internals/shared/grpc/validate_session_test.go	Go module path/imports
-wardenclyffe/management/main.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/management/server/account.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/main.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/management/server/account.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/account/manager.go	Go module path/imports
 wardenclyffe/management/server/account/manager_mock.go	Go module path/imports
 wardenclyffe/management/server/account/request_buffer.go	Go module path/imports
 wardenclyffe/management/server/account/request_buffer_mock.go	Go module path/imports
-wardenclyffe/management/server/account_request_buffer.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/management/server/account_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/account_request_buffer.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/management/server/account_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/activity/store/migration.go	Go module path/imports
 wardenclyffe/management/server/activity/store/migration_test.go	Go module path/imports
-wardenclyffe/management/server/activity/store/sql_store.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/activity/store/sql_store.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/activity/store/sql_store_idp_migration.go	Go module path/imports
 wardenclyffe/management/server/activity/store/sql_store_idp_migration_test.go	Go module path/imports
 wardenclyffe/management/server/activity/store/sql_store_test.go	Go module path/imports
@@ -1365,8 +1365,8 @@ wardenclyffe/management/server/context/auth.go	Go module path/imports
 wardenclyffe/management/server/context/keys.go	Go module path/imports
 wardenclyffe/management/server/dns.go	Go module path/imports
 wardenclyffe/management/server/dns_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/management/server/event.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/management/server/event_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/event.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/management/server/event_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/geolocation/database.go	URLs/routes/domains
 wardenclyffe/management/server/geolocation/geolocation_test.go	Go module path/imports
 wardenclyffe/management/server/geolocation/store.go	Go module path/imports
@@ -1388,7 +1388,7 @@ wardenclyffe/management/server/http/handlers/groups/groups_handler_test.go	Go mo
 wardenclyffe/management/server/http/handlers/idp/idp_handler.go	Go module path/imports
 wardenclyffe/management/server/http/handlers/idp/idp_handler_test.go	Go module path/imports
 wardenclyffe/management/server/http/handlers/instance/instance_handler.go	Go module path/imports
-wardenclyffe/management/server/http/handlers/instance/instance_handler_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/http/handlers/instance/instance_handler_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/http/handlers/networks/handler.go	Go module path/imports
 wardenclyffe/management/server/http/handlers/networks/resources_handler.go	Go module path/imports
 wardenclyffe/management/server/http/handlers/networks/routers_handler.go	Go module path/imports
@@ -1416,10 +1416,10 @@ wardenclyffe/management/server/http/handlers/users/users_handler_test.go	Go modu
 wardenclyffe/management/server/http/middleware/auth_middleware.go	Go module path/imports
 wardenclyffe/management/server/http/middleware/auth_middleware_test.go	Go module path/imports
 wardenclyffe/management/server/http/middleware/bypass/bypass_test.go	Go module path/imports
-wardenclyffe/management/server/http/middleware/rate_limiter.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/http/middleware/rate_limiter.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/http/testing/benchmarks/peers_handler_benchmark_test.go	Go module path/imports
 wardenclyffe/management/server/http/testing/benchmarks/setupkeys_handler_benchmark_test.go	Go module path/imports
-wardenclyffe/management/server/http/testing/benchmarks/users_handler_benchmark_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/http/testing/benchmarks/users_handler_benchmark_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/http/testing/integration/accounts_handler_integration_test.go	Go module path/imports
 wardenclyffe/management/server/http/testing/integration/dns_handler_integration_test.go	Go module path/imports
 wardenclyffe/management/server/http/testing/integration/events_handler_integration_test.go	Go module path/imports
@@ -1442,7 +1442,7 @@ wardenclyffe/management/server/idp/authentik_test.go	Go module path/imports
 wardenclyffe/management/server/idp/azure.go	Go module path/imports
 wardenclyffe/management/server/idp/dex.go	Go module path/imports
 wardenclyffe/management/server/idp/dex_test.go	Go module path/imports
-wardenclyffe/management/server/idp/embedded.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/management/server/idp/embedded.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/management/server/idp/embedded_test.go	Go module path/imports
 wardenclyffe/management/server/idp/google_workspace.go	Go module path/imports
 wardenclyffe/management/server/idp/idp.go	Go module path/imports
@@ -1450,18 +1450,18 @@ wardenclyffe/management/server/idp/jumpcloud.go	Go module path/imports
 wardenclyffe/management/server/idp/jumpcloud_test.go	Go module path/imports
 wardenclyffe/management/server/idp/keycloak.go	Go module path/imports
 wardenclyffe/management/server/idp/keycloak_test.go	Go module path/imports
-wardenclyffe/management/server/idp/migration/migration.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/idp/migration/migration.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/idp/migration/migration_test.go	Go module path/imports
 wardenclyffe/management/server/idp/migration/store.go	Go module path/imports
 wardenclyffe/management/server/idp/okta.go	Go module path/imports
 wardenclyffe/management/server/idp/pocketid.go	Go module path/imports
 wardenclyffe/management/server/idp/pocketid_test.go	Go module path/imports
-wardenclyffe/management/server/idp/util.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/idp/util.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/idp/zitadel.go	Go module path/imports
 wardenclyffe/management/server/idp/zitadel_test.go	Go module path/imports
 wardenclyffe/management/server/instance/manager.go	Go module path/imports; URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/management/server/instance/manager_test.go	Go module path/imports
-wardenclyffe/management/server/instance/setup_service.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/instance/setup_service.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/instance/setup_service_test.go	Go module path/imports
 wardenclyffe/management/server/instance/version_test.go	URLs/routes/domains
 wardenclyffe/management/server/integrated_validator.go	Go module path/imports
@@ -1471,13 +1471,13 @@ wardenclyffe/management/server/integrations/integrated_validator/interface.go	Go
 wardenclyffe/management/server/integrations/integrated_validator/validator/validator.go	Go module path/imports
 wardenclyffe/management/server/integrations/port_forwarding/controller.go	Go module path/imports
 wardenclyffe/management/server/job/manager.go	Go module path/imports
-wardenclyffe/management/server/management_proto_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/management_proto_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/management_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/management/server/metrics/selfhosted.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/metrics/selfhosted.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/metrics/selfhosted_test.go	Go module path/imports
 wardenclyffe/management/server/migration/migration_custom_domain.go	Go module path/imports
 wardenclyffe/management/server/migration/migration_custom_domain_test.go	Go module path/imports
-wardenclyffe/management/server/migration/migration_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/migration/migration_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/mock_server/account_mock.go	Go module path/imports
 wardenclyffe/management/server/mock_server/management_server_mock.go	Go module path/imports
 wardenclyffe/management/server/nameserver.go	Go module path/imports
@@ -1494,7 +1494,7 @@ wardenclyffe/management/server/networks/types/network.go	Go module path/imports
 wardenclyffe/management/server/peer.go	Go module path/imports
 wardenclyffe/management/server/peer/peer.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/server/peer_posture_test.go	Go module path/imports
-wardenclyffe/management/server/peer_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/peer_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/permissions/agent_network_roles_test.go	Go module path/imports
 wardenclyffe/management/server/permissions/manager.go	Go module path/imports
 wardenclyffe/management/server/permissions/manager_mock.go	Go module path/imports
@@ -1531,23 +1531,23 @@ wardenclyffe/management/server/settings/manager_mock.go	Go module path/imports
 wardenclyffe/management/server/setupkey.go	Go module path/imports
 wardenclyffe/management/server/setupkey_test.go	Go module path/imports
 wardenclyffe/management/server/store/file_store.go	Go module path/imports
-wardenclyffe/management/server/store/sql_store.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/store/sql_store.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/store/sql_store_activity_test.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_agentnetwork.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_agentnetwork_accesslog_test.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_agentnetwork_budgetrule_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/server/store/sql_store_domain_expiration.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_domain_expiration_test.go	Go module path/imports
-wardenclyffe/management/server/store/sql_store_get_account_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/store/sql_store_get_account_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/store/sql_store_idp_migration.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_pgx_parity_test.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_proxy_clusters_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/server/store/sql_store_proxy_disconnect_test.go	Go module path/imports
 wardenclyffe/management/server/store/sql_store_service_test.go	Go module path/imports
-wardenclyffe/management/server/store/sql_store_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/store/sql_store_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/store/sql_store_user_invite_test.go	Go module path/imports
 wardenclyffe/management/server/store/sqlstore_bench_test.go	Go module path/imports
-wardenclyffe/management/server/store/store.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/store/store.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/store/store_mock.go	Go module path/imports
 wardenclyffe/management/server/telemetry/http_api_metrics.go	Go module path/imports
 wardenclyffe/management/server/testdata/extended-store.sql	other
@@ -1569,10 +1569,10 @@ wardenclyffe/management/server/types/job.go	Go module path/imports
 wardenclyffe/management/server/types/job_test.go	Go module path/imports
 wardenclyffe/management/server/types/legacynmap/account_components.go	Go module path/imports
 wardenclyffe/management/server/types/legacynmap/aliases.go	Go module path/imports
-wardenclyffe/management/server/types/legacynmap/benchmark_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/management/server/types/legacynmap/benchmark_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/management/server/types/legacynmap/converters.go	Go module path/imports
 wardenclyffe/management/server/types/legacynmap/copied_funcs.go	Go module path/imports
-wardenclyffe/management/server/types/legacynmap/equivalence_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/types/legacynmap/equivalence_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/types/legacynmap/firewall_helpers.go	Go module path/imports
 wardenclyffe/management/server/types/legacynmap/networkmap_components.go	Go module path/imports
 wardenclyffe/management/server/types/legacynmap/proto_legacy.go	Go module path/imports
@@ -1582,7 +1582,7 @@ wardenclyffe/management/server/types/networkmap_benchmark_test.go	Go module path
 wardenclyffe/management/server/types/networkmap_components_correctness_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/server/types/networkmap_components_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/server/types/networkmap_wire_benchmark_test.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/management/server/types/networkmap_wire_breakdown_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/management/server/types/networkmap_wire_breakdown_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/management/server/types/peer.go	Go module path/imports
 wardenclyffe/management/server/types/peer_networkmap_result_test.go	Go module path/imports
 wardenclyffe/management/server/types/personal_access_token.go	Go module path/imports
@@ -1600,12 +1600,12 @@ wardenclyffe/management/server/user_invite_test.go	Go module path/imports
 wardenclyffe/management/server/user_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/management/server/users/manager.go	Go module path/imports
 wardenclyffe/management/server/users/user.go	Go module path/imports
-wardenclyffe/proxy/Dockerfile	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/proxy/Dockerfile.multistage	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-wardenclyffe/proxy/README.md	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/proxy/Dockerfile	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/proxy/Dockerfile.multistage	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/proxy/README.md	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/proxy/auth/auth.go	other
-wardenclyffe/proxy/cmd/proxy/cmd/debug.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/proxy/cmd/proxy/cmd/root.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+wardenclyffe/proxy/cmd/proxy/cmd/debug.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/proxy/cmd/proxy/cmd/root.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 wardenclyffe/proxy/cmd/proxy/main.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/proxy/handle_mapping_stream_test.go	Go module path/imports
 wardenclyffe/proxy/inbound.go	Go module path/imports
@@ -1626,7 +1626,7 @@ wardenclyffe/proxy/internal/auth/oidc.go	Go module path/imports
 wardenclyffe/proxy/internal/auth/password.go	Go module path/imports
 wardenclyffe/proxy/internal/auth/pin.go	Go module path/imports
 wardenclyffe/proxy/internal/auth/session_groups_test.go	Go module path/imports
-wardenclyffe/proxy/internal/auth/tunnel_cache.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/proxy/internal/auth/tunnel_cache.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/proxy/internal/auth/tunnel_cache_test.go	Go module path/imports
 wardenclyffe/proxy/internal/auth/tunnel_lookup_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/proxy/internal/crowdsec/bouncer.go	Go module path/imports; binary names/cmd dirs
@@ -1647,7 +1647,7 @@ wardenclyffe/proxy/internal/metrics/l4_metrics_test.go	Go module path/imports
 wardenclyffe/proxy/internal/metrics/metrics.go	Go module path/imports
 wardenclyffe/proxy/internal/metrics/metrics_test.go	Go module path/imports
 wardenclyffe/proxy/internal/middleware/bodytap/response.go	Go module path/imports
-wardenclyffe/proxy/internal/middleware/builtin/agentnetwork_chain_integration_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/proxy/internal/middleware/builtin/agentnetwork_chain_integration_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/proxy/internal/middleware/builtin/all_test.go	Go module path/imports
 wardenclyffe/proxy/internal/middleware/builtin/builtin.go	Go module path/imports
 wardenclyffe/proxy/internal/middleware/builtin/cost_calculation_matrix_test.go	Go module path/imports
@@ -1703,8 +1703,8 @@ wardenclyffe/proxy/internal/proxy/servicemapping.go	Go module path/imports
 wardenclyffe/proxy/internal/restrict/restrict.go	Go module path/imports
 wardenclyffe/proxy/internal/restrict/restrict_test.go	Go module path/imports
 wardenclyffe/proxy/internal/roundtrip/context_test.go	Go module path/imports
-wardenclyffe/proxy/internal/roundtrip/multi.go	env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/proxy/internal/roundtrip/wardenclyffe.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/proxy/internal/roundtrip/multi.go	env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/proxy/internal/roundtrip/wardenclyffe.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/proxy/internal/roundtrip/wardenclyffe_bench_test.go	Go module path/imports
 wardenclyffe/proxy/internal/roundtrip/wardenclyffe_test.go	Go module path/imports
 wardenclyffe/proxy/internal/tcp/accept.go	other
@@ -1723,7 +1723,7 @@ wardenclyffe/proxy/middleware_translate.go	Go module path/imports
 wardenclyffe/proxy/middleware_translate_test.go	Go module path/imports
 wardenclyffe/proxy/process_mappings_bench_test.go	Go module path/imports
 wardenclyffe/proxy/proxyprotocol_test.go	Go module path/imports
-wardenclyffe/proxy/server.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/proxy/server.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/proxy/server_test.go	Go module path/imports
 wardenclyffe/proxy/snapshot_reconcile_test.go	Go module path/imports
 wardenclyffe/proxy/static_cert_test.go	Go module path/imports
@@ -1742,7 +1742,7 @@ wardenclyffe/proxy/web/src/components/StatusCard.tsx	user-facing strings/UI/bran
 wardenclyffe/proxy/web/src/index.css	user-facing strings/UI/branding assets
 wardenclyffe/proxy/web/vite.config.ts	user-facing strings/UI/branding assets
 wardenclyffe/proxy/web/web.go	other
-wardenclyffe/relay/Dockerfile	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/relay/Dockerfile	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/relay/cmd/root.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/relay/healthcheck/healthcheck.go	Go module path/imports
 wardenclyffe/relay/healthcheck/peerid/peerid.go	Go module path/imports
@@ -1762,14 +1762,14 @@ wardenclyffe/relay/test/benchmark_test.go	Go module path/imports
 wardenclyffe/relay/testec2/main.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/relay/testec2/relay.go	Go module path/imports
 wardenclyffe/relay/testec2/turn.go	Go module path/imports
-wardenclyffe/release_files/darwin-ui-installer.sh	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/release_files/darwin-ui-uninstaller.sh	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+wardenclyffe/release_files/darwin-ui-installer.sh	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/release_files/darwin-ui-uninstaller.sh	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 wardenclyffe/release_files/darwin_pkg/postinstall	default paths (/var/lib|/etc|/var/log wardenclyffe); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/release_files/darwin_pkg/preinstall	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 wardenclyffe/release_files/freebsd-port-diff.sh	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/release_files/freebsd-port-issue-body.sh	Dockerfiles/build scripts/CI/packaging
-wardenclyffe/release_files/install.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/release_files/wardenclyffe.sysconfig	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
+wardenclyffe/release_files/install.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/release_files/wardenclyffe.sysconfig	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/release_files/post_install.sh	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/release_files/pre_remove.sh	Dockerfiles/build scripts/CI/packaging
 wardenclyffe/release_files/systemd/wardenclyffe-management.service	binary names/cmd dirs; URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
@@ -1782,7 +1782,7 @@ wardenclyffe/shared/auth/jwt/extractor_test.go	URLs/routes/domains
 wardenclyffe/shared/auth/jwt/validator_test.go	other
 wardenclyffe/shared/management/client/client.go	Go module path/imports
 wardenclyffe/shared/management/client/client_test.go	Go module path/imports
-wardenclyffe/shared/management/client/grpc.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/shared/management/client/grpc.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/shared/management/client/grpc_test.go	Go module path/imports
 wardenclyffe/shared/management/client/mock.go	Go module path/imports
 wardenclyffe/shared/management/client/rest/accounts.go	Go module path/imports; URLs/routes/domains
@@ -1848,14 +1848,14 @@ wardenclyffe/shared/management/client/rest/tokens.go	Go module path/imports; URL
 wardenclyffe/shared/management/client/rest/tokens_test.go	Go module path/imports
 wardenclyffe/shared/management/client/rest/users.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/shared/management/client/rest/users_test.go	Go module path/imports
-wardenclyffe/shared/management/http/api/openapi.yml	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-wardenclyffe/shared/management/http/api/types.gen.go	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/shared/management/http/api/openapi.yml	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+wardenclyffe/shared/management/http/api/types.gen.go	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/shared/management/http/util/util.go	Go module path/imports
 wardenclyffe/shared/management/networkmap/decode.go	Go module path/imports
 wardenclyffe/shared/management/networkmap/decode_test.go	Go module path/imports
 wardenclyffe/shared/management/networkmap/encode.go	Go module path/imports
 wardenclyffe/shared/management/networkmap/envelope.go	Go module path/imports; URLs/routes/domains
-wardenclyffe/shared/management/networkmap/envelope_test.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/shared/management/networkmap/envelope_test.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/shared/management/networkmap/networkmapcompute.go	Go module path/imports
 wardenclyffe/shared/management/networkmap/networkmapcompute_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/shared/management/networkmap/networkmapdata.go	Go module path/imports
@@ -1864,8 +1864,8 @@ wardenclyffe/shared/management/networkmap/peers_custom_zone.go	Go module path/im
 wardenclyffe/shared/management/networkmap/privatezones.go	Go module path/imports
 wardenclyffe/shared/management/networkmap/privatezones_test.go	Go module path/imports; URLs/routes/domains
 wardenclyffe/shared/management/networkmap/proxypolicies.go	Go module path/imports
-wardenclyffe/shared/management/proto/management.pb.go	proto/gRPC package names (COMPAT-SENSITIVE); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
-wardenclyffe/shared/management/proto/management.proto	proto/gRPC package names (COMPAT-SENSITIVE); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/shared/management/proto/management.pb.go	proto/gRPC package names (COMPAT-SENSITIVE); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
+wardenclyffe/shared/management/proto/management.proto	proto/gRPC package names (COMPAT-SENSITIVE); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/shared/management/proto/proxy_service.pb.go	proto/gRPC package names (COMPAT-SENSITIVE); binary names/cmd dirs
 wardenclyffe/shared/management/proto/proxy_service.proto	proto/gRPC package names (COMPAT-SENSITIVE); binary names/cmd dirs
 wardenclyffe/shared/management/proto/proxy_service_grpc.pb.go	proto/gRPC package names (COMPAT-SENSITIVE)
@@ -1899,7 +1899,7 @@ wardenclyffe/shared/relay/client/manager_test.go	Go module path/imports
 wardenclyffe/shared/relay/client/peer_subscription.go	Go module path/imports
 wardenclyffe/shared/relay/client/peer_subscription_test.go	Go module path/imports
 wardenclyffe/shared/relay/client/picker.go	Go module path/imports
-wardenclyffe/shared/relay/client/transport.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/shared/relay/client/transport.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/shared/relay/client/transport_test.go	Go module path/imports
 wardenclyffe/shared/relay/tls/client_dev.go	Go module path/imports
 wardenclyffe/shared/relay/tls/client_prod.go	Go module path/imports
@@ -1917,19 +1917,19 @@ wardenclyffe/sharedsock/sock_linux_test.go	other
 wardenclyffe/signal/Dockerfile	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/signal/README.md	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); user-facing strings/UI/branding assets
 wardenclyffe/signal/cmd/root.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe)
-wardenclyffe/signal/cmd/run.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/signal/cmd/run.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 wardenclyffe/signal/main.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/signal/peer/peer.go	Go module path/imports
 wardenclyffe/signal/peer/peer_test.go	Go module path/imports
 wardenclyffe/signal/server/concurrent_send_test.go	Go module path/imports
-wardenclyffe/signal/server/signal.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains
+wardenclyffe/signal/server/signal.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains
 wardenclyffe/sonar-project.properties	other
 wardenclyffe/stun/server.go	Go module path/imports
 wardenclyffe/stun/server_test.go	URLs/routes/domains
-wardenclyffe/tools/idp-migrate/DEVELOPMENT.md	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
-wardenclyffe/tools/idp-migrate/config.go	Go module path/imports; binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/tools/idp-migrate/main.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
-wardenclyffe/tools/idp-migrate/main_test.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/tools/idp-migrate/DEVELOPMENT.md	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/tools/idp-migrate/config.go	Go module path/imports; binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/tools/idp-migrate/main.go	Go module path/imports; binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
+wardenclyffe/tools/idp-migrate/main_test.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/upload-server/Dockerfile	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
 wardenclyffe/upload-server/main.go	Go module path/imports; binary names/cmd dirs
 wardenclyffe/upload-server/server/local.go	Go module path/imports; default paths (/var/lib|/etc|/var/log wardenclyffe)
@@ -1940,8 +1940,8 @@ wardenclyffe/upload-server/server/server.go	Go module path/imports
 wardenclyffe/upload-server/types/upload.go	URLs/routes/domains
 wardenclyffe/util/capture/text.go	Go module path/imports
 wardenclyffe/util/crypt/legacy_test.go	URLs/routes/domains
-wardenclyffe/util/log.go	Go module path/imports; env var prefixes (NETBIRD_*/NB_*)
-wardenclyffe/util/log_test.go	env var prefixes (NETBIRD_*/NB_*)
+wardenclyffe/util/log.go	Go module path/imports; env var prefixes (WARDENCLYFFE_*/NB_*)
+wardenclyffe/util/log_test.go	env var prefixes (WARDENCLYFFE_*/NB_*)
 wardenclyffe/util/logrotate_linux.go	other
 wardenclyffe/util/logrotate_linux_test.go	default paths (/var/lib|/etc|/var/log wardenclyffe)
 wardenclyffe/util/logrotate_nonlinux.go	other
@@ -2039,30 +2039,30 @@ wardenclyffe/release_files/systemd/wardenclyffe-signal.service	FILENAME-MATCH
 wardenclyffe/release_files/systemd/wardenclyffe@.service	FILENAME-MATCH
 dashboard/.github/ISSUE_TEMPLATE/bug-issue-report.md	Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 dashboard/.github/pull_request_template.md	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-dashboard/.github/workflows/build_and_push.yml	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-dashboard/.github/workflows/bump-wardenclyffe.yml	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
+dashboard/.github/workflows/build_and_push.yml	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+dashboard/.github/workflows/bump-wardenclyffe.yml	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 dashboard/.github/workflows/docs-ack.yml	URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
 dashboard/.github/workflows/sync-deploy-templates.yml	binary names/cmd dirs; Dockerfiles/build scripts/CI/packaging
-dashboard/.github/workflows/test-cloud-deploy.yml	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+dashboard/.github/workflows/test-cloud-deploy.yml	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 dashboard/.gitignore	other
 dashboard/AUTHORS	LICENSE/NOTICE (list only, untouched)
 dashboard/CONTRIBUTOR_LICENSE_AGREEMENT.md	LICENSE/NOTICE (list only, untouched); user-facing strings/UI/branding assets
-dashboard/README.md	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+dashboard/README.md	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/announcements.json	URLs/routes/domains; user-facing strings/UI/branding assets
-dashboard/build.sh	env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
-dashboard/config.json	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
-dashboard/docker/README.md	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/build.sh	env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
+dashboard/config.json	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
+dashboard/docker/README.md	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/docker/default.conf	other
-dashboard/docker/init_react_envs.sh	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+dashboard/docker/init_react_envs.sh	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 dashboard/e2e/CLAUDE.md	user-facing strings/UI/branding assets
-dashboard/e2e/environment/create-test-env.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
+dashboard/e2e/environment/create-test-env.sh	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
 dashboard/e2e/helpers/auth.ts	user-facing strings/UI/branding assets
-dashboard/e2e/helpers/docker-peer.ts	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/e2e/helpers/docker-peer.ts	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/e2e/helpers/utils.ts	user-facing strings/UI/branding assets
 dashboard/e2e/tests/agent-network-agentgateway-provider.spec.ts	user-facing strings/UI/branding assets
 dashboard/e2e/tests/agent-network-bootstrap-cluster.spec.ts	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/e2e/tests/agent-network-cache-accounting.spec.ts	user-facing strings/UI/branding assets
-dashboard/e2e/tests/agent-network-focused-view.spec.ts	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/e2e/tests/agent-network-focused-view.spec.ts	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/e2e/tests/agent-network-kimi-provider.spec.ts	user-facing strings/UI/branding assets
 dashboard/e2e/tests/agent-network-provider-save-refused.spec.ts	user-facing strings/UI/branding assets
 dashboard/e2e/tests/agent-network-settings-shapes.spec.ts	URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2077,12 +2077,12 @@ dashboard/e2e/tests/team-users.spec.ts	user-facing strings/UI/branding assets
 dashboard/e2e/tests/wasm-client.spec.ts	user-facing strings/UI/branding assets
 dashboard/package-lock.json	user-facing strings/UI/branding assets
 dashboard/package.json	Dockerfiles/build scripts/CI/packaging; user-facing strings/UI/branding assets
-dashboard/public/OidcTrustedDomains.js.tmpl	env var prefixes (NETBIRD_*/NB_*)
+dashboard/public/OidcTrustedDomains.js.tmpl	env var prefixes (WARDENCLYFFE_*/NB_*)
 dashboard/src/app/(dashboard)/(cloud)/integrations/page.tsx	user-facing strings/UI/branding assets
 dashboard/src/app/(dashboard)/(cloud)/msp/page.tsx	user-facing strings/UI/branding assets
 dashboard/src/app/(dashboard)/access-control/page.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/app/(dashboard)/agent-network/connect/page.tsx	user-facing strings/UI/branding assets
-dashboard/src/app/(dashboard)/agent-network/layout.tsx	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/app/(dashboard)/agent-network/layout.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/app/(dashboard)/agent-network/providers/page.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/app/(dashboard)/dns/nameservers/page.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/app/(dashboard)/dns/settings/page.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2117,7 +2117,7 @@ dashboard/src/cloud/analytics/Hubspot.tsx	user-facing strings/UI/branding assets
 dashboard/src/cloud/aws/AWSChoosePlan.tsx	user-facing strings/UI/branding assets
 dashboard/src/cloud/aws/useAWSMarketplace.ts	user-facing strings/UI/branding assets
 dashboard/src/cloud/cloud-hooks/useExperiment.ts	user-facing strings/UI/branding assets
-dashboard/src/cloud/cloud-hooks/useIsFeatureLocked.tsx	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/cloud/cloud-hooks/useIsFeatureLocked.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/cloud/contexts/WardenClyffeProvider.tsx	user-facing strings/UI/branding assets
 dashboard/src/cloud/distributor/DistributorAccountExistsModal.tsx	user-facing strings/UI/branding assets
 dashboard/src/cloud/distributor/DistributorCustomerModal.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2196,14 +2196,14 @@ dashboard/src/components/ui/SmallBadge.tsx	user-facing strings/UI/branding asset
 dashboard/src/components/ui/UserAvatar.tsx	user-facing strings/UI/branding assets
 dashboard/src/components/ui/UserDropdown.tsx	user-facing strings/UI/branding assets
 dashboard/src/contexts/AnalyticsProvider.tsx	user-facing strings/UI/branding assets
-dashboard/src/contexts/AnnouncementProvider.tsx	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+dashboard/src/contexts/AnnouncementProvider.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/contexts/ApplicationProvider.tsx	user-facing strings/UI/branding assets
 dashboard/src/contexts/BillingProvider.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/contexts/DialogProvider.tsx	user-facing strings/UI/branding assets
 dashboard/src/contexts/InstanceSetupProvider.tsx	user-facing strings/UI/branding assets
 dashboard/src/contexts/ThemeProvider.tsx	user-facing strings/UI/branding assets
 dashboard/src/contexts/UsersProvider.test.ts	user-facing strings/UI/branding assets
-dashboard/src/hooks/useIsLicensed.tsx	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/hooks/useIsLicensed.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/hooks/useSignupSource.ts	user-facing strings/UI/branding assets
 dashboard/src/interfaces/DNS.ts	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/interfaces/NotificationChannel.ts	URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2246,7 +2246,7 @@ dashboard/src/modules/agent-network/EndpointBadge.tsx	URLs/routes/domains; user-
 dashboard/src/modules/agent-network/data/mockData.ts	user-facing strings/UI/branding assets
 dashboard/src/modules/agent-network/table/AgentProvidersTable.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/agent-network/table/ConnectProvidersTable.tsx	user-facing strings/UI/branding assets
-dashboard/src/modules/agent-network/useAgentNetworkMode.ts	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/modules/agent-network/useAgentNetworkMode.ts	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/modules/agent-network/useDiscoveredModels.ts	user-facing strings/UI/branding assets
 dashboard/src/modules/agent-network/useProviderCatalog.ts	user-facing strings/UI/branding assets
 dashboard/src/modules/billing/LimitsReachedModal.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2341,7 +2341,7 @@ dashboard/src/modules/onboarding/Onboarding.tsx	user-facing strings/UI/branding 
 dashboard/src/modules/onboarding/OnboardingDevices.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/onboarding/OnboardingEnd.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/onboarding/OnboardingIntent.tsx	user-facing strings/UI/branding assets
-dashboard/src/modules/onboarding/OnboardingProvider.tsx	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/modules/onboarding/OnboardingProvider.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/modules/onboarding/OnboardingSurvey.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/onboarding/agent-network/AgentNetworkOnboarding.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/onboarding/agent-network/AgentNetworkSignupForm.tsx	user-facing strings/UI/branding assets
@@ -2401,11 +2401,11 @@ dashboard/src/modules/remote-access/useWardenClyffeClient.ts	user-facing strings
 dashboard/src/modules/reverse-proxy/ReverseProxyHTTPTargets.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/ReverseProxyModal.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/auth/AuthWardenClyffeOnlyModal.tsx	user-facing strings/UI/branding assets
-dashboard/src/modules/reverse-proxy/clusters/ClusterCloudDeploy.tsx	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/modules/reverse-proxy/clusters/ClusterCloudDeploy.tsx	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/clusters/ClusterTypeIndicator.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/clusters/ClustersActionCell.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/clusters/ClustersFeaturesCell.tsx	user-facing strings/UI/branding assets
-dashboard/src/modules/reverse-proxy/clusters/ClustersModal.tsx	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+dashboard/src/modules/reverse-proxy/clusters/ClustersModal.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/clusters/ClustersTable.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/domain/CustomDomainModal.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/domain/CustomDomainSelector.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2415,7 +2415,7 @@ dashboard/src/modules/reverse-proxy/domain/ReverseProxyDomainInput.tsx	URLs/rout
 dashboard/src/modules/reverse-proxy/domain/useReverseProxyDomain.ts	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/events/ReverseProxyEventsBytesCell.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/events/ReverseProxyEventsUserCell.tsx	user-facing strings/UI/branding assets
-dashboard/src/modules/reverse-proxy/table/ReverseProxyAuthCell.tsx	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/modules/reverse-proxy/table/ReverseProxyAuthCell.tsx	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/table/ReverseProxyClusterCell.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/table/ReverseProxyTable.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/reverse-proxy/targets/ReverseProxyTargetModal.tsx	user-facing strings/UI/branding assets
@@ -2438,7 +2438,7 @@ dashboard/src/modules/setup-keys/SetupKeyModal.tsx	URLs/routes/domains; user-fac
 dashboard/src/modules/setup-keys/SetupKeyStatusCell.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/setup-keys/SetupKeysTable.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/setup-wardenclyffe-modal/AndroidTab.tsx	user-facing strings/UI/branding assets
-dashboard/src/modules/setup-wardenclyffe-modal/DockerTab.tsx	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+dashboard/src/modules/setup-wardenclyffe-modal/DockerTab.tsx	default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/setup-wardenclyffe-modal/IOSTab.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/setup-wardenclyffe-modal/LinuxTab.tsx	binary names/cmd dirs; URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/modules/setup-wardenclyffe-modal/MacOSTab.tsx	binary names/cmd dirs; URLs/routes/domains; user-facing strings/UI/branding assets
@@ -2460,17 +2460,17 @@ dashboard/src/modules/users/table-cells/UserActionCell.tsx	user-facing strings/U
 dashboard/src/modules/users/table-cells/UserNameCell.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/users/table-cells/UserRoleCell.tsx	user-facing strings/UI/branding assets
 dashboard/src/modules/users/table-cells/UserStatusCell.tsx	URLs/routes/domains; user-facing strings/UI/branding assets
-dashboard/src/utils/announcement.ts	env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
+dashboard/src/utils/announcement.ts	env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
 dashboard/src/utils/api.tsx	user-facing strings/UI/branding assets
-dashboard/src/utils/config.ts	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+dashboard/src/utils/config.ts	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/utils/helpers.ts	user-facing strings/UI/branding assets
 dashboard/src/utils/meta.ts	user-facing strings/UI/branding assets
-dashboard/src/utils/wardenclyffe.ts	env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
+dashboard/src/utils/wardenclyffe.ts	env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; user-facing strings/UI/branding assets
 dashboard/src/utils/version.ts	user-facing strings/UI/branding assets
 dashboard/tailwind.config.ts	user-facing strings/UI/branding assets
-dashboard/templates/reverse-proxy/README.md	binary names/cmd dirs; env var prefixes (NETBIRD_*/NB_*); user-facing strings/UI/branding assets
-dashboard/templates/reverse-proxy/wardenclyffe-proxy-cfn.yaml	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
-dashboard/templates/reverse-proxy/wardenclyffe-proxy-cloud-init.yaml	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (NETBIRD_*/NB_*); Dockerfiles/build scripts/CI/packaging
+dashboard/templates/reverse-proxy/README.md	binary names/cmd dirs; env var prefixes (WARDENCLYFFE_*/NB_*); user-facing strings/UI/branding assets
+dashboard/templates/reverse-proxy/wardenclyffe-proxy-cfn.yaml	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); URLs/routes/domains; Dockerfiles/build scripts/CI/packaging
+dashboard/templates/reverse-proxy/wardenclyffe-proxy-cloud-init.yaml	binary names/cmd dirs; default paths (/var/lib|/etc|/var/log wardenclyffe); env var prefixes (WARDENCLYFFE_*/NB_*); Dockerfiles/build scripts/CI/packaging
 dashboard/.github/workflows/bump-wardenclyffe.yml	FILENAME-MATCH
 dashboard/src/assets/icons/WardenClyffeIcon.tsx	FILENAME-MATCH
 dashboard/src/assets/wardenclyffe-full.svg	FILENAME-MATCH

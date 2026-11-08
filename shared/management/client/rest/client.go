@@ -39,75 +39,75 @@ type Client struct {
 	userAgent     string
 
 	// Accounts WardenClyffe account APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/accounts
+	// see more: https://docs.wardenclyffe.app/api/resources/accounts
 	Accounts *AccountsAPI
 
 	// Users WardenClyffe users APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/users
+	// see more: https://docs.wardenclyffe.app/api/resources/users
 	Users *UsersAPI
 
 	// Tokens WardenClyffe tokens APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/tokens
+	// see more: https://docs.wardenclyffe.app/api/resources/tokens
 	Tokens *TokensAPI
 
 	// Peers WardenClyffe peers APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/peers
+	// see more: https://docs.wardenclyffe.app/api/resources/peers
 	Peers *PeersAPI
 
 	// SetupKeys WardenClyffe setup keys APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/setup-keys
+	// see more: https://docs.wardenclyffe.app/api/resources/setup-keys
 	SetupKeys *SetupKeysAPI
 
 	// Groups WardenClyffe groups APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/groups
+	// see more: https://docs.wardenclyffe.app/api/resources/groups
 	Groups *GroupsAPI
 
 	// Policies WardenClyffe policies APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/policies
+	// see more: https://docs.wardenclyffe.app/api/resources/policies
 	Policies *PoliciesAPI
 
 	// PostureChecks WardenClyffe posture checks APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/posture-checks
+	// see more: https://docs.wardenclyffe.app/api/resources/posture-checks
 	PostureChecks *PostureChecksAPI
 
 	// Networks WardenClyffe networks APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/networks
+	// see more: https://docs.wardenclyffe.app/api/resources/networks
 	Networks *NetworksAPI
 
 	// Routes WardenClyffe routes APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/routes
+	// see more: https://docs.wardenclyffe.app/api/resources/routes
 	Routes *RoutesAPI
 
 	// DNS WardenClyffe DNS APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/dns
+	// see more: https://docs.wardenclyffe.app/api/resources/dns
 	DNS *DNSAPI
 
 	// DNSZones WardenClyffe DNS Zones APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/dns-zones
+	// see more: https://docs.wardenclyffe.app/api/resources/dns-zones
 	DNSZones *DNSZonesAPI
 
 	// GeoLocation WardenClyffe Geo Location APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/geo-locations
+	// see more: https://docs.wardenclyffe.app/api/resources/geo-locations
 	GeoLocation *GeoLocationAPI
 
 	// Events WardenClyffe Events APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/events
+	// see more: https://docs.wardenclyffe.app/api/resources/events
 	Events *EventsAPI
 
 	// Billing WardenClyffe Billing APIs for subscriptions, plans, and invoices
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/billing
+	// see more: https://docs.wardenclyffe.app/api/resources/billing
 	Billing *BillingAPI
 
 	// MSP WardenClyffe MSP tenant management APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/msp
+	// see more: https://docs.wardenclyffe.app/api/resources/msp
 	MSP *MSPAPI
 
 	// EDR WardenClyffe EDR integration APIs (Intune, SentinelOne, Falcon, Huntress)
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/edr
+	// see more: https://docs.wardenclyffe.app/api/resources/edr
 	EDR *EDRAPI
 
 	// SCIM WardenClyffe SCIM IDP integration APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/scim
+	// see more: https://docs.wardenclyffe.app/api/resources/scim
 	SCIM *SCIMAPI
 
 	// GoogleIDP WardenClyffe Google Workspace IDP integration APIs
@@ -120,19 +120,19 @@ type Client struct {
 	OktaScimIDP *OktaScimIDPAPI
 
 	// EventStreaming WardenClyffe Event Streaming integration APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/event-streaming
+	// see more: https://docs.wardenclyffe.app/api/resources/event-streaming
 	EventStreaming *EventStreamingAPI
 
 	// IdentityProviders WardenClyffe Identity Providers APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/identity-providers
+	// see more: https://docs.wardenclyffe.app/api/resources/identity-providers
 	IdentityProviders *IdentityProvidersAPI
 
 	// Ingress WardenClyffe Ingress Peers APIs
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/ingress-ports
+	// see more: https://docs.wardenclyffe.app/api/resources/ingress-ports
 	Ingress *IngressAPI
 
 	// Instance WardenClyffe Instance API
-	// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/instance
+	// see more: https://docs.wardenclyffe.app/api/resources/instance
 	Instance *InstanceAPI
 
 	// ReverseProxyServices WardenClyffe reverse proxy services APIs

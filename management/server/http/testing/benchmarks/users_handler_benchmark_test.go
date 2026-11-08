@@ -157,7 +157,7 @@ func TestMain(m *testing.M) {
 
 	if exitCode == 0 && os.Getenv("CI") == "true" {
 		runID := os.Getenv("GITHUB_RUN_ID")
-		storeEngine := os.Getenv("NETBIRD_STORE_ENGINE")
+		storeEngine := os.Getenv("WARDENCLYFFE_STORE_ENGINE")
 		err := push.New("http://localhost:9091", "api_benchmark").
 			Collector(testing_tools.BenchmarkDuration).
 			Grouping("ci_run", runID).

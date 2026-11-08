@@ -427,11 +427,11 @@ func createRawClient(addr string) (mgmtProto.ManagementServiceClient, *grpc.Clie
 func Test_SyncStatusRace(t *testing.T) {
 	t.Skip()
 	if os.Getenv("CI") == "true" {
-		if os.Getenv("NETBIRD_STORE_ENGINE") == "postgres" {
+		if os.Getenv("WARDENCLYFFE_STORE_ENGINE") == "postgres" {
 			t.Skip("Skipping on CI and Postgres store")
 		}
 
-		if os.Getenv("NETBIRD_STORE_ENGINE") == "mysql" {
+		if os.Getenv("WARDENCLYFFE_STORE_ENGINE") == "mysql" {
 			t.Skip("Skipping on CI and MySQL store")
 		}
 	}
@@ -594,7 +594,7 @@ func Test_LoginPerformance(t *testing.T) {
 		t.Skip("Skipping test on CI or Windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", "sqlite")
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", "sqlite")
 
 	benchCases := []struct {
 		name     string

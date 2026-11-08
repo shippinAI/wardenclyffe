@@ -559,7 +559,7 @@ func parseSignalProtocol(uri string) nbconfig.Protocol {
 }
 
 // stripSignalProtocol removes the protocol prefix from a signal URI.
-// Returns just the host:port (e.g., "selfhosted2.demo.wardenclyffe.wardenclyffe.app:443").
+// Returns just the host:port (e.g., "selfhosted2.demo.wardenclyffe.app:443").
 func stripSignalProtocol(uri string) string {
 	uri = strings.TrimPrefix(uri, "https://")
 	uri = strings.TrimPrefix(uri, "http://")

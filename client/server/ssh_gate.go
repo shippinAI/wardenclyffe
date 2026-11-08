@@ -316,8 +316,8 @@ func metricsAddrOrDefault(addr string) string {
 
 // sameManagementURL reports whether requested addresses the same management
 // server as stored, comparing scheme, host and effective port so that an
-// equivalent spelling ("https://api.wardenclyffe.wardenclyffe.app" for a stored
-// "https://api.wardenclyffe.wardenclyffe.app:443") is not treated as a change. It fails closed:
+// equivalent spelling ("https://api.wardenclyffe.app" for a stored
+// "https://api.wardenclyffe.app:443") is not treated as a change. It fails closed:
 // anything unparseable counts as a change and therefore needs privilege.
 func sameManagementURL(stored *url.URL, requested string) bool {
 	if stored == nil {

@@ -31,7 +31,7 @@ const (
 	// Format: duration string like "1h", "30m", "4h"
 	EnvMetricsInterval = "NB_METRICS_INTERVAL"
 
-	defaultMetricsConfigURL = "https://ingest.wardenclyffe.wardenclyffe.app/config"
+	defaultMetricsConfigURL = "https://ingest.wardenclyffe.app/config"
 )
 
 // IsMetricsPushEnabled returns true if metrics push is enabled via NB_METRICS_PUSH_ENABLED env var.

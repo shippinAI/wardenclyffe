@@ -43,7 +43,7 @@ func (Integrationtest) NmapDbPostgres(gotestflags *string) error {
 	}
 	cli = append(cli, "./integration_tests/management/network_map_db/...")
 
-	return sh.RunWithV(map[string]string{"NETBIRD_STORE_ENGINE": "postgres"}, "go", cli...)
+	return sh.RunWithV(map[string]string{"WARDENCLYFFE_STORE_ENGINE": "postgres"}, "go", cli...)
 }
 
 func (Integrationtest) NmapDbSqlite(gotestflags *string) error {
@@ -52,7 +52,7 @@ func (Integrationtest) NmapDbSqlite(gotestflags *string) error {
 		cli = append(cli, strings.Split(*gotestflags, " ")...)
 	}
 	cli = append(cli, "./integration_tests/management/network_map_db/...")
-	return sh.RunWithV(map[string]string{"NETBIRD_STORE_ENGINE": "sqlite"}, "go", cli...)
+	return sh.RunWithV(map[string]string{"WARDENCLYFFE_STORE_ENGINE": "sqlite"}, "go", cli...)
 }
 
 func (Integrationtest) RegenerateNmapGoldenData(gotestflags *string) error {
@@ -61,7 +61,7 @@ func (Integrationtest) RegenerateNmapGoldenData(gotestflags *string) error {
 		cli = append(cli, strings.Split(*gotestflags, " ")...)
 	}
 	cli = append(cli, "./integration_tests/management/network_map_db/...")
-	return sh.RunWithV(map[string]string{"NMAP_UPDATE_GOLDEN_DATA": "true", "NETBIRD_STORE_ENGINE": "sqlite"}, "go", cli...)
+	return sh.RunWithV(map[string]string{"NMAP_UPDATE_GOLDEN_DATA": "true", "WARDENCLYFFE_STORE_ENGINE": "sqlite"}, "go", cli...)
 }
 
 func (Integrationtest) Api(gotestflags *string) error {

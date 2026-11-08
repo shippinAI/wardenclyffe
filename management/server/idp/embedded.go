@@ -37,7 +37,7 @@ const (
 type EmbeddedIdPConfig struct {
 	// Enabled indicates whether the embedded IDP is enabled
 	Enabled bool
-	// Issuer is the OIDC issuer URL (e.g., "https://management.wardenclyffe.wardenclyffe.app/oauth2")
+	// Issuer is the OIDC issuer URL (e.g., "https://management.wardenclyffe.app/oauth2")
 	Issuer string
 	// LocalAddress is the management server's local listen address (e.g., ":8080" or "localhost:8080")
 	// Used for internal JWT validation to avoid external network calls

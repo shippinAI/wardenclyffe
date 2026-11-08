@@ -104,14 +104,14 @@ check_nb_domain() {
   local domain="$1"
 
   if [[ -z "$domain" ]]; then
-    echo "The NETBIRD_DOMAIN variable cannot be empty." > /dev/stderr
+    echo "The WARDENCLYFFE_DOMAIN variable cannot be empty." > /dev/stderr
     return 1
   fi
   if [[ "$domain" == "use-ip" ]]; then
     return 0
   fi
   if [[ "$domain" == "wardenclyffe.example.com" ]]; then
-    echo "The NETBIRD_DOMAIN cannot be wardenclyffe.example.com" > /dev/stderr
+    echo "The WARDENCLYFFE_DOMAIN cannot be wardenclyffe.example.com" > /dev/stderr
     return 1
   fi
   if [[ "$domain" =~ ^[0-9.]+$ ]]; then
@@ -142,28 +142,28 @@ check_domain_resolves() {
 # helpers stay pure prompts.
 #
 # Supported env vars:
-#   NETBIRD_DOMAIN                    domain/FQDN (required)
-#   NETBIRD_LETSENCRYPT_EMAIL         ACME email (required for built-in Traefik)
-#   NETBIRD_AGENT_NETWORK             true enables the agent-network preset
-#   NETBIRD_REVERSE_PROXY_TYPE        0-5 (default 0 = built-in Traefik)
-#   NETBIRD_ENABLE_PROXY              true/false (default false)
-#   NETBIRD_ENABLE_CROWDSEC           true/false (default false)
-#   NETBIRD_TRAEFIK_EXTERNAL_NETWORK  external-Traefik network (type 1)
-#   NETBIRD_TRAEFIK_ENTRYPOINT        external-Traefik entrypoint (type 1, default websecure)
-#   NETBIRD_TRAEFIK_CERTRESOLVER      external-Traefik cert resolver (type 1)
-#   NETBIRD_BIND_LOCALHOST_ONLY       true/false (default true, types 2-5)
-#   NETBIRD_EXTERNAL_PROXY_NETWORK    docker network to join (types 2-4)
-#   NETBIRD_TRUSTED_PEERS             reverse proxy address management sees (default: built-in Traefik's IP, empty for types 1-5)
-#   NETBIRD_NON_INTERACTIVE           true forces unattended mode even with a TTY
+#   WARDENCLYFFE_DOMAIN                    domain/FQDN (required)
+#   WARDENCLYFFE_LETSENCRYPT_EMAIL         ACME email (required for built-in Traefik)
+#   WARDENCLYFFE_AGENT_NETWORK             true enables the agent-network preset
+#   WARDENCLYFFE_REVERSE_PROXY_TYPE        0-5 (default 0 = built-in Traefik)
+#   WARDENCLYFFE_ENABLE_PROXY              true/false (default false)
+#   WARDENCLYFFE_ENABLE_CROWDSEC           true/false (default false)
+#   WARDENCLYFFE_TRAEFIK_EXTERNAL_NETWORK  external-Traefik network (type 1)
+#   WARDENCLYFFE_TRAEFIK_ENTRYPOINT        external-Traefik entrypoint (type 1, default websecure)
+#   WARDENCLYFFE_TRAEFIK_CERTRESOLVER      external-Traefik cert resolver (type 1)
+#   WARDENCLYFFE_BIND_LOCALHOST_ONLY       true/false (default true, types 2-5)
+#   WARDENCLYFFE_EXTERNAL_PROXY_NETWORK    docker network to join (types 2-4)
+#   WARDENCLYFFE_TRUSTED_PEERS             reverse proxy address management sees (default: built-in Traefik's IP, empty for types 1-5)
+#   WARDENCLYFFE_NON_INTERACTIVE           true forces unattended mode even with a TTY
 
 # tty_available succeeds only when we may prompt: never when the operator has
-# set NETBIRD_NON_INTERACTIVE=true, otherwise only when /dev/tty can actually
+# set WARDENCLYFFE_NON_INTERACTIVE=true, otherwise only when /dev/tty can actually
 # be opened. A PTY can be attached in automation (CI runners, some
 # provisioners), so the env override is the authoritative signal and the
 # /dev/tty probe is the fallback. /dev/tty is a world-rw device node even with
 # no terminal, so a permission test ([ -r ]) is not enough - we must open it.
 tty_available() {
-  [[ "${NETBIRD_NON_INTERACTIVE:-}" == "true" ]] && return 1
+  [[ "${WARDENCLYFFE_NON_INTERACTIVE:-}" == "true" ]] && return 1
   { true < /dev/tty; } 2>/dev/null
 }
 
@@ -189,18 +189,18 @@ resolve() {
 }
 
 read_nb_domain() {
-  READ_NETBIRD_DOMAIN=""
+  READ_WARDENCLYFFE_DOMAIN=""
   echo -n "Enter the domain you want to use for WardenClyffe (e.g. wardenclyffe.my-domain.com): " > /dev/stderr
-  read -r READ_NETBIRD_DOMAIN < /dev/tty
-  if ! check_nb_domain "$READ_NETBIRD_DOMAIN"; then
+  read -r READ_WARDENCLYFFE_DOMAIN < /dev/tty
+  if ! check_nb_domain "$READ_WARDENCLYFFE_DOMAIN"; then
     read_nb_domain
     return
   fi
 
-  if [[ "$READ_NETBIRD_DOMAIN" != "use-ip" ]] && ! check_domain_resolves "$READ_NETBIRD_DOMAIN"; then
+  if [[ "$READ_WARDENCLYFFE_DOMAIN" != "use-ip" ]] && ! check_domain_resolves "$READ_WARDENCLYFFE_DOMAIN"; then
     local confirm=""
     echo "" > /dev/stderr
-    echo "Warning: '$READ_NETBIRD_DOMAIN' does not resolve via DNS from this host." > /dev/stderr
+    echo "Warning: '$READ_WARDENCLYFFE_DOMAIN' does not resolve via DNS from this host." > /dev/stderr
     echo "TLS certificate issuance and client connections will fail until it does." > /dev/stderr
     echo -n "Continue anyway? [y/N]: " > /dev/stderr
     read -r confirm < /dev/tty
@@ -210,7 +210,7 @@ read_nb_domain() {
     fi
   fi
 
-  echo "$READ_NETBIRD_DOMAIN"
+  echo "$READ_WARDENCLYFFE_DOMAIN"
   return 0
 }
 
@@ -381,7 +381,7 @@ wait_management_proxy() {
   counter=1
   while true; do
     # Check the embedded IdP endpoint through the reverse proxy
-    if curl -sk -f -o /dev/null "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN/oauth2/.well-known/openid-configuration" 2>/dev/null; then
+    if curl -sk -f -o /dev/null "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/oauth2/.well-known/openid-configuration" 2>/dev/null; then
       break
     fi
     if [[ $counter -eq 60 ]]; then
@@ -434,20 +434,22 @@ wait_management_direct() {
 ############################################
 
 initialize_default_values() {
-  NETBIRD_PORT=80
-  NETBIRD_HTTP_PROTOCOL="http"
-  NETBIRD_RELAY_PROTO="rel"
-  NETBIRD_RELAY_AUTH_SECRET=$(openssl rand -base64 32 | sed "$SED_STRIP_PADDING")
+  WARDENCLYFFE_PORT=80
+  WARDENCLYFFE_HTTP_PROTOCOL="http"
+  WARDENCLYFFE_RELAY_PROTO="rel"
+  WARDENCLYFFE_RELAY_AUTH_SECRET=$(openssl rand -base64 32 | sed "$SED_STRIP_PADDING")
   # Note: DataStoreEncryptionKey must keep base64 padding (=) for Go's base64.StdEncoding
   DATASTORE_ENCRYPTION_KEY=$(openssl rand -base64 32)
   SESSION_COOKIE_ENCRYPTION_KEY=$(openssl rand -base64 32)
-  NETBIRD_STUN_PORT=3478
+  WARDENCLYFFE_STUN_PORT=3478
 
-  # Docker images
-  DASHBOARD_IMAGE=${DASHBOARD_IMAGE:-"shippin/wardenclyffe/dashboard:latest"}
+  # Docker images. The self-hosted installer defaults to the locally built
+  # repo images so a fresh checkout can stand up without pulling private or
+  # unavailable public images from the current Docker account.
+  DASHBOARD_IMAGE=${DASHBOARD_IMAGE:-"wardenclyffe-dashboard:local"}
   # Combined server replaces separate signal, relay, and management containers
-  NETBIRD_SERVER_IMAGE=${NETBIRD_SERVER_IMAGE:-"shippin/wardenclyffe-server:latest"}
-  NETBIRD_PROXY_IMAGE=${NETBIRD_PROXY_IMAGE:-"shippin/wardenclyffe/reverse-proxy:latest"}
+  WARDENCLYFFE_SERVER_IMAGE=${WARDENCLYFFE_SERVER_IMAGE:-"wardenclyffe-server:local"}
+  WARDENCLYFFE_PROXY_IMAGE=${WARDENCLYFFE_PROXY_IMAGE:-"wardenclyffe-proxy:local"}
   TRAEFIK_IMAGE=${TRAEFIK_IMAGE:-"traefik:v3.6"}
   CROWDSEC_IMAGE=${CROWDSEC_IMAGE:-"crowdsecurity/crowdsec:v1.7.7"}
   # Reverse proxy configuration
@@ -478,35 +480,35 @@ initialize_default_values() {
 
 configure_domain() {
   # Domain is validated (not a free-form value), so it keeps its own guard
-  # rather than going through resolve(): a valid NETBIRD_DOMAIN is used as-is,
+  # rather than going through resolve(): a valid WARDENCLYFFE_DOMAIN is used as-is,
   # otherwise we prompt, or abort when there is no terminal to prompt on.
   local prompted="false"
-  if ! check_nb_domain "$NETBIRD_DOMAIN"; then
+  if ! check_nb_domain "$WARDENCLYFFE_DOMAIN"; then
     if ! tty_available; then
-      if [[ -n "$NETBIRD_DOMAIN" ]]; then
-        echo "NETBIRD_DOMAIN='$NETBIRD_DOMAIN' cannot be used for a non-interactive install." > /dev/stderr
+      if [[ -n "$WARDENCLYFFE_DOMAIN" ]]; then
+        echo "WARDENCLYFFE_DOMAIN='$WARDENCLYFFE_DOMAIN' cannot be used for a non-interactive install." > /dev/stderr
       else
-        echo "NETBIRD_DOMAIN is required for a non-interactive install." > /dev/stderr
+        echo "WARDENCLYFFE_DOMAIN is required for a non-interactive install." > /dev/stderr
       fi
       exit 1
     fi
-    NETBIRD_DOMAIN=$(read_nb_domain)
+    WARDENCLYFFE_DOMAIN=$(read_nb_domain)
     prompted="true"
   fi
 
-  if [[ "$prompted" == "false" && "$NETBIRD_DOMAIN" != "use-ip" ]] && ! check_domain_resolves "$NETBIRD_DOMAIN"; then
-    echo "Warning: '$NETBIRD_DOMAIN' does not resolve via DNS from this host." > /dev/stderr
+  if [[ "$prompted" == "false" && "$WARDENCLYFFE_DOMAIN" != "use-ip" ]] && ! check_domain_resolves "$WARDENCLYFFE_DOMAIN"; then
+    echo "Warning: '$WARDENCLYFFE_DOMAIN' does not resolve via DNS from this host." > /dev/stderr
     echo "TLS certificate issuance and client connections will fail until it does." > /dev/stderr
   fi
 
-  if [[ "$NETBIRD_DOMAIN" == "use-ip" ]]; then
-    NETBIRD_DOMAIN=$(get_main_ip_address)
-    BASE_DOMAIN=$NETBIRD_DOMAIN
+  if [[ "$WARDENCLYFFE_DOMAIN" == "use-ip" ]]; then
+    WARDENCLYFFE_DOMAIN=$(get_main_ip_address)
+    BASE_DOMAIN=$WARDENCLYFFE_DOMAIN
   else
-    NETBIRD_PORT=443
-    NETBIRD_HTTP_PROTOCOL="https"
-    NETBIRD_RELAY_PROTO="rels"
-    BASE_DOMAIN=$(echo $NETBIRD_DOMAIN | sed -E 's/^[^.]+\.//')
+    WARDENCLYFFE_PORT=443
+    WARDENCLYFFE_HTTP_PROTOCOL="https"
+    WARDENCLYFFE_RELAY_PROTO="rels"
+    BASE_DOMAIN=$(echo $WARDENCLYFFE_DOMAIN | sed -E 's/^[^.]+\.//')
   fi
   return 0
 }
@@ -516,23 +518,23 @@ apply_agent_network_preset() {
   # NB_PROXY_PRIVATE=true, dashboard locked to agent-network-only mode.
   # Bypasses every reverse-proxy / proxy / CrowdSec prompt. The only
   # inputs we still need from the operator are the domain (handled by
-  # configure_domain via NETBIRD_DOMAIN env var or interactive prompt)
+  # configure_domain via WARDENCLYFFE_DOMAIN env var or interactive prompt)
   # and the ACME email — both honor env vars first and fall back to a
   # prompt only when unset. CrowdSec is intentionally off.
   REVERSE_PROXY_TYPE="0"
   ENABLE_PROXY="true"
   ENABLE_CROWDSEC="false"
-  TRUSTED_PEERS="${NETBIRD_TRUSTED_PEERS:-$TRAEFIK_IP/32}"
+  TRUSTED_PEERS="${WARDENCLYFFE_TRUSTED_PEERS:-$TRAEFIK_IP/32}"
 
-  TRAEFIK_ACME_EMAIL=$(resolve NETBIRD_LETSENCRYPT_EMAIL required read_traefik_acme_email)
+  TRAEFIK_ACME_EMAIL=$(resolve WARDENCLYFFE_LETSENCRYPT_EMAIL required read_traefik_acme_email)
 
   echo "" > /dev/stderr
-  echo "Agent-network preset enabled (NETBIRD_AGENT_NETWORK=true):" > /dev/stderr
+  echo "Agent-network preset enabled (WARDENCLYFFE_AGENT_NETWORK=true):" > /dev/stderr
   echo "  - reverse proxy: built-in Traefik" > /dev/stderr
   echo "  - WardenClyffe Proxy: enabled with NB_PROXY_PRIVATE=true" > /dev/stderr
-  echo "  - server image: ${NETBIRD_SERVER_IMAGE}" > /dev/stderr
-  echo "  - proxy image: ${NETBIRD_PROXY_IMAGE}" > /dev/stderr
-  echo "  - dashboard: NETBIRD_AGENT_NETWORK_ONLY=true" > /dev/stderr
+  echo "  - server image: ${WARDENCLYFFE_SERVER_IMAGE}" > /dev/stderr
+  echo "  - proxy image: ${WARDENCLYFFE_PROXY_IMAGE}" > /dev/stderr
+  echo "  - dashboard: WARDENCLYFFE_AGENT_NETWORK_ONLY=true" > /dev/stderr
   echo "  - CrowdSec: disabled" > /dev/stderr
   echo "  - Let's Encrypt email: ${TRAEFIK_ACME_EMAIL}" > /dev/stderr
   echo "" > /dev/stderr
@@ -541,53 +543,53 @@ apply_agent_network_preset() {
 configure_reverse_proxy() {
   # Short-circuit: agent-network preset locks every reverse-proxy /
   # proxy / CrowdSec choice and bypasses the interactive prompts.
-  if [[ "${NETBIRD_AGENT_NETWORK}" == "true" ]]; then
+  if [[ "${WARDENCLYFFE_AGENT_NETWORK}" == "true" ]]; then
     apply_agent_network_preset
     return 0
   fi
 
-  # Reverse proxy type (env NETBIRD_REVERSE_PROXY_TYPE, else prompt, else 0)
-  REVERSE_PROXY_TYPE=$(resolve NETBIRD_REVERSE_PROXY_TYPE 0 read_reverse_proxy_type)
+  # Reverse proxy type (env WARDENCLYFFE_REVERSE_PROXY_TYPE, else prompt, else 0)
+  REVERSE_PROXY_TYPE=$(resolve WARDENCLYFFE_REVERSE_PROXY_TYPE 0 read_reverse_proxy_type)
 
   # Handle built-in Traefik prompts (option 0)
   if [[ "$REVERSE_PROXY_TYPE" == "0" ]]; then
-    TRAEFIK_ACME_EMAIL=$(resolve NETBIRD_LETSENCRYPT_EMAIL required read_traefik_acme_email)
-    ENABLE_PROXY=$(resolve NETBIRD_ENABLE_PROXY false read_enable_proxy)
+    TRAEFIK_ACME_EMAIL=$(resolve WARDENCLYFFE_LETSENCRYPT_EMAIL required read_traefik_acme_email)
+    ENABLE_PROXY=$(resolve WARDENCLYFFE_ENABLE_PROXY false read_enable_proxy)
     if [[ "$ENABLE_PROXY" == "true" ]]; then
-      ENABLE_CROWDSEC=$(resolve NETBIRD_ENABLE_CROWDSEC false read_enable_crowdsec)
+      ENABLE_CROWDSEC=$(resolve WARDENCLYFFE_ENABLE_CROWDSEC false read_enable_crowdsec)
     fi
   fi
 
   # Handle external Traefik-specific prompts (option 1)
   if [[ "$REVERSE_PROXY_TYPE" == "1" ]]; then
-    TRAEFIK_EXTERNAL_NETWORK=$(resolve NETBIRD_TRAEFIK_EXTERNAL_NETWORK "" read_traefik_network)
-    TRAEFIK_ENTRYPOINT=$(resolve NETBIRD_TRAEFIK_ENTRYPOINT websecure read_traefik_entrypoint)
-    TRAEFIK_CERTRESOLVER=$(resolve NETBIRD_TRAEFIK_CERTRESOLVER "" read_traefik_certresolver)
+    TRAEFIK_EXTERNAL_NETWORK=$(resolve WARDENCLYFFE_TRAEFIK_EXTERNAL_NETWORK "" read_traefik_network)
+    TRAEFIK_ENTRYPOINT=$(resolve WARDENCLYFFE_TRAEFIK_ENTRYPOINT websecure read_traefik_entrypoint)
+    TRAEFIK_CERTRESOLVER=$(resolve WARDENCLYFFE_TRAEFIK_CERTRESOLVER "" read_traefik_certresolver)
   fi
 
   # Handle port binding for external proxy options (2-5)
   if [[ "$REVERSE_PROXY_TYPE" -ge 2 ]]; then
-    BIND_LOCALHOST_ONLY=$(resolve NETBIRD_BIND_LOCALHOST_ONLY true read_port_binding_preference)
+    BIND_LOCALHOST_ONLY=$(resolve WARDENCLYFFE_BIND_LOCALHOST_ONLY true read_port_binding_preference)
   fi
 
   # Handle Docker network prompts for external proxies (options 2-4)
   case "$REVERSE_PROXY_TYPE" in
-    2) EXTERNAL_PROXY_NETWORK=$(resolve NETBIRD_EXTERNAL_PROXY_NETWORK "" read_proxy_docker_network "Nginx") ;;
-    3) EXTERNAL_PROXY_NETWORK=$(resolve NETBIRD_EXTERNAL_PROXY_NETWORK "" read_proxy_docker_network "Nginx Proxy Manager") ;;
-    4) EXTERNAL_PROXY_NETWORK=$(resolve NETBIRD_EXTERNAL_PROXY_NETWORK "" read_proxy_docker_network "Caddy") ;;
+    2) EXTERNAL_PROXY_NETWORK=$(resolve WARDENCLYFFE_EXTERNAL_PROXY_NETWORK "" read_proxy_docker_network "Nginx") ;;
+    3) EXTERNAL_PROXY_NETWORK=$(resolve WARDENCLYFFE_EXTERNAL_PROXY_NETWORK "" read_proxy_docker_network "Nginx Proxy Manager") ;;
+    4) EXTERNAL_PROXY_NETWORK=$(resolve WARDENCLYFFE_EXTERNAL_PROXY_NETWORK "" read_proxy_docker_network "Caddy") ;;
     *) ;; # No network prompt for other options
   esac
 
   # Only the bundled Traefik has an address we know at render time. External proxies
   # must supply the address their proxy reaches management from.
   if [[ "$REVERSE_PROXY_TYPE" == "0" ]]; then
-    TRUSTED_PEERS="${NETBIRD_TRUSTED_PEERS:-$TRAEFIK_IP/32}"
+    TRUSTED_PEERS="${WARDENCLYFFE_TRUSTED_PEERS:-$TRAEFIK_IP/32}"
   else
-    TRUSTED_PEERS="${NETBIRD_TRUSTED_PEERS:-}"
+    TRUSTED_PEERS="${WARDENCLYFFE_TRUSTED_PEERS:-}"
     if [[ -z "$TRUSTED_PEERS" ]]; then
       echo "" > /dev/stderr
       echo "Warning: reverseProxy.trustedPeers is unset, so all IPv4 and IPv6 sources" > /dev/stderr
-      echo "are trusted to provide forwarded client-IP headers. Set NETBIRD_TRUSTED_PEERS" > /dev/stderr
+      echo "are trusted to provide forwarded client-IP headers. Set WARDENCLYFFE_TRUSTED_PEERS" > /dev/stderr
       echo "to your proxy's address (e.g. 172.20.0.5/32) and re-run." > /dev/stderr
       echo "" > /dev/stderr
     fi
@@ -747,7 +749,7 @@ start_services_and_show_instructions() {
     print_post_setup_instructions
     echo ""
     echo "WardenClyffe containers are running. Once Traefik is connected, access the dashboard at:"
-    echo "  $NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN"
+    echo "  $WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN"
   elif [[ "$REVERSE_PROXY_TYPE" == "3" ]]; then
     # NPM - start containers first, then show instructions
     # NPM requires backend services to be running before creating proxy hosts
@@ -761,7 +763,7 @@ start_services_and_show_instructions() {
     print_post_setup_instructions
     echo ""
     echo "WardenClyffe containers are running. Configure NPM as shown above, then access:"
-    echo "  $NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN"
+    echo "  $WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN"
   else
     # External proxies (nginx, external Caddy, other) - need manual config first
     print_post_setup_instructions
@@ -783,7 +785,7 @@ start_services_and_show_instructions() {
 
     echo -e "$MSG_DONE"
     echo "WardenClyffe is now running. Access the dashboard at:"
-    echo "  $NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN"
+    echo "  $WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN"
   fi
   return 0
 }
@@ -835,7 +837,7 @@ render_docker_compose_traefik_builtin() {
     proxy_service="
   # WardenClyffe Proxy - exposes internal resources to the internet
   proxy:
-    image: $NETBIRD_PROXY_IMAGE
+    image: $WARDENCLYFFE_PROXY_IMAGE
     container_name: wardenclyffe-proxy
     ports:
     - 51820:51820/udp
@@ -955,7 +957,7 @@ $traefik_dynamic_volume
       - ./dashboard.env
     labels:
       - traefik.enable=true
-      - traefik.http.routers.wardenclyffe-dashboard.rule=Host(\`$NETBIRD_DOMAIN\`)
+      - traefik.http.routers.wardenclyffe-dashboard.rule=Host(\`$WARDENCLYFFE_DOMAIN\`)
       - traefik.http.routers.wardenclyffe-dashboard.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-dashboard.tls=true
       - traefik.http.routers.wardenclyffe-dashboard.tls.certresolver=letsencrypt
@@ -970,12 +972,12 @@ $traefik_dynamic_volume
 
   # Combined server (Management + Signal + Relay + STUN)
   wardenclyffe-server:
-    image: $NETBIRD_SERVER_IMAGE
+    image: $WARDENCLYFFE_SERVER_IMAGE
     container_name: wardenclyffe-server
     restart: unless-stopped
     networks: [wardenclyffe]
     ports:
-      - '$NETBIRD_STUN_PORT:$NETBIRD_STUN_PORT/udp'
+      - '$WARDENCLYFFE_STUN_PORT:$WARDENCLYFFE_STUN_PORT/udp'
     volumes:
       - wardenclyffe_data:/var/lib/wardenclyffe
       - ./config.yaml:/etc/wardenclyffe/config.yaml
@@ -983,14 +985,14 @@ $traefik_dynamic_volume
     labels:
       - traefik.enable=true
       # gRPC router (needs h2c backend for HTTP/2 cleartext)
-      - traefik.http.routers.wardenclyffe-grpc.rule=Host(\`$NETBIRD_DOMAIN\`) && (PathPrefix(\`/signalexchange.SignalExchange/\`) || PathPrefix(\`/management.ManagementService/\`) || PathPrefix(\`/management.ProxyService/\`))
+      - traefik.http.routers.wardenclyffe-grpc.rule=Host(\`$WARDENCLYFFE_DOMAIN\`) && (PathPrefix(\`/signalexchange.SignalExchange/\`) || PathPrefix(\`/management.ManagementService/\`) || PathPrefix(\`/management.ProxyService/\`))
       - traefik.http.routers.wardenclyffe-grpc.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-grpc.tls=true
       - traefik.http.routers.wardenclyffe-grpc.tls.certresolver=letsencrypt
       - traefik.http.routers.wardenclyffe-grpc.service=wardenclyffe-server-h2c
       - traefik.http.routers.wardenclyffe-grpc.priority=100
       # Backend router (relay, WebSocket, API, OAuth2)
-      - traefik.http.routers.wardenclyffe-backend.rule=Host(\`$NETBIRD_DOMAIN\`) && (PathPrefix(\`/relay\`) || PathPrefix(\`/ws-proxy/\`) || PathPrefix(\`/api\`) || PathPrefix(\`/oauth2\`))
+      - traefik.http.routers.wardenclyffe-backend.rule=Host(\`$WARDENCLYFFE_DOMAIN\`) && (PathPrefix(\`/relay\`) || PathPrefix(\`/ws-proxy/\`) || PathPrefix(\`/api\`) || PathPrefix(\`/oauth2\`))
       - traefik.http.routers.wardenclyffe-backend.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-backend.tls=true
       - traefik.http.routers.wardenclyffe-backend.tls.certresolver=letsencrypt
@@ -1028,24 +1030,24 @@ render_combined_yaml() {
 
 server:
   listenAddress: ":80"
-  exposedAddress: "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT"
+  exposedAddress: "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT"
   stunPorts:
-    - $NETBIRD_STUN_PORT
+    - $WARDENCLYFFE_STUN_PORT
   metricsPort: 9090
   healthcheckAddress: ":9000"
   logLevel: "info"
   logFile: "console"
 
-  authSecret: "$NETBIRD_RELAY_AUTH_SECRET"
+  authSecret: "$WARDENCLYFFE_RELAY_AUTH_SECRET"
   dataDir: "/var/lib/wardenclyffe"
 
   auth:
-    issuer: "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN/oauth2"
+    issuer: "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/oauth2"
     signKeyRefreshEnabled: true
     sessionCookieEncryptionKey: "$SESSION_COOKIE_ENCRYPTION_KEY"
     dashboardRedirectURIs:
-      - "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN/nb-auth"
-      - "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN/nb-silent-auth"
+      - "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/nb-auth"
+      - "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/nb-silent-auth"
     cliRedirectURIs:
       - "http://localhost:53000/"
 
@@ -1070,13 +1072,13 @@ render_trusted_peers() {
 render_dashboard_env() {
   cat <<EOF
 # Endpoints
-NETBIRD_MGMT_API_ENDPOINT=$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN
-NETBIRD_MGMT_GRPC_API_ENDPOINT=$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN
+WARDENCLYFFE_MGMT_API_ENDPOINT=$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN
+WARDENCLYFFE_MGMT_GRPC_API_ENDPOINT=$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN
 # OIDC - using embedded IdP
 AUTH_AUDIENCE=wardenclyffe-dashboard
 AUTH_CLIENT_ID=wardenclyffe-dashboard
 AUTH_CLIENT_SECRET=
-AUTH_AUTHORITY=$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN/oauth2
+AUTH_AUTHORITY=$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/oauth2
 USE_AUTH0=false
 AUTH_SUPPORTED_SCOPES=openid profile email groups
 AUTH_REDIRECT_URI=/nb-auth
@@ -1087,12 +1089,12 @@ NGINX_SSL_PORT=443
 LETSENCRYPT_DOMAIN=none
 EOF
 
-  if [[ "${NETBIRD_AGENT_NETWORK}" == "true" ]]; then
+  if [[ "${WARDENCLYFFE_AGENT_NETWORK}" == "true" ]]; then
     cat <<EOF
 # Agent-network preset: dashboard hides the standard WardenClyffe surfaces
 # and exposes only the AI Observability + agent-network configuration
 # pages. Paired with NB_PROXY_PRIVATE=true on the proxy side.
-NETBIRD_AGENT_NETWORK_ONLY=true
+WARDENCLYFFE_AGENT_NETWORK_ONLY=true
 EOF
   fi
   return 0
@@ -1118,7 +1120,7 @@ NB_PROXY_MANAGEMENT_ADDRESS=http://wardenclyffe-server:80
 # Allow insecure gRPC connection to management (required for internal Docker network)
 NB_PROXY_ALLOW_INSECURE=true
 # Public URL where this proxy is reachable (used for cluster registration)
-NB_PROXY_DOMAIN=$NETBIRD_DOMAIN
+NB_PROXY_DOMAIN=$WARDENCLYFFE_DOMAIN
 NB_PROXY_ADDRESS=:8443
 NB_PROXY_TOKEN=$PROXY_TOKEN
 NB_PROXY_CERTIFICATE_DIRECTORY=/certs
@@ -1131,7 +1133,7 @@ NB_PROXY_PROXY_PROTOCOL=true
 NB_PROXY_TRUSTED_PROXIES=$TRAEFIK_IP
 EOF
 
-  if [[ "${NETBIRD_AGENT_NETWORK}" == "true" ]]; then
+  if [[ "${WARDENCLYFFE_AGENT_NETWORK}" == "true" ]]; then
     cat <<EOF
 # Agent-network preset: turn the proxy into the private reverse-proxy
 # ingress for agent-network synth services. Disables the public-facing
@@ -1177,7 +1179,7 @@ services:
       - ./dashboard.env
     labels:
       - traefik.enable=true
-      - traefik.http.routers.wardenclyffe-dashboard.rule=Host(\`$NETBIRD_DOMAIN\`)
+      - traefik.http.routers.wardenclyffe-dashboard.rule=Host(\`$WARDENCLYFFE_DOMAIN\`)
       - traefik.http.routers.wardenclyffe-dashboard.entrypoints=$TRAEFIK_ENTRYPOINT
       - traefik.http.routers.wardenclyffe-dashboard.tls=true
 $(if [[ -n "$tls_labels" ]]; then echo "      - traefik.http.routers.wardenclyffe-dashboard.${tls_labels}"; fi)
@@ -1191,12 +1193,12 @@ $(if [[ -n "$tls_labels" ]]; then echo "      - traefik.http.routers.wardenclyff
 
   # Combined server (Management + Signal + Relay + STUN)
   wardenclyffe-server:
-    image: $NETBIRD_SERVER_IMAGE
+    image: $WARDENCLYFFE_SERVER_IMAGE
     container_name: wardenclyffe-server
     restart: unless-stopped
     networks: [$network_name]
     ports:
-      - '$NETBIRD_STUN_PORT:$NETBIRD_STUN_PORT/udp'
+      - '$WARDENCLYFFE_STUN_PORT:$WARDENCLYFFE_STUN_PORT/udp'
     volumes:
       - wardenclyffe_data:/var/lib/wardenclyffe
       - ./config.yaml:/etc/wardenclyffe/config.yaml
@@ -1204,13 +1206,13 @@ $(if [[ -n "$tls_labels" ]]; then echo "      - traefik.http.routers.wardenclyff
     labels:
       - traefik.enable=true
       # gRPC router (needs h2c backend for HTTP/2 cleartext)
-      - traefik.http.routers.wardenclyffe-grpc.rule=Host(\`$NETBIRD_DOMAIN\`) && (PathPrefix(\`/signalexchange.SignalExchange/\`) || PathPrefix(\`/management.ManagementService/\`))
+      - traefik.http.routers.wardenclyffe-grpc.rule=Host(\`$WARDENCLYFFE_DOMAIN\`) && (PathPrefix(\`/signalexchange.SignalExchange/\`) || PathPrefix(\`/management.ManagementService/\`))
       - traefik.http.routers.wardenclyffe-grpc.entrypoints=$TRAEFIK_ENTRYPOINT
       - traefik.http.routers.wardenclyffe-grpc.tls=true
 $(if [[ -n "$tls_labels" ]]; then echo "      - traefik.http.routers.wardenclyffe-grpc.${tls_labels}"; fi)
       - traefik.http.routers.wardenclyffe-grpc.service=wardenclyffe-server-h2c
       # Backend router (relay, WebSocket, API, OAuth2)
-      - traefik.http.routers.wardenclyffe-backend.rule=Host(\`$NETBIRD_DOMAIN\`) && (PathPrefix(\`/relay\`) || PathPrefix(\`/ws-proxy/\`) || PathPrefix(\`/api\`) || PathPrefix(\`/oauth2\`))
+      - traefik.http.routers.wardenclyffe-backend.rule=Host(\`$WARDENCLYFFE_DOMAIN\`) && (PathPrefix(\`/relay\`) || PathPrefix(\`/ws-proxy/\`) || PathPrefix(\`/api\`) || PathPrefix(\`/oauth2\`))
       - traefik.http.routers.wardenclyffe-backend.entrypoints=$TRAEFIK_ENTRYPOINT
       - traefik.http.routers.wardenclyffe-backend.tls=true
 $(if [[ -n "$tls_labels" ]]; then echo "      - traefik.http.routers.wardenclyffe-backend.${tls_labels}"; fi)
@@ -1270,13 +1272,13 @@ services:
 
   # Combined server (Management + Signal + Relay + STUN)
   wardenclyffe-server:
-    image: $NETBIRD_SERVER_IMAGE
+    image: $WARDENCLYFFE_SERVER_IMAGE
     container_name: wardenclyffe-server
     restart: unless-stopped
     networks: ${networks}
     ports:
       - '${bind_addr}:${MANAGEMENT_HOST_PORT}:80'
-      - '$NETBIRD_STUN_PORT:$NETBIRD_STUN_PORT/udp'
+      - '$WARDENCLYFFE_STUN_PORT:$WARDENCLYFFE_STUN_PORT/udp'
     volumes:
       - wardenclyffe_data:/var/lib/wardenclyffe
       - ./config.yaml:/etc/wardenclyffe/config.yaml
@@ -1329,7 +1331,7 @@ upstream wardenclyffe_server {
 
 server {
     listen 80;
-    server_name $NETBIRD_DOMAIN;
+    server_name $WARDENCLYFFE_DOMAIN;
 
     location / {
         return 301 https://\$host\$request_uri;
@@ -1338,22 +1340,22 @@ server {
 
 server {
     listen 443 ssl http2;
-    server_name $NETBIRD_DOMAIN;
+    server_name $WARDENCLYFFE_DOMAIN;
 
     # SSL/TLS Configuration
     # Update these paths based on your certificate source:
     #
     # Let's Encrypt (certbot):
-    #   ssl_certificate /etc/letsencrypt/live/$NETBIRD_DOMAIN/fullchain.pem;
-    #   ssl_certificate_key /etc/letsencrypt/live/$NETBIRD_DOMAIN/privkey.pem;
+    #   ssl_certificate /etc/letsencrypt/live/$WARDENCLYFFE_DOMAIN/fullchain.pem;
+    #   ssl_certificate_key /etc/letsencrypt/live/$WARDENCLYFFE_DOMAIN/privkey.pem;
     #
     # Let's Encrypt (acme.sh):
-    #   ssl_certificate /root/.acme.sh/$NETBIRD_DOMAIN/fullchain.cer;
-    #   ssl_certificate_key /root/.acme.sh/$NETBIRD_DOMAIN/$NETBIRD_DOMAIN.key;
+    #   ssl_certificate /root/.acme.sh/$WARDENCLYFFE_DOMAIN/fullchain.cer;
+    #   ssl_certificate_key /root/.acme.sh/$WARDENCLYFFE_DOMAIN/$WARDENCLYFFE_DOMAIN.key;
     #
     # Custom certificates:
-    #   ssl_certificate /etc/ssl/certs/$NETBIRD_DOMAIN.crt;
-    #   ssl_certificate_key /etc/ssl/private/$NETBIRD_DOMAIN.key;
+    #   ssl_certificate /etc/ssl/certs/$WARDENCLYFFE_DOMAIN.crt;
+    #   ssl_certificate_key /etc/ssl/private/$WARDENCLYFFE_DOMAIN.key;
     #
     ssl_certificate /path/to/your/fullchain.pem;
     ssl_certificate_key /path/to/your/privkey.pem;
@@ -1428,7 +1430,7 @@ render_external_caddyfile() {
 #
 ${install_note}
 
-$NETBIRD_DOMAIN {
+$WARDENCLYFFE_DOMAIN {
     # Native gRPC (needs HTTP/2 cleartext to backend)
     @grpc header Content-Type application/grpc*
     reverse_proxy @grpc h2c://${server_addr}
@@ -1506,11 +1508,11 @@ EOF
 print_builtin_traefik_instructions() {
   echo ""
   echo "$MSG_SEPARATOR"
-  echo "  NETBIRD SETUP COMPLETE"
+  echo "  WARDENCLYFFE SETUP COMPLETE"
   echo "$MSG_SEPARATOR"
   echo ""
   echo "You can access the WardenClyffe dashboard at:"
-  echo "  $NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN"
+  echo "  $WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN"
   echo ""
   echo "Follow the onboarding steps to set up your WardenClyffe instance."
   echo ""
@@ -1520,12 +1522,12 @@ print_builtin_traefik_instructions() {
   echo "Open ports:"
   echo "  - 443/tcp   (HTTPS - all WardenClyffe services)"
   echo "  - 80/tcp    (HTTP - redirects to HTTPS)"
-  echo "  - $NETBIRD_STUN_PORT/udp   (STUN - required for NAT traversal)"
+  echo "  - $WARDENCLYFFE_STUN_PORT/udp   (STUN - required for NAT traversal)"
   if [[ "$ENABLE_PROXY" == "true" ]]; then
     echo "  - 51820/udp (WIREGUARD - (optional) for P2P proxy connections)"
   fi
   echo ""
-  if [[ "${NETBIRD_AGENT_NETWORK}" == "true" ]]; then
+  if [[ "${WARDENCLYFFE_AGENT_NETWORK}" == "true" ]]; then
     echo "For enterprise environments requiring high availability and advanced integrations,"
     echo "consider a commercial on-prem license:"
     echo ""
@@ -1543,11 +1545,11 @@ print_builtin_traefik_instructions() {
   if [[ "$ENABLE_PROXY" == "true" ]]; then
     echo "WardenClyffe Proxy:"
     echo "  The proxy service is enabled and running."
-    echo "  Any domain NOT matching $NETBIRD_DOMAIN will be passed through to the proxy."
+    echo "  Any domain NOT matching $WARDENCLYFFE_DOMAIN will be passed through to the proxy."
     echo "  The proxy handles its own TLS certificates via ACME TLS-ALPN-01 challenge."
     echo "  Point your proxy domain to this server's domain address like in the examples below:"
     echo ""
-    echo "  *.$NETBIRD_DOMAIN    CNAME    $NETBIRD_DOMAIN"
+    echo "  *.$WARDENCLYFFE_DOMAIN    CNAME    $WARDENCLYFFE_DOMAIN"
     echo ""
     if [[ "$ENABLE_CROWDSEC" == "true" ]]; then
       echo "CrowdSec IP Reputation:"
@@ -1561,7 +1563,7 @@ print_builtin_traefik_instructions() {
       echo ""
     fi
   fi
-  if [[ "${NETBIRD_AGENT_NETWORK}" == "true" ]]; then
+  if [[ "${WARDENCLYFFE_AGENT_NETWORK}" == "true" ]]; then
     echo "Note: The public domain is only for setting up secure connections."
     echo "Your APIs and agent services remain private and are never exposed publicly."
     echo ""
@@ -1658,7 +1660,7 @@ print_npm_instructions() {
     echo "WardenClyffe containers have joined the '$EXTERNAL_PROXY_NETWORK' Docker network."
     echo ""
     echo "In NPM, create a Proxy Host:"
-    echo "  Domain: $NETBIRD_DOMAIN"
+    echo "  Domain: $WARDENCLYFFE_DOMAIN"
     echo "  Forward Hostname: wardenclyffe-dashboard"
     echo "  Forward Port: 80"
     echo "  Block Common Exploits: enabled"
@@ -1675,7 +1677,7 @@ print_npm_instructions() {
     echo "  WardenClyffe Server: ${MANAGEMENT_HOST_PORT} (all services)"
     echo ""
     echo "In NPM, create a Proxy Host:"
-    echo "  Domain: $NETBIRD_DOMAIN"
+    echo "  Domain: $WARDENCLYFFE_DOMAIN"
     echo "  Forward Hostname/IP: ${upstream_host}"
     echo "  Forward Port: ${DASHBOARD_HOST_PORT}"
     echo "  Block Common Exploits: enabled"

@@ -31,7 +31,7 @@ func setupDatabase(t *testing.T) *gorm.DB {
 	var err error
 	var dsn string
 	var cleanup func()
-	switch os.Getenv("NETBIRD_STORE_ENGINE") {
+	switch os.Getenv("WARDENCLYFFE_STORE_ENGINE") {
 	case "mysql":
 		cleanup, dsn, err = testutil.CreateMysqlTestContainer()
 		if err != nil {
@@ -74,7 +74,7 @@ func TestMigrateFieldFromGobToJSON_EmptyDB(t *testing.T) {
 }
 
 func TestMigrateFieldFromGobToJSON_WithGobData(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", "sqlite")
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", "sqlite")
 	db := setupDatabase(t)
 
 	err := db.AutoMigrate(&types.Account{}, &route.Route{})
@@ -138,7 +138,7 @@ func TestMigrateNetIPFieldFromBlobToJSON_EmptyDB(t *testing.T) {
 }
 
 func TestMigrateNetIPFieldFromBlobToJSON_WithBlobData(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", "sqlite")
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", "sqlite")
 	db := setupDatabase(t)
 
 	err := db.AutoMigrate(&types.Account{}, &nbpeer.Peer{})
@@ -597,7 +597,7 @@ func TestCleanupOrphanedResources_Idempotent(t *testing.T) {
 }
 
 func TestCleanupOrphanedResources_SkipsWhenForeignKeyExists(t *testing.T) {
-	engine := os.Getenv("NETBIRD_STORE_ENGINE")
+	engine := os.Getenv("WARDENCLYFFE_STORE_ENGINE")
 	if engine != "postgres" && engine != "mysql" {
 		t.Skip("FK constraint early-exit test requires postgres or mysql")
 	}
@@ -638,7 +638,7 @@ func TestCleanupOrphanedResources_SkipsWhenForeignKeyExists(t *testing.T) {
 
 	var count int64
 	db.Model(&testChildWithFK{}).Count(&count)
-	assert.Equal(t, int64(2), count, "Both rows should survive — migration must skip when FK constraint exists")
+	assert.Equal(t, int64(2), count, "Both rows should survive â€” migration must skip when FK constraint exists")
 }
 
 // legacyCostRow is the pre-breakdown shape of the usage table: cost was stored
@@ -700,7 +700,7 @@ func TestFoldCostAggregatesIntoBuckets_PreservesHistoricalCost(t *testing.T) {
 	assert.Zero(t, rows[0].CacheCreationCostUSD, "legacy rows carry no read/write split to recover")
 	assert.Zero(t, rows[0].OutputCostUSD, "legacy rows carry no input/output split to recover")
 
-	// u2: no cache spend — the whole total is the non-cache remainder.
+	// u2: no cache spend â€” the whole total is the non-cache remainder.
 	assert.InDelta(t, 0.5, rows[1].TotalCostUSD(), 1e-9, "cache-free historical total must survive")
 	assert.Zero(t, rows[1].CacheCostUSD(), "a cache-free row must stay cache-free")
 

@@ -34,7 +34,7 @@ const (
 	quitDownTimeout = 5 * time.Second
 
 	urlGitHubRepo = "https://github.com/shippin/wardenclyffe"
-	urlDocs       = "https://docs.wardenclyffe.wardenclyffe.app"
+	urlDocs       = "https://docs.wardenclyffe.app"
 )
 
 // TrayServices bundles the services the tray menu needs, grouped so NewTray

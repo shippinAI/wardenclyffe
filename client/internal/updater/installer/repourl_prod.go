@@ -3,5 +3,5 @@
 package installer
 
 const (
-	DefaultSigningKeysBaseURL = "https://publickeys.wardenclyffe.wardenclyffe.app/artifact-signatures"
+	DefaultSigningKeysBaseURL = "https://publickeys.wardenclyffe.app/artifact-signatures"
 )

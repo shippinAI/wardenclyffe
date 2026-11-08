@@ -24,7 +24,7 @@ import (
 
 const (
 	// Version endpoints
-	managementVersionURL = "https://pkgs.wardenclyffe.wardenclyffe.app/releases/latest/version"
+	managementVersionURL = "https://pkgs.wardenclyffe.app/releases/latest/version"
 	dashboardReleasesURL = "https://api.github.com/repos/shippin/wardenclyffe/dashboard/releases/latest"
 
 	// Cache TTL for version information
@@ -310,7 +310,7 @@ func (m *DefaultManager) fetchVersionInfo(ctx context.Context) (*VersionInfo, er
 		CurrentVersion: version.WardenclyffeVersion(),
 	}
 
-	// Fetch management version from pkgs.wardenclyffe.wardenclyffe.app (plain text)
+	// Fetch management version from pkgs.wardenclyffe.app (plain text)
 	mgmtVersion, err := m.fetchPlainTextVersion(ctx, managementVersionURL)
 	if err != nil {
 		log.WithContext(ctx).Warnf("failed to fetch management version: %v", err)

@@ -2,7 +2,7 @@
 set -eEuo pipefail
 
 : ${NB_ENTRYPOINT_SERVICE_TIMEOUT:="30"}
-NETBIRD_BIN="${NETBIRD_BIN:-"wardenclyffe"}"
+WARDENCLYFFE_BIN="${WARDENCLYFFE_BIN:-"wardenclyffe"}"
 export NB_LOG_FILE="${NB_LOG_FILE:-"console,/var/log/wardenclyffe/client.log"}"
 service_pids=()
 
@@ -40,7 +40,7 @@ wait_for_daemon_startup() {
 
   local deadline=$((SECONDS + timeout))
   while [[ "${SECONDS}" -lt "${deadline}" ]]; do
-    if "${NETBIRD_BIN}" status --check live 2>/dev/null; then
+    if "${WARDENCLYFFE_BIN}" status --check live 2>/dev/null; then
       return
     fi
     sleep 1
@@ -52,13 +52,13 @@ wait_for_daemon_startup() {
 
 connect() {
   info "running 'wardenclyffe up'..."
-  "${NETBIRD_BIN}" up
+  "${WARDENCLYFFE_BIN}" up
   return $?
 }
 
 main() {
   trap 'on_exit' SIGTERM SIGINT EXIT
-  "${NETBIRD_BIN}" service run &
+  "${WARDENCLYFFE_BIN}" service run &
   service_pids+=("$!")
   info "registered new service process 'wardenclyffe service run', currently running: ${service_pids[@]@Q}"
 

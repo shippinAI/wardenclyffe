@@ -2226,7 +2226,7 @@ func TestDefaultAccountManager_OnPeerDisconnected_LastSeenCheck(t *testing.T) {
 		require.NoError(t, err)
 		require.True(t, peer.Status.Connected, "peer should be connected")
 
-		// Older stream tries to mark disconnect with its own (older) session token —
+		// Older stream tries to mark disconnect with its own (older) session token â€”
 		// fencing kicks in and the write is dropped.
 		staleStreamStartTime := streamStartTime.Add(-1 * time.Hour)
 
@@ -3174,7 +3174,7 @@ func TestAccount_GetNextInactivePeerExpiration(t *testing.T) {
 }
 
 func TestAccount_SetJWTGroups(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", "postgres")
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", "postgres")
 	manager, _, err := createManager(t)
 	require.NoError(t, err, "unable to create account manager")
 
@@ -3477,7 +3477,7 @@ func createManager(t testing.TB) (*DefaultAccountManager, *update_channel.PeersU
 func createManagerWithNetworkMapStore(t testing.TB) (*DefaultAccountManager, *update_channel.PeersUpdateManager) {
 	t.Helper()
 
-	if engine := os.Getenv("NETBIRD_STORE_ENGINE"); engine != "" && !strings.EqualFold(engine, string(types.SqliteStoreEngine)) {
+	if engine := os.Getenv("WARDENCLYFFE_STORE_ENGINE"); engine != "" && !strings.EqualFold(engine, string(types.SqliteStoreEngine)) {
 		t.Skipf("network map store test needs the sqlite engine, got %s", engine)
 	}
 
@@ -3885,7 +3885,7 @@ func TestMain(m *testing.M) {
 
 	if exitCode == 0 && os.Getenv("CI") == "true" {
 		runID := os.Getenv("GITHUB_RUN_ID")
-		storeEngine := os.Getenv("NETBIRD_STORE_ENGINE")
+		storeEngine := os.Getenv("WARDENCLYFFE_STORE_ENGINE")
 		err := push.New("http://localhost:9091", "account_manager_benchmark").
 			Collector(testing_tools.BenchmarkDuration).
 			Grouping("ci_run", runID).

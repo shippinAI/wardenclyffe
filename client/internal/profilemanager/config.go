@@ -34,11 +34,11 @@ const (
 	// It is used for backward compatibility now.
 	managementLegacyPortString = "33073"
 	// DefaultManagementURL points to the WardenClyffe's cloud management endpoint
-	DefaultManagementURL = "https://api.wardenclyffe.wardenclyffe.app:443"
+	DefaultManagementURL = "https://api.wardenclyffe.app:443"
 	// oldDefaultManagementURL points to the WardenClyffe's old cloud management endpoint
 	oldDefaultManagementURL = "https://api.wiretrustee.com:443"
 	// DefaultAdminURL points to WardenClyffe's cloud management console
-	DefaultAdminURL = "https://app.wardenclyffe.wardenclyffe.app:443"
+	DefaultAdminURL = "https://app.wardenclyffe.app:443"
 )
 
 // mgmProber is the subset of management client needed for URL migration probes.

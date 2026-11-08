@@ -132,7 +132,7 @@ export const OnboardingProvider = ({
     if (agentNetworkModeLoading) return false;
     // The regular flow shows on both cloud and self-hosted, but the signup
     // survey relies on a JWT domain claim self-hosted IdPs don't emit, so it
-    // only counts toward showing (and is only rendered) on cloud — self-hosted
+    // only counts toward showing (and is only rendered) on cloud â€” self-hosted
     // starts directly at the intent step.
     const isSignupFormPending = isWardenClyffe()
       ? !!account?.onboarding?.signup_form_pending
@@ -220,8 +220,8 @@ export const OnboardingProvider = ({
     try {
       await submitHubspotForm({
         // Dedicated HubSpot form for the self-hosted Agent Network signup, and
-        // WardenClyffe's portal id — hardcoded so the submission works without the
-        // operator configuring NETBIRD_HUBSPOT_PORTAL_ID on their deployment.
+        // WardenClyffe's portal id â€” hardcoded so the submission works without the
+        // operator configuring WARDENCLYFFE_HUBSPOT_PORTAL_ID on their deployment.
         id: "f387844f-8752-489e-a7b3-4ded545a2f2f",
         portalId: "144571599",
         fields,

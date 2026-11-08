@@ -175,7 +175,7 @@ type Store interface {
 	// given session token, but only when the stored SessionStartedAt is
 	// strictly less than newSessionStartedAt (the sentinel zero counts as
 	// "older"). LastSeen is recorded by the database at the moment the
-	// row is updated — never by the caller — so it always reflects the
+	// row is updated â€” never by the caller â€” so it always reflects the
 	// real write time even under lock contention.
 	// Returns true when the update happened, false when this stream lost
 	// the race against a newer session.
@@ -345,12 +345,12 @@ type Store interface {
 	GetCustomDomainsCounts(ctx context.Context) (total int64, validated int64, err error)
 
 	// GetProxyMetrics returns aggregated proxy / cluster counts for the
-	// self-hosted metrics worker. Self-hosted only — file-based stores
+	// self-hosted metrics worker. Self-hosted only â€” file-based stores
 	// return a zero-valued struct.
 	GetProxyMetrics(ctx context.Context) (ProxyMetrics, error)
 
 	// GetAgentNetworkMetrics returns aggregated agent-network adoption + usage
-	// counts for the self-hosted metrics worker. Self-hosted only — file-based
+	// counts for the self-hosted metrics worker. Self-hosted only â€” file-based
 	// stores return a zero-valued struct.
 	GetAgentNetworkMetrics(ctx context.Context) (AgentNetworkMetrics, error)
 
@@ -393,7 +393,7 @@ type Store interface {
 // store cannot answer (e.g. FileStore) all fields are zero.
 type ProxyMetrics struct {
 	// Clusters counts distinct cluster_address values across the proxies
-	// table — every cluster the management server has heard from, online or not.
+	// table â€” every cluster the management server has heard from, online or not.
 	Clusters int64
 	// ClustersBYOP counts distinct cluster_address values that are owned
 	// by an account (account_id IS NOT NULL). These are bring-your-own-proxy
@@ -440,12 +440,12 @@ type AgentNetworkMetrics struct {
 
 const (
 	PostgresDsnEnv       = "NB_STORE_ENGINE_POSTGRES_DSN"
-	PostgresDsnEnvLegacy = "NETBIRD_STORE_ENGINE_POSTGRES_DSN"
+	PostgresDsnEnvLegacy = "WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN"
 	mysqlDsnEnv          = "NB_STORE_ENGINE_MYSQL_DSN"
-	mysqlDsnEnvLegacy    = "NETBIRD_STORE_ENGINE_MYSQL_DSN"
+	mysqlDsnEnvLegacy    = "WARDENCLYFFE_STORE_ENGINE_MYSQL_DSN"
 )
 
-// lookupDSNEnv checks the NB_ env var first, then falls back to the legacy NETBIRD_ env var.
+// lookupDSNEnv checks the NB_ env var first, then falls back to the legacy WARDENCLYFFE_ env var.
 func lookupDSNEnv(nbKey, legacyKey string) (string, bool) {
 	if v, ok := os.LookupEnv(nbKey); ok {
 		return v, true
@@ -456,8 +456,8 @@ func lookupDSNEnv(nbKey, legacyKey string) (string, bool) {
 var supportedEngines = []types.Engine{types.SqliteStoreEngine, types.PostgresStoreEngine, types.MysqlStoreEngine}
 
 func getStoreEngineFromEnv() types.Engine {
-	// NETBIRD_STORE_ENGINE supposed to be used in tests. Otherwise, rely on the config file.
-	kind, ok := os.LookupEnv("NETBIRD_STORE_ENGINE")
+	// WARDENCLYFFE_STORE_ENGINE supposed to be used in tests. Otherwise, rely on the config file.
+	kind, ok := os.LookupEnv("WARDENCLYFFE_STORE_ENGINE")
 	if !ok {
 		return ""
 	}
@@ -527,7 +527,7 @@ func checkFileStoreEngine(kind types.Engine, dataDir string) error {
 		storeFile := filepath.Join(dataDir, storeFileName)
 		if util.FileExists(storeFile) {
 			return fmt.Errorf("%s is not supported. Please refer to the documentation for migrating to SQLite: "+
-				"https://docs.wardenclyffe.wardenclyffe.app/selfhosted/sqlite-store#migrating-from-json-store-to-sq-lite-store", types.FileStoreEngine)
+				"https://docs.wardenclyffe.app/selfhosted/sqlite-store#migrating-from-json-store-to-sq-lite-store", types.FileStoreEngine)
 		}
 	}
 	return nil

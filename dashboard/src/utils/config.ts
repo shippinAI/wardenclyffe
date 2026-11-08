@@ -21,7 +21,7 @@ interface Config {
   wasmPath: string;
   licensed: boolean;
   cloud: boolean;
-  // agentNetworkOnly: dedicated Agent Network surface — the regular UI
+  // agentNetworkOnly: dedicated Agent Network surface â€” the regular UI
   // (network routing, DNS, reverse proxy, activity) is hidden, no Beta badge.
   // agentNetworkEnabled: the regular UI plus the Agent Network menu item (Beta).
   agentNetworkOnly: boolean;
@@ -32,7 +32,7 @@ interface Config {
   hubspotSurveyFormId?: string;
   analyticsExcludedEmails: string[];
   // announcement: text the operator wants every user of this deployment to
-  // see in a permanent banner (NETBIRD_ANNOUNCEMENT), e.g. which environment
+  // see in a permanent banner (WARDENCLYFFE_ANNOUNCEMENT), e.g. which environment
   // or backend instance a dashboard belongs to. Unset for none.
   announcement?: string;
 }

@@ -11,7 +11,7 @@ import (
 )
 
 // AgentNetworkAPI APIs for the Agent Network (AI/LLM gateway), do not use directly
-// see more: https://docs.wardenclyffe.wardenclyffe.app/api/resources/agent-network
+// see more: https://docs.wardenclyffe.app/api/resources/agent-network
 type AgentNetworkAPI struct {
 	c *Client
 }

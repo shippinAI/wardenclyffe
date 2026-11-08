@@ -32,7 +32,7 @@ const (
 	combinedHTTPPort     = "8080/tcp"
 
 	// combinedAlias is the combined server's network alias AND the deployment
-	// domain. The working manual setup uses a single NETBIRD_DOMAIN for the
+	// domain. The working manual setup uses a single WARDENCLYFFE_DOMAIN for the
 	// management exposed address, the proxy domain, and the agent-network
 	// cluster — so we mirror that: peers reach management/signal/relay at this
 	// name, the proxy registers this as its cluster, and the agent-network

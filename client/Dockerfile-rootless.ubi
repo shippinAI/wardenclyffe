@@ -1,7 +1,7 @@
 FROM registry.access.redhat.com/ubi9/ubi-minimal@sha256:7fbeae18dc9476399f565e68255f602a3374ea8614ba3d14843565131a13ff93
 
 ARG TARGETPLATFORM
-ARG NETBIRD_BINARY=$TARGETPLATFORM/wardenclyffe
+ARG WARDENCLYFFE_BINARY=$TARGETPLATFORM/wardenclyffe
 ARG VERSION=dev
 ARG RELEASE=1
 
@@ -16,7 +16,7 @@ LABEL name="wardenclyffe-rootless" \
 RUN microdnf install -y bash ca-certificates && microdnf clean all
 
 COPY --chmod=0555 client/wardenclyffe-entrypoint.sh /usr/local/bin/wardenclyffe-entrypoint.sh
-COPY --chmod=0555 ${NETBIRD_BINARY} /usr/local/bin/wardenclyffe
+COPY --chmod=0555 ${WARDENCLYFFE_BINARY} /usr/local/bin/wardenclyffe
 COPY licenses/ /licenses/
 # Only application storage is group-writable for arbitrary non-root UIDs.
 # Runtime-created credentials keep the client's restrictive file modes.
@@ -30,7 +30,7 @@ USER 1000:0
 
 ENV \
     HOME="/var/lib/wardenclyffe" \
-    NETBIRD_BIN="/usr/local/bin/wardenclyffe" \
+    WARDENCLYFFE_BIN="/usr/local/bin/wardenclyffe" \
     NB_USE_NETSTACK_MODE="true" \
     NB_ENABLE_NETSTACK_LOCAL_FORWARDING="true" \
     NB_CONFIG="/var/lib/wardenclyffe/config.json" \

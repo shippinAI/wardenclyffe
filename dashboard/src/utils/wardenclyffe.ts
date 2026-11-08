@@ -49,7 +49,7 @@ export const testEditionOverride = (): Edition | undefined => {
 
 // isWardenClyffe returns true when the dashboard runs on the WardenClyffe-managed
 // cloud infrastructure (billing, MSP, trial, hosted integrations).
-// The hostname fallback keeps deployments without NETBIRD_CLOUD working.
+// The hostname fallback keeps deployments without WARDENCLYFFE_CLOUD working.
 export const isWardenClyffe = () => {
   const override = testEditionOverride();
   if (override) return override === "cloud";
@@ -59,7 +59,7 @@ export const isWardenClyffe = () => {
 };
 
 // hasLicensedFlag returns true when the deployment declares a self-hosted
-// license via NETBIRD_LICENSED. Cloud is always licensed. Deployments without
+// license via WARDENCLYFFE_LICENSED. Cloud is always licensed. Deployments without
 // the flag are detected at runtime via useIsLicensed.
 export const hasLicensedFlag = () => {
   const override = testEditionOverride();
@@ -68,7 +68,7 @@ export const hasLicensedFlag = () => {
 };
 
 // testAgentNetworkOverride lets e2e tests drive the deployment flags
-// NETBIRD_AGENT_NETWORK_ONLY / NETBIRD_AGENT_NETWORK_ENABLED against the test
+// WARDENCLYFFE_AGENT_NETWORK_ONLY / WARDENCLYFFE_AGENT_NETWORK_ENABLED against the test
 // build via localStorage. "off" forces both flags off regardless of the build
 // config. Inert outside test builds, where the APP_ENV check is replaced at
 // compile time and tree-shaken away.
@@ -106,7 +106,7 @@ export const pkgsDownloadUrl = (path: string) =>
   `https://pkgs.wardenclyffe.app/${path}`;
 
 // isAgentNetworkEnabled returns true when the Agent Network product surface
-// (Providers, Policies, Usage & Logs) is available — in either the dedicated
+// (Providers, Policies, Usage & Logs) is available â€” in either the dedicated
 // "only" mode or alongside the regular UI (where it carries a Beta badge).
 export const isAgentNetworkEnabled = () => {
   const override = testAgentNetworkOverride();

@@ -49,10 +49,10 @@ func TestEnvelopeToNetworkMap_RoundTrip(t *testing.T) {
 
 // TestCalculate_FirewallRuleProtocol_NeverWardenclyffeSSH guards against the
 // scenario where a rule with Protocol=WardenclyffeSSH leaks the enum value into
-// proto.FirewallRule.Protocol. Calculate() must rewrite WardenclyffeSSH → TCP
+// proto.FirewallRule.Protocol. Calculate() must rewrite WardenclyffeSSH â†’ TCP
 // before forming firewall rules. Without that rewrite, agents fall into
 // UNKNOWN-protocol handling, which on some platforms downgrades to
-// allow-all — a real security regression.
+// allow-all â€” a real security regression.
 func TestCalculate_FirewallRuleProtocol_NeverWardenclyffeSSH(t *testing.T) {
 	c, localPeerKey := buildSmokeComponents(t)
 	// Replace the smoke policy with a WardenclyffeSSH-protocol allow.
@@ -82,8 +82,8 @@ func TestCalculate_FirewallRuleProtocol_NeverWardenclyffeSSH(t *testing.T) {
 	require.NoError(t, err)
 	require.NotEmpty(t, result.NetworkMap.FirewallRules, "ssh policy should produce firewall rules")
 	for i, fr := range result.NetworkMap.FirewallRules {
-		require.NotEqualf(t, proto.RuleProtocol_NETBIRD_SSH, fr.Protocol,
-			"FirewallRules[%d].Protocol must be the rewritten TCP, not NETBIRD_SSH", i)
+		require.NotEqualf(t, proto.RuleProtocol_WARDENCLYFFE_SSH, fr.Protocol,
+			"FirewallRules[%d].Protocol must be the rewritten TCP, not WARDENCLYFFE_SSH", i)
 	}
 }
 
@@ -101,7 +101,7 @@ func TestEnvelopeToNetworkMap_FullPayloadMissing(t *testing.T) {
 // TestDecodeEnvelope_MalformedWgKeyPeerSkipped feeds an envelope where one
 // peer has a wg_pub_key that is not 32 bytes long. The decoder must skip
 // that peer (keeping the rest of the snapshot usable) instead of aborting
-// the whole sync — mirrors legacy behaviour that tolerates an occasional
+// the whole sync â€” mirrors legacy behaviour that tolerates an occasional
 // bad row.
 func TestDecodeEnvelope_MalformedWgKeyPeerSkipped(t *testing.T) {
 	c, localPeerKey := buildSmokeComponents(t)
@@ -138,7 +138,7 @@ func TestDecodeEnvelope_MalformedWgKeyPeerSkipped(t *testing.T) {
 // not contain every peer. Server-side Calculate short-circuits destination
 // expansion at the first group named "All" (getUniquePeerIDsFromGroupsIDs),
 // ignoring the remaining destination groups. The wire must preserve enough
-// group identity for the decoded components to short-circuit identically —
+// group identity for the decoded components to short-circuit identically â€”
 // otherwise the client unions all destination groups and emits extra
 // firewall rules the server never produced.
 func TestEnvelopeRoundTrip_AllGroupShortCircuitParity(t *testing.T) {
@@ -284,7 +284,7 @@ func TestEnvelopeToNetworkMap_MissingNetwork(t *testing.T) {
 
 // buildSmokeComponents returns a minimal NetworkMapComponents (2 peers, 1
 // group, 1 allow policy) plus the receiving peer's WG public key. Sufficient
-// to validate the encode → marshal → decode → Calculate pipeline produces
+// to validate the encode â†’ marshal â†’ decode â†’ Calculate pipeline produces
 // non-empty output.
 func buildSmokeComponents(t *testing.T) (*types.NetworkMapComponents, string) {
 	t.Helper()

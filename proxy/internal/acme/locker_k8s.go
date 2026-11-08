@@ -97,7 +97,7 @@ func (l *k8sLeaseLocker) tryAcquire(ctx context.Context, name, domain string) (b
 			Metadata: k8s.LeaseMetadata{
 				Name: name,
 				Annotations: map[string]string{
-					"wardenclyffe.wardenclyffe.app/domain": domain,
+					"wardenclyffe.app/domain": domain,
 				},
 			},
 			Spec: k8s.LeaseSpec{

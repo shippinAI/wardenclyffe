@@ -41,7 +41,7 @@ const OPEN_SOURCE_FEATURES: Array<keyof typeof PlanFeatures> = [
  * On WardenClyffe Cloud the lock follows the subscription plan, for trial users it
  * always returns false. On self-hosted deployments features included in the
  * open-source management server are always unlocked, the rest follow the
- * license (NETBIRD_LICENSED or the licensed management server probe).
+ * license (WARDENCLYFFE_LICENSED or the licensed management server probe).
  */
 
 export const useIsFeatureLocked = (feature: keyof typeof PlanFeatures) => {

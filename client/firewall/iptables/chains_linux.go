@@ -202,7 +202,7 @@ func (r *family) createDefaultChains() error {
 func (r *family) cleanUpDefaultForwardRules() error {
 	var merr *multierror.Error
 
-	// cleanJumpRules removes the OUTPUT jump to NETBIRD-NAT-OUTPUT among
+	// cleanJumpRules removes the OUTPUT jump to WARDENCLYFFE-NAT-OUTPUT among
 	// the others, so the chain below deletes cleanly instead of failing
 	// with "device or resource busy".
 	if err := r.cleanJumpRules(); err != nil {

@@ -29,7 +29,9 @@ client/client.exe
 client/.distfiles/
 infrastructure_files/setup.env
 infrastructure_files/setup-*.env
-.vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
 .DS_Store
 vendor/
 /wardenclyffe

@@ -88,7 +88,7 @@ build_image() {
   echo "==> Building ${IMAGE} for ${PLATFORM}"
   "${RUNTIME}" build \
     --platform "${PLATFORM}" \
-    --build-arg NETBIRD_BINARY=wardenclyffe \
+    --build-arg WARDENCLYFFE_BINARY=wardenclyffe \
     -t "${IMAGE}" \
     -f "${TMP_DIR}/context/Dockerfile" \
     "${TMP_DIR}/context"

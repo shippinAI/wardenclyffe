@@ -20,10 +20,10 @@ export function useAccentTrigger() {
 }
 
 function triggerAccent() {
-    if (document.getElementById("nb-accent-root")) return;
+    if (document.getElementById("wardenclyffe-accent-root")) return;
 
     const container = document.createElement("div");
-    container.id = "nb-accent-root";
+    container.id = "wardenclyffe-accent-root";
     document.body.appendChild(container);
     const root = createRoot(container);
 
@@ -61,7 +61,7 @@ function Accent({ onDone }: Readonly<{ onDone: () => void }>) {
         resize();
         window.addEventListener("resize", resize);
 
-        const chars = "TEAMNETBIRD";
+        const chars = "TEAMWARDENCLYFFE";
         const fontSize = 16;
         const columns = Math.floor(window.innerWidth / fontSize);
         const drops = Array.from({ length: columns }, () => Math.random() * -50);

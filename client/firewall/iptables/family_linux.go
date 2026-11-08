@@ -27,7 +27,7 @@ const (
 
 	// chainACLInput is the peer ACL chain that holds installed
 	// peer-filtering rules.
-	chainACLInput = "NETBIRD-ACL-INPUT"
+	chainACLInput = "WARDENCLYFFE-ACL-INPUT"
 
 	// mangleForwardKey is the entries map key for mangle FORWARD guard
 	// rules that prevent external DNAT from bypassing ACL rules.
@@ -37,13 +37,13 @@ const (
 	chainPostrouting = "POSTROUTING"
 	chainPrerouting  = "PREROUTING"
 	chainForward     = "FORWARD"
-	chainRTNAT       = "NETBIRD-RT-NAT"
-	chainRTFwdIn     = "NETBIRD-RT-FWD-IN"
-	chainRTFwdOut    = "NETBIRD-RT-FWD-OUT"
-	chainRTPre       = "NETBIRD-RT-PRE"
-	chainRTRdr       = "NETBIRD-RT-RDR"
-	chainNATOutput   = "NETBIRD-NAT-OUTPUT"
-	chainRTMSSClamp  = "NETBIRD-RT-MSSCLAMP"
+	chainRTNAT       = "WARDENCLYFFE-RT-NAT"
+	chainRTFwdIn     = "WARDENCLYFFE-RT-FWD-IN"
+	chainRTFwdOut    = "WARDENCLYFFE-RT-FWD-OUT"
+	chainRTPre       = "WARDENCLYFFE-RT-PRE"
+	chainRTRdr       = "WARDENCLYFFE-RT-RDR"
+	chainNATOutput   = "WARDENCLYFFE-NAT-OUTPUT"
+	chainRTMSSClamp  = "WARDENCLYFFE-RT-MSSCLAMP"
 
 	jumpManglePre  = "jump-mangle-pre"
 	jumpNATPre     = "jump-nat-pre"

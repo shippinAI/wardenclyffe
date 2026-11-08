@@ -41,7 +41,7 @@ docker run -d --rm \
   -e AUTH_AUDIENCE=wardenclyffe-dashboard \
   -e AUTH_SUPPORTED_SCOPES='openid profile email' \
   -e USE_AUTH0=false \
-  -e NETBIRD_MGMT_API_ENDPOINT=https://api.example.com \
+  -e WARDENCLYFFE_MGMT_API_ENDPOINT=https://api.example.com \
   shippin/wardenclyffe/dashboard:main-rootless
 ```
 

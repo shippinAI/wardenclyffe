@@ -39,7 +39,7 @@ jobs:
           AUTH_AUDIENCE: test-audience
           AUTH_SUPPORTED_SCOPES: openid profile email
           USE_AUTH0: "false"
-          NETBIRD_MGMT_API_ENDPOINT: https://api.example.com
+          WARDENCLYFFE_MGMT_API_ENDPOINT: https://api.example.com
         run: sudo -E bash docker/init_react_envs.sh
 
       - name: Assert provider APIs are in connect-src

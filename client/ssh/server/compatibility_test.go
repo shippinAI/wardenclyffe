@@ -44,11 +44,11 @@ func TestMain(m *testing.M) {
 // runTestExecutor emulates the wardenclyffe executor for tests.
 // Parses --shell and --cmd args, runs the command, and exits with the correct code.
 func runTestExecutor() {
-	if os.Getenv("_NETBIRD_TEST_EXECUTOR") != "" {
+	if os.Getenv("_WARDENCLYFFE_TEST_EXECUTOR") != "" {
 		fmt.Fprintf(os.Stderr, "executor recursion detected\n")
 		os.Exit(1)
 	}
-	os.Setenv("_NETBIRD_TEST_EXECUTOR", "1")
+	os.Setenv("_WARDENCLYFFE_TEST_EXECUTOR", "1")
 
 	shell := "/bin/sh"
 	var command string

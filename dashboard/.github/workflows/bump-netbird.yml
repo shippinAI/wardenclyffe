@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v7
         with:
           ref: main
-          token: ${{ secrets.NETBIRD_DEV_BOT_GITHUB_TOKEN }}
+          token: ${{ secrets.WARDENCLYFFE_DEV_BOT_GITHUB_TOKEN }}
 
       - name: Configure git
         run: |
@@ -70,7 +70,7 @@ jobs:
       - name: Create pull request
         if: steps.bump.outputs.skip != 'true'
         env:
-          GH_TOKEN: ${{ secrets.NETBIRD_DEV_BOT_GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.WARDENCLYFFE_DEV_BOT_GITHUB_TOKEN }}
           TAG: ${{ inputs.tag }}
           BRANCH: ${{ steps.bump.outputs.branch }}
         run: |

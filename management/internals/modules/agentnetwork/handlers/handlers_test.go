@@ -34,7 +34,7 @@ const (
 // agentNetworkHandlerFixture builds a real agentnetwork.Manager with
 // a sqlite store and an always-allow permissions mock, then exposes
 // the HTTP handlers via a gorilla router. Tests issue requests
-// through httptest and assert on the wire shape — the same path the
+// through httptest and assert on the wire shape â€” the same path the
 // dashboard exercises.
 type agentNetworkHandlerFixture struct {
 	store   store.Store
@@ -47,7 +47,7 @@ func newAgentNetworkHandlerFixture(t *testing.T) *agentNetworkHandlerFixture {
 	if runtime.GOOS == "windows" {
 		t.Skip("sqlite store not properly supported on Windows yet")
 	}
-	t.Setenv("NETBIRD_STORE_ENGINE", string(nbtypes.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(nbtypes.SqliteStoreEngine))
 
 	st, cleanUp, err := store.NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	require.NoError(t, err)
@@ -161,7 +161,7 @@ func TestPolicyHandler_WindowSecondsRoundTrip(t *testing.T) {
 	assert.Equal(t, int64(86_400), got.Limits.TokenLimit.WindowSeconds, "token_limit.window_seconds must round-trip")
 	assert.Equal(t, int64(2_592_000), got.Limits.BudgetLimit.WindowSeconds, "budget_limit.window_seconds must round-trip")
 
-	// Legacy field names must NOT appear in the response — would
+	// Legacy field names must NOT appear in the response â€” would
 	// signal that the management server is still emitting the old
 	// shape and would fool a v1 dashboard into rendering days/hours.
 	assert.NotContains(t, rec.Body.String(), "window_hours",
@@ -191,7 +191,7 @@ func TestPolicyHandler_RejectsSubMinuteWindow(t *testing.T) {
         }
     }`
 	rec := f.do(t, http.MethodPost, "/agent-network/policies", body)
-	// 422 specifically (InvalidArgument) proves the window-validation path —
+	// 422 specifically (InvalidArgument) proves the window-validation path â€”
 	// a route miss would be 404 and an auth failure 403, so a generic 4xx
 	// would let those false-pass.
 	assert.Equal(t, http.StatusUnprocessableEntity, rec.Code,
@@ -212,7 +212,7 @@ func TestConsumptionHandler_EmptyAccountReturnsArray(t *testing.T) {
 
 	var rows []api.AgentNetworkConsumption
 	require.NoError(t, json.Unmarshal(rec.Body.Bytes(), &rows),
-		"response must always be a JSON array — even when empty: %s", rec.Body.String())
+		"response must always be a JSON array â€” even when empty: %s", rec.Body.String())
 	assert.Empty(t, rows)
 }
 

@@ -60,7 +60,7 @@ POSTGRES_DEPENDS_CONDITION="service_healthy"
 # image swap does not.
 ENTERPRISE_CONFIG="no"
 
-NETBIRD_EULA_URL="https://wardenclyffe.appself-hosted-EULA"
+WARDENCLYFFE_EULA_URL="https://wardenclyffe.appself-hosted-EULA"
 
 check_docker_compose() {
   if ! command -v docker &> /dev/null && ! command -v docker-compose &> /dev/null; then
@@ -170,7 +170,7 @@ require_eula_acceptance() {
   On-Premise End User License Agreement (the "EULA"). Please read the EULA
   in full before continuing:
 
-      ${NETBIRD_EULA_URL}
+      ${WARDENCLYFFE_EULA_URL}
 
   By typing "accept" and continuing the installation, you confirm that you
   have read and agree to the EULA, that you are authorized to accept it on
@@ -243,7 +243,7 @@ detect_store_dsn_from_compose() {
   # to get the value the container actually receives.
   $DOCKER_COMPOSE_COMMAND config 2>/dev/null | yq eval "
     .services[\"$COMBINED_SERVICE\"].environment.NB_STORE_ENGINE_POSTGRES_DSN //
-    .services[\"$COMBINED_SERVICE\"].environment.NETBIRD_STORE_ENGINE_POSTGRES_DSN // \"\"
+    .services[\"$COMBINED_SERVICE\"].environment.WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN // \"\"
   " - 2>/dev/null | sed 's/\$\$/$/g'
 }
 
@@ -329,10 +329,10 @@ render_override() {
 
 services:
   ${COMBINED_SERVICE}:
-    image: \${NETBIRD_SERVER_IMAGE:-ghcr.io/shippin/wardenclyffe-server-cloud:latest}
+    image: \${WARDENCLYFFE_SERVER_IMAGE:-ghcr.io/shippin/wardenclyffe-server-cloud:latest}
     environment:
       NB_LICENSE_KEY: \${NB_LICENSE_KEY}
-      NETBIRD_LICENSE_SERVER_BASE_URL: \${NETBIRD_LICENSE_SERVER_BASE_URL}
+      WARDENCLYFFE_LICENSE_SERVER_BASE_URL: \${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
 EOF
 
   # An existing Postgres is already wired up by the operator's own compose file,
@@ -407,14 +407,14 @@ EOF
         condition: service_started
     environment:
       NB_LICENSE_KEY: \${NB_LICENSE_KEY}
-      NETBIRD_LICENSE_SERVER_BASE_URL: \${NETBIRD_LICENSE_SERVER_BASE_URL}
+      WARDENCLYFFE_LICENSE_SERVER_BASE_URL: \${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
       NB_DATADIR: /var/lib/wardenclyffe
       NB_MANAGEMENT_STORE_ENGINE: postgres
       NB_MANAGEMENT_POSTGRES_DSN: \${NB_ENTERPRISE_POSTGRES_DSN}
       NB_STORE_ENGINE_POSTGRES_DSN: \${NB_ENTERPRISE_POSTGRES_DSN}
       NB_TRAFFIC_EVENT_STORE_ENGINE: postgres
       NB_TRAFFIC_EVENT_POSTGRES_DSN: \${NB_ENTERPRISE_POSTGRES_DSN}
-      NB_MANAGEMENT_STORE_KEY: \${NETBIRD_ENCRYPTION_KEY}
+      NB_MANAGEMENT_STORE_KEY: \${WARDENCLYFFE_ENCRYPTION_KEY}
       NB_FLOW_ADAPTER_TYPE: nats
       NB_FLOW_NATS_ENDPOINTS: nats://nats:4222
       NB_FLOW_NATS_STREAM: traffic-events
@@ -431,7 +431,7 @@ EOF
         condition: service_started
     environment:
       NB_LICENSE_KEY: \${NB_LICENSE_KEY}
-      NETBIRD_LICENSE_SERVER_BASE_URL: \${NETBIRD_LICENSE_SERVER_BASE_URL}
+      WARDENCLYFFE_LICENSE_SERVER_BASE_URL: \${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
       NB_FLOW_LISTEN_PORT: 80
       NB_FLOW_ADAPTER_TYPE: nats
       NB_FLOW_NATS_ENDPOINTS: nats://nats:4222
@@ -439,7 +439,7 @@ EOF
       NB_FLOW_AUTH_SECRET: \${NB_FLOW_AUTH_SECRET}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.wardenclyffe-flow.rule=Host(\`${NETBIRD_HOSTNAME}\`) && PathPrefix(\`/flow.FlowService/\`)
+      - traefik.http.routers.wardenclyffe-flow.rule=Host(\`${WARDENCLYFFE_HOSTNAME}\`) && PathPrefix(\`/flow.FlowService/\`)
       - traefik.http.routers.wardenclyffe-flow.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-flow.tls=true
       - traefik.http.routers.wardenclyffe-flow.tls.certresolver=letsencrypt
@@ -500,9 +500,9 @@ render_enterprise_config() {
   # users, with no migrate-store run to carry them over.
 
   if [[ "$ENABLE_FLOW" == "yes" ]]; then
-    NETBIRD_DOMAIN="$NETBIRD_DOMAIN" yq eval -i '
+    WARDENCLYFFE_DOMAIN="$WARDENCLYFFE_DOMAIN" yq eval -i '
       .server.trafficFlow.enabled = true |
-      .server.trafficFlow.address = strenv(NETBIRD_DOMAIN) |
+      .server.trafficFlow.address = strenv(WARDENCLYFFE_DOMAIN) |
       .server.trafficFlow.interval = "60s"
     ' "$ENTERPRISE_CONFIG_FILE"
   fi
@@ -917,7 +917,7 @@ init_migration() {
   echo ""
 
   require_eula_acceptance
-  NETBIRD_EULA_ACCEPTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  WARDENCLYFFE_EULA_ACCEPTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
   local proceed
   proceed=$(read_yes_no "Proceed with migration?" "y")
@@ -953,16 +953,16 @@ init_migration() {
         exit 1
       fi
 
-      NETBIRD_DOMAIN=$(detect_exposed_address)
-      if [[ -z "$NETBIRD_DOMAIN" ]] || [[ "$NETBIRD_DOMAIN" == "null" ]]; then
-        NETBIRD_DOMAIN=$(read_required "  Public WardenClyffe URL (e.g. https://wardenclyffe.example.com)")
+      WARDENCLYFFE_DOMAIN=$(detect_exposed_address)
+      if [[ -z "$WARDENCLYFFE_DOMAIN" ]] || [[ "$WARDENCLYFFE_DOMAIN" == "null" ]]; then
+        WARDENCLYFFE_DOMAIN=$(read_required "  Public WardenClyffe URL (e.g. https://wardenclyffe.example.com)")
       fi
       # Strip protocol + port to leave just the hostname for the Traefik Host() rule.
-      NETBIRD_HOSTNAME=$(echo "$NETBIRD_DOMAIN" | sed -E 's,^https?://,,' | sed 's,:.*,,' | sed 's,/.*,,')
+      WARDENCLYFFE_HOSTNAME=$(echo "$WARDENCLYFFE_DOMAIN" | sed -E 's,^https?://,,' | sed 's,:.*,,' | sed 's,/.*,,')
 
       # We need the encryption key from the existing config.yaml for the enricher
-      NETBIRD_ENCRYPTION_KEY=$(yq eval '.server.store.encryptionKey // ""' "$CONFIG_YAML_HOST")
-      if [[ -z "$NETBIRD_ENCRYPTION_KEY" ]] || [[ "$NETBIRD_ENCRYPTION_KEY" == "null" ]]; then
+      WARDENCLYFFE_ENCRYPTION_KEY=$(yq eval '.server.store.encryptionKey // ""' "$CONFIG_YAML_HOST")
+      if [[ -z "$WARDENCLYFFE_ENCRYPTION_KEY" ]] || [[ "$WARDENCLYFFE_ENCRYPTION_KEY" == "null" ]]; then
         echo "Could not read server.store.encryptionKey from $CONFIG_YAML_HOST." > /dev/stderr
         exit 1
       fi
@@ -1052,8 +1052,8 @@ apply_changes() {
   install -m 644 /dev/null "$OVERRIDE_FILE"
   render_override > "$OVERRIDE_FILE"
 
-  if [[ -z "${NETBIRD_LICENSE_SERVER_BASE_URL:-}" ]]; then
-    sed -i.bak '/NETBIRD_LICENSE_SERVER_BASE_URL/d' "$OVERRIDE_FILE" && rm -f "$OVERRIDE_FILE.bak"
+  if [[ -z "${WARDENCLYFFE_LICENSE_SERVER_BASE_URL:-}" ]]; then
+    sed -i.bak '/WARDENCLYFFE_LICENSE_SERVER_BASE_URL/d' "$OVERRIDE_FILE" && rm -f "$OVERRIDE_FILE.bak"
   fi
 
   if [[ "$ENTERPRISE_CONFIG" == "yes" ]]; then
@@ -1081,12 +1081,12 @@ apply_changes() {
     echo ""
     echo "# Added by migrate-to-enterprise.sh on $(date -u +%Y-%m-%dT%H:%M:%SZ)"
     echo "# WardenClyffe On-Premise EULA accepted at install time"
-    echo "NETBIRD_EULA_ACCEPTED=yes"
-    echo "NETBIRD_EULA_ACCEPTED_AT=${NETBIRD_EULA_ACCEPTED_AT}"
-    echo "NETBIRD_EULA_URL=${NETBIRD_EULA_URL}"
+    echo "WARDENCLYFFE_EULA_ACCEPTED=yes"
+    echo "WARDENCLYFFE_EULA_ACCEPTED_AT=${WARDENCLYFFE_EULA_ACCEPTED_AT}"
+    echo "WARDENCLYFFE_EULA_URL=${WARDENCLYFFE_EULA_URL}"
     echo "NB_LICENSE_KEY=${NB_LICENSE_KEY}"
-    if [[ -n "${NETBIRD_LICENSE_SERVER_BASE_URL:-}" ]]; then
-      echo "NETBIRD_LICENSE_SERVER_BASE_URL=${NETBIRD_LICENSE_SERVER_BASE_URL}"
+    if [[ -n "${WARDENCLYFFE_LICENSE_SERVER_BASE_URL:-}" ]]; then
+      echo "WARDENCLYFFE_LICENSE_SERVER_BASE_URL=${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}"
     fi
     if [[ "$MIGRATE_POSTGRES" == "yes" ]]; then
       echo "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
@@ -1096,7 +1096,7 @@ apply_changes() {
       # deployment already setting that one keeps its own value.
       echo "NB_ENTERPRISE_POSTGRES_DSN=$(env_value "$POSTGRES_DSN")"
       echo "NB_FLOW_AUTH_SECRET=${NB_FLOW_AUTH_SECRET}"
-      echo "NETBIRD_ENCRYPTION_KEY=${NETBIRD_ENCRYPTION_KEY}"
+      echo "WARDENCLYFFE_ENCRYPTION_KEY=${WARDENCLYFFE_ENCRYPTION_KEY}"
     fi
   } >> "$ENV_FILE"
 

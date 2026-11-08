@@ -63,20 +63,20 @@ All flags can be overridden via environment variables. Env vars take precedence 
 
 | Env Var | Overrides |
 |---------|-----------|
-| `NETBIRD_DOMAIN` | Sets both `--dashboard-domain` and `--api-domain` |
-| `NETBIRD_API_URL` | `--api-domain` |
-| `NETBIRD_DASHBOARD_URL` | `--dashboard-domain` |
-| `NETBIRD_CONFIG_PATH` | `--config` |
-| `NETBIRD_DATA_DIR` | `--datadir` |
-| `NETBIRD_IDP_SEED_INFO` | `--idp-seed-info` |
-| `NETBIRD_SINGLE_ACCOUNT_MODE_DOMAIN` | `--single-account-mode-domain` |
-| `NETBIRD_DRY_RUN` | `--dry-run` (set to `"true"`) |
-| `NETBIRD_FORCE` | `--force` (set to `"true"`) |
-| `NETBIRD_SKIP_CONFIG` | `--skip-config` (set to `"true"`) |
-| `NETBIRD_SKIP_POPULATE_USER_INFO` | `--skip-populate-user-info` (set to `"true"`) |
-| `NETBIRD_LOG_LEVEL` | `--log-level` |
+| `WARDENCLYFFE_DOMAIN` | Sets both `--dashboard-domain` and `--api-domain` |
+| `WARDENCLYFFE_API_URL` | `--api-domain` |
+| `WARDENCLYFFE_DASHBOARD_URL` | `--dashboard-domain` |
+| `WARDENCLYFFE_CONFIG_PATH` | `--config` |
+| `WARDENCLYFFE_DATA_DIR` | `--datadir` |
+| `WARDENCLYFFE_IDP_SEED_INFO` | `--idp-seed-info` |
+| `WARDENCLYFFE_SINGLE_ACCOUNT_MODE_DOMAIN` | `--single-account-mode-domain` |
+| `WARDENCLYFFE_DRY_RUN` | `--dry-run` (set to `"true"`) |
+| `WARDENCLYFFE_FORCE` | `--force` (set to `"true"`) |
+| `WARDENCLYFFE_SKIP_CONFIG` | `--skip-config` (set to `"true"`) |
+| `WARDENCLYFFE_SKIP_POPULATE_USER_INFO` | `--skip-populate-user-info` (set to `"true"`) |
+| `WARDENCLYFFE_LOG_LEVEL` | `--log-level` |
 
-Resolution order: CLI flags are parsed first, then `--domain` sets both URLs, then `NETBIRD_DOMAIN` overrides both, then `NETBIRD_API_URL` / `NETBIRD_DASHBOARD_URL` override individually. After all resolution, `validateConfig()` ensures all required fields are set.
+Resolution order: CLI flags are parsed first, then `--domain` sets both URLs, then `WARDENCLYFFE_DOMAIN` overrides both, then `WARDENCLYFFE_API_URL` / `WARDENCLYFFE_DASHBOARD_URL` override individually. After all resolution, `validateConfig()` ensures all required fields are set.
 
 ## Migration Flow
 
@@ -97,7 +97,7 @@ This ensures user contact info is preserved before the ID migration makes the or
 
 ### Phase 2: Connector Decoding
 
-`decodeConnectorConfig()` base64-decodes and JSON-unmarshals the connector JSON provided via `--idp-seed-info` (or `NETBIRD_IDP_SEED_INFO`). It validates that the connector ID is non-empty. There is no auto-detection or fallback — the operator must provide the full connector configuration.
+`decodeConnectorConfig()` base64-decodes and JSON-unmarshals the connector JSON provided via `--idp-seed-info` (or `WARDENCLYFFE_IDP_SEED_INFO`). It validates that the connector ID is non-empty. There is no auto-detection or fallback — the operator must provide the full connector configuration.
 
 ### Phase 3: DB Migration
 

@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	urlWinExe    = "https://pkgs.wardenclyffe.wardenclyffe.app/windows/x64"
-	urlWinExeArm = "https://pkgs.wardenclyffe.wardenclyffe.app/windows/arm64"
+	urlWinExe    = "https://pkgs.wardenclyffe.app/windows/x64"
+	urlWinExeArm = "https://pkgs.wardenclyffe.app/windows/arm64"
 )
 
 var regKeyAppPath = "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Wardenclyffe"

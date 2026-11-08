@@ -43,7 +43,7 @@ func DetermineDeploymentType(managementURL string) DeploymentType {
 		return DeploymentTypeSelfHosted
 	}
 
-	if strings.ToLower(u.Hostname()) == "api.wardenclyffe.wardenclyffe.app" {
+	if strings.ToLower(u.Hostname()) == "api.wardenclyffe.app" {
 		return DeploymentTypeCloud
 	}
 

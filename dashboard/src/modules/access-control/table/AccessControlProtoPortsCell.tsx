@@ -52,7 +52,7 @@ export default function AccessControlProtoPortsCell({
         <FullTooltip
           interactive={false}
           content={
-            <span className={"text-xs text-nb-gray-100"}>NETBIRD-SSH</span>
+            <span className={"text-xs text-nb-gray-100"}>WARDENCLYFFE-SSH</span>
           }
         >
           <span className={"cursor-help"}>{protocolBadge}</span>

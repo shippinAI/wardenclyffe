@@ -3,21 +3,21 @@
 // Main-vs-branch equivalence check. For every peer of every account in a real
 // Postgres copy it computes the client-facing proto.NetworkMap twice:
 //
-//   - legacy path:  main's Account → NetworkMapComponents → Calculate → proto
+//   - legacy path:  main's Account â†’ NetworkMapComponents â†’ Calculate â†’ proto
 //     (the frozen copy in this package)
-//   - store path:   the pgsql nmdata store's NetworkMapData → components →
-//     Calculate → ToSyncResponse → proto (no Account involved)
-//   - account path: Account → toNetworkMapData twins → components → Calculate
-//     → ToSyncResponse → proto (the in-memory builder, no store queries)
+//   - store path:   the pgsql nmdata store's NetworkMapData â†’ components â†’
+//     Calculate â†’ ToSyncResponse â†’ proto (no Account involved)
+//   - account path: Account â†’ toNetworkMapData twins â†’ components â†’ Calculate
+//     â†’ ToSyncResponse â†’ proto (the in-memory builder, no store queries)
 //
 // Both new paths are checked against the legacy proto.
 //
 // proto.NetworkMap is generated code identical in both trees, which is what
-// makes it the one usable comparison surface — the intermediate Go types differ
+// makes it the one usable comparison surface â€” the intermediate Go types differ
 // by design. proto.Equal would trip over repeated-field ordering, so both sides
 // are canonicalized first.
 //
-//	NETBIRD_STORE_ENGINE_POSTGRES_DSN='...' go test -tags nmapequiv \
+//	WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN='...' go test -tags nmapequiv \
 //	  -run TestNetworkMapProtoEquivalence -count=1 -timeout 60m \
 //	  ./management/server/types/legacynmap/
 //
@@ -80,7 +80,7 @@ func TestNetworkMapProtoEquivalence(t *testing.T) {
 	}
 	dsn := equivDSN()
 	if dsn == "" {
-		t.Skip("NETBIRD_STORE_ENGINE_POSTGRES_DSN not set")
+		t.Skip("WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN not set")
 	}
 
 	ctx := context.Background()
@@ -120,7 +120,7 @@ func TestNetworkMapProtoEquivalence(t *testing.T) {
 		}
 	}
 
-	t.Logf("equivalence: accounts=%d peers_checked=%d — no divergence",
+	t.Logf("equivalence: accounts=%d peers_checked=%d â€” no divergence",
 		stats.accounts, stats.peersChecked)
 }
 
@@ -151,8 +151,8 @@ func checkAccount(ctx context.Context, t *testing.T, accountStore store.Store, n
 	// every peer counts as validated, matching the legacy side's map.
 	nmData.ValidatedPeers = validated
 
-	// Custom DNS zones are built twice from the same rows — the account side
-	// from the zones manager, the store side in SQL — so both are fed in and
+	// Custom DNS zones are built twice from the same rows â€” the account side
+	// from the zones manager, the store side in SQL â€” so both are fed in and
 	// compared rather than dropped. The same goes for the peers zone below:
 	// each side computes it with its own helper, which is where an AAAA gate
 	// that disagrees between the two would show up.
@@ -166,7 +166,7 @@ func checkAccount(ctx context.Context, t *testing.T, accountStore store.Store, n
 	// The reverse-proxy ACLs are synthesised, never persisted. Both new paths
 	// derive them inside the twin; main derived them in the controller, onto
 	// the account, before the resource-policy map. The legacy side therefore
-	// runs on its own view of the policies — a shallow copy so the account the
+	// runs on its own view of the policies â€” a shallow copy so the account the
 	// other two paths read stays untouched and cannot double-count them.
 	legacyAccount := *account
 	if synth := legacynmap.SynthesizeProxyPolicies(account); len(synth) > 0 {
@@ -192,7 +192,7 @@ func checkAccount(ctx context.Context, t *testing.T, accountStore store.Store, n
 			t.Fatalf("after %d peers: account=%s peer=%s present in account store, missing in nmdata store", stats.peersChecked, account.Id, peerID)
 		}
 
-		// STORE PATH — nmdata store through the production computation, mirroring
+		// STORE PATH â€” nmdata store through the production computation, mirroring
 		// the controller's networkMapFromData.
 		components := nmData.GetPeerNetworkMapComponents(peerID, storePeersZone)
 		storeNM := &types.NetworkMap{Network: components.Network}
@@ -206,7 +206,7 @@ func checkAccount(ctx context.Context, t *testing.T, accountStore store.Store, n
 			&cache.DNSConfigCache{}, nmData.AccountSettings, settings.Extra, nil, 0,
 		).NetworkMap
 
-		// ACCOUNT PATH — Account → toNetworkMapData twins → components.
+		// ACCOUNT PATH â€” Account â†’ toNetworkMapData twins â†’ components.
 		acctNM := account.GetPeerNetworkMapFromComponents(
 			ctx, peerID, accountPeersZone, accountZones, validated, resourcePolicies, routers, nil, groupUsers,
 		)
@@ -215,7 +215,7 @@ func checkAccount(ctx context.Context, t *testing.T, accountStore store.Store, n
 			&cache.DNSConfigCache{}, types.TwinAccountSettings(settings), settings.Extra, nil, 0,
 		).NetworkMap
 
-		// LEGACY PATH — main's frozen copy.
+		// LEGACY PATH â€” main's frozen copy.
 		legacyNM := legacynmap.GetPeerNetworkMapFromComponents(
 			&legacyAccount, ctx, peerID, accountPeersZone, accountZones, validated, legacyResourcePolicies, routers, nil, groupUsers,
 		)
@@ -258,7 +258,7 @@ func nmDataStore(tb testing.TB, s networkmapdb.NetworkMapDBStore) *networkmapdb.
 }
 
 func equivDSN() string {
-	if dsn := os.Getenv("NETBIRD_STORE_ENGINE_POSTGRES_DSN"); dsn != "" {
+	if dsn := os.Getenv("WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN"); dsn != "" {
 		return dsn
 	}
 	return os.Getenv("NB_STORE_ENGINE_POSTGRES_DSN")
@@ -631,7 +631,7 @@ func describeDivergence(legacy, updated *proto.NetworkMap, accountID, peerID str
 	if legacy.Serial != updated.Serial {
 		return prefix + " field=Serial legacy=" + strconv.FormatUint(legacy.Serial, 10) + " new=" + strconv.FormatUint(updated.Serial, 10)
 	}
-	return prefix + " (repeated fields equal element-wise — scalar/oneof mismatch)"
+	return prefix + " (repeated fields equal element-wise â€” scalar/oneof mismatch)"
 }
 
 // diffLists reports the multiset difference of two repeated proto fields, so a

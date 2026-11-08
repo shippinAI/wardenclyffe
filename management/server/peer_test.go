@@ -1517,7 +1517,7 @@ func Test_RegisterPeerBySetupKey(t *testing.T) {
 }
 
 func Test_RegisterPeerRollbackOnFailure(t *testing.T) {
-	engine := os.Getenv("NETBIRD_STORE_ENGINE")
+	engine := os.Getenv("WARDENCLYFFE_STORE_ENGINE")
 	if engine == "sqlite" || engine == "mysql" || engine == "" {
 		// we intentionally disabled foreign keys in mysql
 		t.Skip("Skipping test because store is not respecting foreign keys")
@@ -2230,7 +2230,7 @@ func Test_IsUniqueConstraintError(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Setenv("NETBIRD_STORE_ENGINE", string(tt.engine))
+			t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(tt.engine))
 			s, cleanup, err := store.NewTestStoreFromSQL(context.Background(), "testdata/extended-store.sql", t.TempDir())
 			if err != nil {
 				t.Fatalf("Error when creating store: %s", err)

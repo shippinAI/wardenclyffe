@@ -42,10 +42,10 @@ import (
 func runTestForAllEngines(t *testing.T, testDataFile string, f func(t *testing.T, store Store)) {
 	t.Helper()
 	for _, engine := range supportedEngines {
-		if os.Getenv("NETBIRD_STORE_ENGINE") != "" && os.Getenv("NETBIRD_STORE_ENGINE") != string(engine) {
+		if os.Getenv("WARDENCLYFFE_STORE_ENGINE") != "" && os.Getenv("WARDENCLYFFE_STORE_ENGINE") != string(engine) {
 			continue
 		}
-		t.Setenv("NETBIRD_STORE_ENGINE", string(engine))
+		t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(engine))
 		store, cleanUp, err := NewTestStoreFromSQL(context.Background(), testDataFile, t.TempDir())
 		assert.NoError(t, err, "engine: ", string(engine))
 		t.Cleanup(cleanUp)
@@ -53,7 +53,7 @@ func runTestForAllEngines(t *testing.T, testDataFile string, f func(t *testing.T
 		t.Run(string(engine), func(t *testing.T) {
 			f(t, store)
 		})
-		os.Unsetenv("NETBIRD_STORE_ENGINE")
+		os.Unsetenv("WARDENCLYFFE_STORE_ENGINE")
 	}
 }
 
@@ -351,7 +351,7 @@ func TestSqlite_DeleteAccount(t *testing.T) {
 		t.Skip("The SQLite store is not properly supported by Windows yet")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	t.Cleanup(cleanUp)
 	assert.NoError(t, err)
@@ -722,7 +722,7 @@ func TestMigrate(t *testing.T) {
 	}
 
 	// TODO: figure out why this fails on postgres
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	t.Cleanup(cleanUp)
@@ -832,7 +832,7 @@ func TestPostgresql_NewStore(t *testing.T) {
 		t.Skip("skip CI tests on darwin and windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.PostgresStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.PostgresStoreEngine))
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	t.Cleanup(cleanUp)
 	assert.NoError(t, err)
@@ -847,7 +847,7 @@ func TestPostgresql_SaveAccount(t *testing.T) {
 		t.Skip("skip CI tests on darwin and windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.PostgresStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.PostgresStoreEngine))
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	t.Cleanup(cleanUp)
 	assert.NoError(t, err)
@@ -922,7 +922,7 @@ func TestPostgresql_DeleteAccount(t *testing.T) {
 		t.Skip("skip CI tests on darwin and windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.PostgresStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.PostgresStoreEngine))
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	t.Cleanup(cleanUp)
 	assert.NoError(t, err)
@@ -999,7 +999,7 @@ func TestPostgresql_TestGetAccountByPrivateDomain(t *testing.T) {
 		t.Skip("skip CI tests on darwin and windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.PostgresStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.PostgresStoreEngine))
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "../testdata/store.sql", t.TempDir())
 	t.Cleanup(cleanUp)
 	assert.NoError(t, err)
@@ -1019,7 +1019,7 @@ func TestPostgresql_GetTokenIDByHashedToken(t *testing.T) {
 		t.Skip("skip CI tests on darwin and windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.PostgresStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.PostgresStoreEngine))
 	store, cleanUp, err := NewTestStoreFromSQL(context.Background(), "../testdata/store.sql", t.TempDir())
 	t.Cleanup(cleanUp)
 	assert.NoError(t, err)
@@ -1033,7 +1033,7 @@ func TestPostgresql_GetTokenIDByHashedToken(t *testing.T) {
 }
 
 func TestSqlite_GetTakenIPs(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	defer cleanup()
 	if err != nil {
@@ -1187,7 +1187,7 @@ func Test_AddPeerWithSameIP(t *testing.T) {
 }
 
 func TestSqlite_GetAccountNetwork(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	if err != nil {
@@ -1210,7 +1210,7 @@ func TestSqlite_GetAccountNetwork(t *testing.T) {
 }
 
 func TestSqlite_GetSetupKeyBySecret(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	if err != nil {
@@ -1235,7 +1235,7 @@ func TestSqlite_GetSetupKeyBySecret(t *testing.T) {
 }
 
 func TestSqlite_incrementSetupKeyUsage(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	if err != nil {
@@ -1271,7 +1271,7 @@ func TestSqlite_incrementSetupKeyUsage(t *testing.T) {
 }
 
 func TestSqlite_CreateAndGetObjectInTransaction(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	if err != nil {
@@ -1431,7 +1431,7 @@ func TestSqlite_GetGroupByName(t *testing.T) {
 }
 
 func Test_DeleteSetupKeySuccessfully(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	require.NoError(t, err)
@@ -1447,7 +1447,7 @@ func Test_DeleteSetupKeySuccessfully(t *testing.T) {
 }
 
 func Test_DeleteSetupKeyFailsForNonExistingKey(t *testing.T) {
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.SqliteStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	require.NoError(t, err)
@@ -1506,7 +1506,7 @@ func TestSqlStore_CreateGroup(t *testing.T) {
 	if os.Getenv("CI") == "true" {
 		t.Log("Skipping MySQL test on CI")
 	}
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.MysqlStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.MysqlStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "../testdata/extended-store.sql", t.TempDir())
 	t.Cleanup(cleanup)
 	require.NoError(t, err)
@@ -4223,7 +4223,7 @@ func TestSqlStore_ApproveAccountPeers(t *testing.T) {
 }
 
 func TestSqlStore_ExecuteInTransaction_Timeout(t *testing.T) {
-	if os.Getenv("NETBIRD_STORE_ENGINE") == "mysql" {
+	if os.Getenv("WARDENCLYFFE_STORE_ENGINE") == "mysql" {
 		t.Skip("Skipping timeout test for MySQL")
 	}
 

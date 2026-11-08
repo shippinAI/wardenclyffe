@@ -4,7 +4,7 @@
 // path, as in production) vs the nmdata store's GetNetworkMapData, against the
 // same Postgres copy as the equivalence test.
 //
-//	NETBIRD_STORE_ENGINE_POSTGRES_DSN='...' go test -tags nmapequiv \
+//	WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN='...' go test -tags nmapequiv \
 //	  -run '^$' -bench . -benchtime 5x -timeout 60m \
 //	  ./management/server/types/legacynmap/
 //
@@ -16,7 +16,7 @@
 // Reported metrics beyond ns/op and allocs:
 //
 //   - queries/op    round trips, counted client-side via a pgx tracer
-//     (GetNetworkMapData only — the legacy store's pool is internal)
+//     (GetNetworkMapData only â€” the legacy store's pool is internal)
 //   - xact/op       committed transactions from pg_stat_database; the legacy
 //     pgx path runs autocommit statements, so this approximates its round
 //     trips, while GetNetworkMapData runs a single transaction
@@ -53,7 +53,7 @@ import (
 func BenchmarkGetAccount(b *testing.B) {
 	dsn := equivDSN()
 	if dsn == "" {
-		b.Skip("NETBIRD_STORE_ENGINE_POSTGRES_DSN not set")
+		b.Skip("WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN not set")
 	}
 	ctx := context.Background()
 
@@ -79,7 +79,7 @@ func BenchmarkGetAccount(b *testing.B) {
 func BenchmarkGetNetworkMapData(b *testing.B) {
 	dsn := equivDSN()
 	if dsn == "" {
-		b.Skip("NETBIRD_STORE_ENGINE_POSTGRES_DSN not set")
+		b.Skip("WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN not set")
 	}
 	ctx := context.Background()
 
@@ -116,7 +116,7 @@ func BenchmarkGetNetworkMapData(b *testing.B) {
 func BenchmarkAccountFullRound(b *testing.B) {
 	dsn := equivDSN()
 	if dsn == "" {
-		b.Skip("NETBIRD_STORE_ENGINE_POSTGRES_DSN not set")
+		b.Skip("WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN not set")
 	}
 	ctx := context.Background()
 
@@ -146,7 +146,7 @@ func BenchmarkAccountFullRound(b *testing.B) {
 func BenchmarkNetworkMapDataFullRound(b *testing.B) {
 	dsn := equivDSN()
 	if dsn == "" {
-		b.Skip("NETBIRD_STORE_ENGINE_POSTGRES_DSN not set")
+		b.Skip("WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN not set")
 	}
 	ctx := context.Background()
 

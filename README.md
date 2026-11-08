@@ -33,12 +33,12 @@
   <br/>
   <br/>
   <strong>
-    🚀 <a href="https://wardenclyffe.appcareers">We are hiring! Join us at https://wardenclyffe.appcareers</a>
+    ðŸš€ <a href="https://wardenclyffe.appcareers">We are hiring! Join us at https://wardenclyffe.appcareers</a>
   </strong>
 </p>
 
-> ### 🤖 WardenClyffe Agent Network (Beta)
-> Identity-aware access control for AI agents — keyless access to LLM APIs and private
+> ### ðŸ¤– WardenClyffe Agent Network (Beta)
+> Identity-aware access control for AI agents â€” keyless access to LLM APIs and private
 > resources over the encrypted WardenClyffe tunnel. See [`agent-network/`](agent-network/) or
 > read the docs at **[wardenclyffe.ai](https://wardenclyffe.ai)**.
 
@@ -58,24 +58,24 @@ https://github.com/user-attachments/assets/10cec749-bb56-4ab3-97af-4e38850108d2
 
 | Connectivity | Management | Security | Automation | Platforms |
 |---|---|---|---|---|
-| ✓ [Kernel WireGuard](https://docs.wardenclyffe.app/about-wardenclyffe/why-wireguard-with-wardenclyffe) | ✓ [Admin Web UI](https://github.com/shippin/wardenclyffe/dashboard) | ✓ [SSO & MFA support](https://docs.wardenclyffe.app/how-to/installation#running-net-bird-with-sso-login) | ✓ [Public API](https://docs.wardenclyffe.app/api) | ✓ [Linux](https://docs.wardenclyffe.app/get-started/install/linux) |
-| ✓ [Peer-to-peer connections](https://docs.wardenclyffe.app/about-wardenclyffe/how-wardenclyffe-works) | ✓ Auto peer discovery and configuration | ✓ [Access control: groups & rules](https://docs.wardenclyffe.app/how-to/manage-network-access) | ✓ [Setup keys for bulk provisioning](https://docs.wardenclyffe.app/how-to/register-machines-using-setup-keys) | ✓ [macOS](https://docs.wardenclyffe.app/get-started/install/macos) |
-| ✓ Connection relay fallback | ✓ [IdP integrations](https://docs.wardenclyffe.app/selfhosted/identity-providers) | ✓ [Activity logging](https://docs.wardenclyffe.app/how-to/audit-events-logging) | ✓ [Self-hosting quickstart script](https://docs.wardenclyffe.app/selfhosted/selfhosted-quickstart) | ✓ [Windows](https://docs.wardenclyffe.app/get-started/install/windows) |
-| ✓ [Routes to external networks](https://docs.wardenclyffe.app/how-to/routing-traffic-to-private-networks) | ✓ [Private DNS](https://docs.wardenclyffe.app/how-to/manage-dns-in-your-network) | ✓ [Traffic events](https://docs.wardenclyffe.app/manage/activity/traffic-events-logging) | ✓ [IdP groups sync with JWT](https://docs.wardenclyffe.app/manage/team/idp-sync) | ✓ [Android](https://docs.wardenclyffe.app/get-started/install/android) |
-| ✓ [Domain-based DNS routes](https://docs.wardenclyffe.app/manage/dns/dns-aliases-for-routed-networks) | ✓ [Custom DNS zones](https://docs.wardenclyffe.app/manage/dns/custom-zones) | ✓ [Device posture checks](https://docs.wardenclyffe.app/how-to/manage-posture-checks) | ✓ [Terraform provider](https://registry.terraform.io/providers/shippin/wardenclyffe/latest) | ✓ [Android TV](https://docs.wardenclyffe.app/get-started/install/android-tv) |
-| ✓ [Exit nodes](https://docs.wardenclyffe.app/manage/network-routes/use-cases/exit-nodes) | ✓ [Multiuser support](https://docs.wardenclyffe.app/how-to/add-users-to-your-network) | ✓ Peer-to-peer encryption | ✓ [Ansible collection](https://github.com/shippin/wardenclyffe/ansible-wardenclyffe) | ✓ [iOS](https://docs.wardenclyffe.app/get-started/install/ios) |
-| ✓ [IPv6 dual-stack overlay](https://docs.wardenclyffe.app/manage/settings/ipv6) | ✓ [Multi-account profile switching](https://docs.wardenclyffe.app/client/profiles) | ✓ [SSH with central access policies](https://docs.wardenclyffe.app/manage/peers/ssh) | | ✓ [Apple TV](https://docs.wardenclyffe.app/get-started/install/tvos) |
-| ✓ [Browser SSH & RDP](https://docs.wardenclyffe.app/manage/peers/browser-client) | | ✓ [Quantum-resistance with Rosenpass](https://wardenclyffe.appknowledge-hub/the-first-quantum-resistant-mesh-vpn) | | ✓ FreeBSD |
-| ✓ [Reverse proxy with auto-TLS](https://docs.wardenclyffe.app/manage/reverse-proxy) | | ✓ [Periodic re-authentication](https://docs.wardenclyffe.app/how-to/enforce-periodic-user-authentication) | | ✓ [pfSense](https://docs.wardenclyffe.app/get-started/install/pfsense) |
-| | | | | ✓ [OPNsense](https://docs.wardenclyffe.app/get-started/install/opnsense) |
-| | | | | ✓ [MikroTik RouterOS](https://docs.wardenclyffe.app/use-cases/homelab/client-on-mikrotik-router) |
-| | | | | ✓ OpenWRT |
-| | | | | ✓ [Synology](https://docs.wardenclyffe.app/get-started/install/synology) |
-| | | | | ✓ [TrueNAS](https://docs.wardenclyffe.app/get-started/install/truenas) |
-| | | | | ✓ [Proxmox](https://docs.wardenclyffe.app/get-started/install/proxmox-ve) |
-| | | | | ✓ [Raspberry Pi](https://docs.wardenclyffe.app/get-started/install/raspberrypi) |
-| | | | | ✓ [Serverless](https://docs.wardenclyffe.app/how-to/wardenclyffe-on-faas) |
-| | | | | ✓ [Container](https://docs.wardenclyffe.app/get-started/install/docker) |
+| âœ“ [Kernel WireGuard](https://docs.wardenclyffe.app/about-wardenclyffe/why-wireguard-with-wardenclyffe) | âœ“ [Admin Web UI](https://github.com/shippin/wardenclyffe/dashboard) | âœ“ [SSO & MFA support](https://docs.wardenclyffe.app/how-to/installation#running-net-bird-with-sso-login) | âœ“ [Public API](https://docs.wardenclyffe.app/api) | âœ“ [Linux](https://docs.wardenclyffe.app/get-started/install/linux) |
+| âœ“ [Peer-to-peer connections](https://docs.wardenclyffe.app/about-wardenclyffe/how-wardenclyffe-works) | âœ“ Auto peer discovery and configuration | âœ“ [Access control: groups & rules](https://docs.wardenclyffe.app/how-to/manage-network-access) | âœ“ [Setup keys for bulk provisioning](https://docs.wardenclyffe.app/how-to/register-machines-using-setup-keys) | âœ“ [macOS](https://docs.wardenclyffe.app/get-started/install/macos) |
+| âœ“ Connection relay fallback | âœ“ [IdP integrations](https://docs.wardenclyffe.app/selfhosted/identity-providers) | âœ“ [Activity logging](https://docs.wardenclyffe.app/how-to/audit-events-logging) | âœ“ [Self-hosting quickstart script](https://docs.wardenclyffe.app/selfhosted/selfhosted-quickstart) | âœ“ [Windows](https://docs.wardenclyffe.app/get-started/install/windows) |
+| âœ“ [Routes to external networks](https://docs.wardenclyffe.app/how-to/routing-traffic-to-private-networks) | âœ“ [Private DNS](https://docs.wardenclyffe.app/how-to/manage-dns-in-your-network) | âœ“ [Traffic events](https://docs.wardenclyffe.app/manage/activity/traffic-events-logging) | âœ“ [IdP groups sync with JWT](https://docs.wardenclyffe.app/manage/team/idp-sync) | âœ“ [Android](https://docs.wardenclyffe.app/get-started/install/android) |
+| âœ“ [Domain-based DNS routes](https://docs.wardenclyffe.app/manage/dns/dns-aliases-for-routed-networks) | âœ“ [Custom DNS zones](https://docs.wardenclyffe.app/manage/dns/custom-zones) | âœ“ [Device posture checks](https://docs.wardenclyffe.app/how-to/manage-posture-checks) | âœ“ [Terraform provider](https://registry.terraform.io/providers/shippin/wardenclyffe/latest) | âœ“ [Android TV](https://docs.wardenclyffe.app/get-started/install/android-tv) |
+| âœ“ [Exit nodes](https://docs.wardenclyffe.app/manage/network-routes/use-cases/exit-nodes) | âœ“ [Multiuser support](https://docs.wardenclyffe.app/how-to/add-users-to-your-network) | âœ“ Peer-to-peer encryption | âœ“ [Ansible collection](https://github.com/shippin/wardenclyffe/ansible-wardenclyffe) | âœ“ [iOS](https://docs.wardenclyffe.app/get-started/install/ios) |
+| âœ“ [IPv6 dual-stack overlay](https://docs.wardenclyffe.app/manage/settings/ipv6) | âœ“ [Multi-account profile switching](https://docs.wardenclyffe.app/client/profiles) | âœ“ [SSH with central access policies](https://docs.wardenclyffe.app/manage/peers/ssh) | | âœ“ [Apple TV](https://docs.wardenclyffe.app/get-started/install/tvos) |
+| âœ“ [Browser SSH & RDP](https://docs.wardenclyffe.app/manage/peers/browser-client) | | âœ“ [Quantum-resistance with Rosenpass](https://wardenclyffe.appknowledge-hub/the-first-quantum-resistant-mesh-vpn) | | âœ“ FreeBSD |
+| âœ“ [Reverse proxy with auto-TLS](https://docs.wardenclyffe.app/manage/reverse-proxy) | | âœ“ [Periodic re-authentication](https://docs.wardenclyffe.app/how-to/enforce-periodic-user-authentication) | | âœ“ [pfSense](https://docs.wardenclyffe.app/get-started/install/pfsense) |
+| | | | | âœ“ [OPNsense](https://docs.wardenclyffe.app/get-started/install/opnsense) |
+| | | | | âœ“ [MikroTik RouterOS](https://docs.wardenclyffe.app/use-cases/homelab/client-on-mikrotik-router) |
+| | | | | âœ“ OpenWRT |
+| | | | | âœ“ [Synology](https://docs.wardenclyffe.app/get-started/install/synology) |
+| | | | | âœ“ [TrueNAS](https://docs.wardenclyffe.app/get-started/install/truenas) |
+| | | | | âœ“ [Proxmox](https://docs.wardenclyffe.app/get-started/install/proxmox-ve) |
+| | | | | âœ“ [Raspberry Pi](https://docs.wardenclyffe.app/get-started/install/raspberrypi) |
+| | | | | âœ“ [Serverless](https://docs.wardenclyffe.app/how-to/wardenclyffe-on-faas) |
+| | | | | âœ“ [Container](https://docs.wardenclyffe.app/get-started/install/docker) |
 
 ### Quickstart with WardenClyffe Cloud
 
@@ -85,7 +85,9 @@ https://github.com/user-attachments/assets/10cec749-bb56-4ab3-97af-4e38850108d2
 
 ### Quickstart with self-hosted WardenClyffe
 
-This is the quickest way to try self-hosted WardenClyffe. It should take around 5 minutes to get started if you already have a public domain and a VM. Follow the [Advanced guide with a custom identity provider](https://docs.wardenclyffe.app/selfhosted/selfhosted-guide#advanced-guide-with-a-custom-identity-provider) for installations with different IdPs.
+Build the server and dashboard images from this checkout before running the
+self-hosted installer. The previously documented release download is currently
+unavailable; these steps use local images.
 
 **Infrastructure requirements:**
 - A Linux VM with at least **1 CPU** and **2 GB** of memory.
@@ -93,13 +95,30 @@ This is the quickest way to try self-hosted WardenClyffe. It should take around 
 - A **public domain** name pointing to the VM.
 
 **Software requirements:**
-- Docker with the Compose plugin (Compose v2 or higher). See the [Docker installation guide](https://docs.docker.com/engine/install/).
+- Docker with the Compose plugin (Compose v2 or higher), Node.js 24 or newer,
+  npm, jq, and OpenSSL. See the [Docker installation guide](https://docs.docker.com/engine/install/).
 
 **Steps**
-- Download and run the installation script:
+- From the repository root, build the images:
 ```bash
-export NETBIRD_DOMAIN=wardenclyffe.example.com; curl -fsSL https://github.com/shippin/wardenclyffe/releases/latest/download/getting-started.sh | bash
+project_dir="$(pwd)"
+docker build -f combined/Dockerfile.multistage -t wardenclyffe-server:local .
+(cd dashboard && npm ci && npm run build && docker build -f docker/Dockerfile -t wardenclyffe-dashboard:local .)
 ```
+
+- Run the installer from a separate deployment directory, replacing the example
+  domain with your public domain:
+```bash
+mkdir -p "$HOME/wardenclyffe-deployment"
+cd "$HOME/wardenclyffe-deployment"
+export WARDENCLYFFE_DOMAIN=wardenclyffe.example.com
+export WARDENCLYFFE_SERVER_IMAGE=wardenclyffe-server:local
+export DASHBOARD_IMAGE=wardenclyffe-dashboard:local
+bash "$project_dir/infrastructure_files/getting-started.sh"
+```
+
+The installer creates configuration and a persistent Docker volume in this
+deployment. Keep those files and the volume when upgrading an existing instance.
 
 ### A bit on WardenClyffe internals
 - Every machine in the network runs the [WardenClyffe agent](client/), which manages WireGuard.
@@ -130,7 +149,7 @@ In November 2022, WardenClyffe joined the [StartUpSecure program](https://www.fo
 ![CISPA_Logo_BLACK_EN_RZ_RGB (1)](https://user-images.githubusercontent.com/700848/203091324-c6d311a0-22b5-4b05-a288-91cbc6cdcc46.png)
 
 ### Acknowledgements
-We build on open source technologies like [WireGuard®](https://www.wireguard.com/), [Pion ICE](https://github.com/pion/ice), and [Rosenpass](https://rosenpass.eu). We greatly appreciate the work these projects are doing, and we'd love it if you could support them too (e.g., by starring or contributing).
+We build on open source technologies like [WireGuardÂ®](https://www.wireguard.com/), [Pion ICE](https://github.com/pion/ice), and [Rosenpass](https://rosenpass.eu). We greatly appreciate the work these projects are doing, and we'd love it if you could support them too (e.g., by starring or contributing).
 
 ### Legal
 This repository is licensed under the BSD-3-Clause license, which applies to all parts of the repository except for the directories management/, signal/ and relay/.

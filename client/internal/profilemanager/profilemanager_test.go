@@ -12,8 +12,8 @@ import (
 func withTempConfigDir(t *testing.T, testFunc func(configDir string)) {
 	t.Helper()
 	tempDir := t.TempDir()
-	t.Setenv("NETBIRD_CONFIG_DIR", tempDir)
-	defer os.Unsetenv("NETBIRD_CONFIG_DIR")
+	t.Setenv("WARDENCLYFFE_CONFIG_DIR", tempDir)
+	defer os.Unsetenv("WARDENCLYFFE_CONFIG_DIR")
 	testFunc(tempDir)
 }
 
@@ -138,8 +138,8 @@ func TestSanitizeProfileName(t *testing.T) {
 		{"!@#$%^&*()", ""},
 
 		// unicode letters and digits
-		{"ÜserÇ", "ÜserÇ"},
-		{"漢字テスト123", "漢字テスト123"},
+		{"ÃœserÃ‡", "ÃœserÃ‡"},
+		{"æ¼¢å­—ãƒ†ã‚¹ãƒˆ123", "æ¼¢å­—ãƒ†ã‚¹ãƒˆ123"},
 	}
 
 	for _, tc := range tests {

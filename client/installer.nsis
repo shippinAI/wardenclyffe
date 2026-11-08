@@ -22,7 +22,7 @@
 !define UI_REG_APP_PATH "Software\Microsoft\Windows\CurrentVersion\App Paths\${UI_APP_EXE}"
 !define UI_UNINSTALL_PATH "Software\Microsoft\Windows\CurrentVersion\Uninstall\${UI_APP_NAME}"
 
-!define NETBIRD_DATA_DIR "$COMMONPROGRAMDATA\Wardenclyffe"
+!define WARDENCLYFFE_DATA_DIR "$COMMONPROGRAMDATA\Wardenclyffe"
 
 Unicode True
 
@@ -110,7 +110,7 @@ Function un.DeleteDataPage
     Abort
   ${EndIf}
 
-  ${NSD_CreateCheckbox} 0 20u 100% 10u "Delete all ${APP_NAME} configuration and state data (${NETBIRD_DATA_DIR})"
+  ${NSD_CreateCheckbox} 0 20u 100% 10u "Delete all ${APP_NAME} configuration and state data (${WARDENCLYFFE_DATA_DIR})"
   Pop $DeleteDataCheckbox
   ${NSD_Uncheck} $DeleteDataCheckbox
   StrCpy $DeleteDataEnabled "0"
@@ -241,7 +241,7 @@ SectionEnd
 # by the sign-pipelines build step (`wails3 generate webview2bootstrapper`).
 !macro nb.webview2runtime
     SetRegView 64
-    # Per-machine install marker — populated when the runtime ships with
+    # Per-machine install marker â€” populated when the runtime ships with
     # Edge or has been installed by an admin previously.
     ReadRegStr $0 HKLM "SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}" "pv"
     ${If} $0 != ""
@@ -293,9 +293,9 @@ ExecWait `taskkill /im ${UI_APP_EXE}.exe /f`
 ; Handle data deletion based on checkbox
 DetailPrint "Checking if user requested data deletion..."
 ${If} $DeleteDataEnabled == "1"
-    DetailPrint "User opted to delete Wardenclyffe data. Removing ${NETBIRD_DATA_DIR}..."
+    DetailPrint "User opted to delete Wardenclyffe data. Removing ${WARDENCLYFFE_DATA_DIR}..."
     ClearErrors
-    RMDir /r "${NETBIRD_DATA_DIR}"
+    RMDir /r "${WARDENCLYFFE_DATA_DIR}"
     IfErrors 0 +2 ; If no errors, jump over the message
     DetailPrint "Error deleting Wardenclyffe data directory. It might be in use or already removed."
     DetailPrint "Wardenclyffe data directory removal complete."

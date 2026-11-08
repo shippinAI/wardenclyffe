@@ -39,7 +39,7 @@ const (
 )
 
 func main() {
-	js.Global().Set("WardenClyffeClient", js.FuncOf(netBirdClientConstructor))
+	js.Global().Set("WardenClyffeClient", js.FuncOf(wardenclyffeClientConstructor))
 
 	select {}
 }
@@ -789,8 +789,8 @@ func jsStringArray(v js.Value) ([]string, error) {
 	return out, nil
 }
 
-// netBirdClientConstructor acts as a JavaScript constructor function
-func netBirdClientConstructor(_ js.Value, args []js.Value) any {
+// wardenclyffeClientConstructor acts as a JavaScript constructor function
+func wardenclyffeClientConstructor(_ js.Value, args []js.Value) any {
 	return js.Global().Get("Promise").New(js.FuncOf(func(_ js.Value, promiseArgs []js.Value) any {
 		resolve := promiseArgs[0]
 		reject := promiseArgs[1]

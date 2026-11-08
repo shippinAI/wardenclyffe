@@ -334,7 +334,7 @@ func getSetupKeyFromFile(setupKeyPath string) (string, error) {
 func handleRebrand(cmd *cobra.Command) error {
 	var err error
 	if slices.Contains(logFiles, defaultLogFile) {
-		if migrateToWardenclyffe(oldDefaultLogFile, defaultLogFile) {
+		if migrateToWardenClyffe(oldDefaultLogFile, defaultLogFile) {
 			cmd.Printf("will copy Log dir %s and its content to %s\n", oldDefaultLogFileDir, defaultLogFileDir)
 			err = cpDir(oldDefaultLogFileDir, defaultLogFileDir)
 			if err != nil {
@@ -342,7 +342,7 @@ func handleRebrand(cmd *cobra.Command) error {
 			}
 		}
 	}
-	if migrateToWardenclyffe(oldDefaultConfigPath, defaultConfigPath) {
+	if migrateToWardenClyffe(oldDefaultConfigPath, defaultConfigPath) {
 		cmd.Printf("will copy Config dir %s and its content to %s\n", oldDefaultConfigPathDir, defaultConfigPathDir)
 		err = cpDir(oldDefaultConfigPathDir, defaultConfigPathDir)
 		if err != nil {

@@ -191,13 +191,13 @@ const (
 	RuleProtocol_UDP     RuleProtocol = 3
 	RuleProtocol_ICMP    RuleProtocol = 4
 	RuleProtocol_CUSTOM  RuleProtocol = 5
-	// NETBIRD_SSH (types.PolicyRuleProtocolType "wardenclyffe-ssh") is the marker
+	// WARDENCLYFFE_SSH (types.PolicyRuleProtocolType "wardenclyffe-ssh") is the marker
 	// policy rule that drives SSH-server activation in Calculate(). The legacy
 	// proto.FirewallRule path doesn't ship this value (Calculate already
 	// expands SSH rules into TCP/22 before encoding), but the components path
-	// ships RAW policies — the client must see this protocol to derive
+	// ships RAW policies â€” the client must see this protocol to derive
 	// AuthorizedUsers locally.
-	RuleProtocol_NETBIRD_SSH RuleProtocol = 6
+	RuleProtocol_WARDENCLYFFE_SSH RuleProtocol = 6
 )
 
 // Enum value maps for RuleProtocol.
@@ -209,7 +209,7 @@ var (
 		3: "UDP",
 		4: "ICMP",
 		5: "CUSTOM",
-		6: "NETBIRD_SSH",
+		6: "WARDENCLYFFE_SSH",
 	}
 	RuleProtocol_value = map[string]int32{
 		"UNKNOWN":     0,
@@ -218,7 +218,7 @@ var (
 		"UDP":         3,
 		"ICMP":        4,
 		"CUSTOM":      5,
-		"NETBIRD_SSH": 6,
+		"WARDENCLYFFE_SSH": 6,
 	}
 )
 
@@ -934,11 +934,11 @@ type SyncResponse struct {
 	// 3-state session deadline. Carried on every Sync snapshot so admin-side
 	// changes propagate live without a client reconnect.
 	//
-	//	field unset (nil)        → snapshot carries no info; client keeps the
+	//	field unset (nil)        â†’ snapshot carries no info; client keeps the
 	//	                           deadline it already had
-	//	set, seconds=0 nanos=0   → explicit "expiry disabled" or peer is not
+	//	set, seconds=0 nanos=0   â†’ explicit "expiry disabled" or peer is not
 	//	                           SSO-registered; client clears its anchor
-	//	set, valid timestamp     → new absolute UTC deadline
+	//	set, valid timestamp     â†’ new absolute UTC deadline
 	SessionExpiresAt *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=sessionExpiresAt,proto3" json:"sessionExpiresAt,omitempty"`
 	// NetworkMapEnvelope carries the component-based wire format for peers that
 	// advertise PeerCapabilityComponentNetworkMap. When set, NetworkMap (field 5)
@@ -1741,9 +1741,9 @@ type LoginResponse struct {
 	Checks []*Checks `protobuf:"bytes,3,rep,name=Checks,proto3" json:"Checks,omitempty"`
 	// 3-state session deadline; same encoding as SyncResponse.sessionExpiresAt.
 	//
-	//	field unset (nil)        → no info; client keeps any deadline it had
-	//	set, seconds=0 nanos=0   → explicit "expiry disabled" / non-SSO peer
-	//	set, valid timestamp     → new absolute UTC deadline
+	//	field unset (nil)        â†’ no info; client keeps any deadline it had
+	//	set, seconds=0 nanos=0   â†’ explicit "expiry disabled" / non-SSO peer
+	//	set, valid timestamp     â†’ new absolute UTC deadline
 	SessionExpiresAt *timestamppb.Timestamp `protobuf:"bytes,4,opt,name=sessionExpiresAt,proto3" json:"sessionExpiresAt,omitempty"`
 }
 
@@ -2660,8 +2660,8 @@ type AutoUpdateSettings struct {
 	unknownFields protoimpl.UnknownFields
 
 	Version string `protobuf:"bytes,1,opt,name=version,proto3" json:"version,omitempty"`
-	// alwaysUpdate = true → Updates are installed automatically in the background
-	// alwaysUpdate = false → Updates require user interaction from the UI
+	// alwaysUpdate = true â†’ Updates are installed automatically in the background
+	// alwaysUpdate = false â†’ Updates require user interaction from the UI
 	AlwaysUpdate bool `protobuf:"varint,2,opt,name=alwaysUpdate,proto3" json:"alwaysUpdate,omitempty"`
 }
 
@@ -4907,7 +4907,7 @@ func (*NetworkMapEnvelope_Delta) isNetworkMapEnvelope_Payload() {}
 // NetworkMapComponentsFull is the full per-peer component snapshot. The
 // client decodes it into a types.NetworkMapComponents and runs Calculate()
 // locally to produce the same NetworkMap the legacy server path would have
-// produced. Every field carries RAW component data — no server-side
+// produced. Every field carries RAW component data â€” no server-side
 // expansion (firewall rules, DNS config, SSH auth, route firewall rules,
 // forwarding rules) is shipped; the client computes those itself.
 type NetworkMapComponentsFull struct {
@@ -4916,7 +4916,7 @@ type NetworkMapComponentsFull struct {
 	unknownFields protoimpl.UnknownFields
 
 	Serial uint64 `protobuf:"varint,1,opt,name=serial,proto3" json:"serial,omitempty"`
-	// Peer config for the receiving peer (legacy proto.PeerConfig kept as-is —
+	// Peer config for the receiving peer (legacy proto.PeerConfig kept as-is â€”
 	// it carries the receiving peer's own overlay address, FQDN, SSH config).
 	PeerConfig *PeerConfig `protobuf:"bytes,2,opt,name=peer_config,json=peerConfig,proto3" json:"peer_config,omitempty"`
 	// Account-level network metadata (id, IPv4/IPv6 overlay subnets, DNS,
@@ -4942,7 +4942,7 @@ type NetworkMapComponentsFull struct {
 	RouterPeerIndexes []uint32 `protobuf:"varint,10,rep,packed,name=router_peer_indexes,json=routerPeerIndexes,proto3" json:"router_peer_indexes,omitempty"`
 	// Policies that affect the receiving peer.
 	Policies []*PolicyCompact `protobuf:"bytes,11,rep,name=policies,proto3" json:"policies,omitempty"`
-	// Groups in unspecified order — clients key off id (public_id).
+	// Groups in unspecified order â€” clients key off id (public_id).
 	Groups []*GroupCompact `protobuf:"bytes,12,rep,name=groups,proto3" json:"groups,omitempty"`
 	// Routes relevant to this peer, raw shape (mirrors []*route.Route).
 	Routes []*RouteRaw `protobuf:"bytes,13,rep,name=routes,proto3" json:"routes,omitempty"`
@@ -4962,7 +4962,7 @@ type NetworkMapComponentsFull struct {
 	// For each NetworkResource public_id, the indexes into policies[]
 	// that apply to it.
 	ResourcePoliciesMap map[string]*PolicyIds `protobuf:"bytes,19,rep,name=resource_policies_map,json=resourcePoliciesMap,proto3" json:"resource_policies_map,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
-	// Group-id (public_id) → user ids authorized for SSH on members.
+	// Group-id (public_id) â†’ user ids authorized for SSH on members.
 	GroupIdToUserIds map[string]*UserIDList `protobuf:"bytes,20,rep,name=group_id_to_user_ids,json=groupIdToUserIds,proto3" json:"group_id_to_user_ids,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 	// Account-level allowed user ids (used by Calculate() when assembling SSH
 	// authorized users for the receiving peer).
@@ -4977,10 +4977,10 @@ type NetworkMapComponentsFull struct {
 	// Pre-expanded NetworkMap fragments injected post-Calculate by external
 	// controllers (BYOP / port-forwarding proxies). The receiving client
 	// merges these into its locally-computed NetworkMap the same way the
-	// legacy server does via NetworkMap.Merge — so downstream consumers see
+	// legacy server does via NetworkMap.Merge â€” so downstream consumers see
 	// a unified merged result regardless of source.
 	ProxyPatch *ProxyPatch `protobuf:"bytes,24,opt,name=proxy_patch,json=proxyPatch,proto3" json:"proxy_patch,omitempty"`
-	// SSH UserIDClaim — server-side HttpServerConfig.AuthUserIDClaim, or
+	// SSH UserIDClaim â€” server-side HttpServerConfig.AuthUserIDClaim, or
 	// "sub" by default. Populated in proto.SSHAuth.UserIDClaim when the
 	// client rebuilds the NetworkMap from this envelope. Empty when the
 	// account has no AuthorizedUsers (and thus no SshAuth to populate).
@@ -5195,7 +5195,7 @@ func (x *NetworkMapComponentsFull) GetUserIdClaim() string {
 }
 
 // ProxyPatch carries NetworkMap fragments that don't fit the component-graph
-// model — they're pre-expanded by external controllers (BYOP /
+// model â€” they're pre-expanded by external controllers (BYOP /
 // port-forwarding proxies) and injected post-Calculate. Fields use the
 // legacy wire types because the proxy delivers them pre-formed; there is
 // no raw component shape to convert from. Empty when no proxy is active.
@@ -5288,7 +5288,7 @@ func (x *ProxyPatch) GetForwardingRules() []*ForwardingRule {
 
 // AccountSettingsCompact carries the account-level settings the client needs
 // to evaluate locally. Mirrors the subset of types.AccountSettingsInfo that
-// Calculate() actually reads — login-expiration (used to filter expired
+// Calculate() actually reads â€” login-expiration (used to filter expired
 // peers). Inactivity expiration is purely server-side bookkeeping and is not
 // shipped.
 type AccountSettingsCompact struct {
@@ -5432,7 +5432,7 @@ func (x *AccountNetwork) GetSerial() uint64 {
 }
 
 // NetworkMapComponentsDelta is reserved for the incremental update
-// protocol. Field numbers 1–100 are pre-allocated to keep room for the
+// protocol. Field numbers 1â€“100 are pre-allocated to keep room for the
 // planned event types without needing a renumber.
 type NetworkMapComponentsDelta struct {
 	state         protoimpl.MessageState
@@ -5474,7 +5474,7 @@ func (*NetworkMapComponentsDelta) Descriptor() ([]byte, []int) {
 
 // PeerCompact is the wire-shape of a remote peer used by the component
 // format. It carries every field of types.Peer that the client's local
-// Calculate() reads — including the trio needed to evaluate
+// Calculate() reads â€” including the trio needed to evaluate
 // LoginExpired() (added_with_sso_login + login_expiration_enabled +
 // last_login_unix_nano). Fields the client does not consume (Status,
 // CreatedAt, etc.) are not shipped.
@@ -5502,31 +5502,31 @@ type PeerCompact struct {
 	// last_login_unix_nano this lets the client reproduce
 	// (*Peer).LoginExpired() locally.
 	AddedWithSsoLogin bool `protobuf:"varint,7,opt,name=added_with_sso_login,json=addedWithSsoLogin,proto3" json:"added_with_sso_login,omitempty"`
-	// True when the peer's login can expire — mirrors
+	// True when the peer's login can expire â€” mirrors
 	// types.Peer.LoginExpirationEnabled.
 	LoginExpirationEnabled bool `protobuf:"varint,8,opt,name=login_expiration_enabled,json=loginExpirationEnabled,proto3" json:"login_expiration_enabled,omitempty"`
 	// Unix-nanosecond timestamp of the peer's last login. 0 when the peer has
 	// never logged in (server stores nil; client treats 0 as "epoch", which
 	// makes a fresh peer immediately expired iff login_expiration_enabled is
-	// true — the same semantics as types.Peer.GetLastLogin).
+	// true â€” the same semantics as types.Peer.GetLastLogin).
 	LastLoginUnixNano int64 `protobuf:"varint,9,opt,name=last_login_unix_nano,json=lastLoginUnixNano,proto3" json:"last_login_unix_nano,omitempty"`
 	// True when the peer has an SSH server enabled locally. Used by the
 	// legacy SSH path in Calculate() (`policyRuleImpliesLegacySSH`): a rule
 	// with protocol ALL/TCP-with-SSH-ports activates SSH for the receiving
 	// peer when this bit is set, even without an explicit WardenclyffeSSH rule.
 	SshEnabled bool `protobuf:"varint,10,opt,name=ssh_enabled,json=sshEnabled,proto3" json:"ssh_enabled,omitempty"`
-	// Mirror of types.Peer.SupportsIPv6() — !Meta.Flags.DisableIPv6 &&
+	// Mirror of types.Peer.SupportsIPv6() â€” !Meta.Flags.DisableIPv6 &&
 	// HasCapability(PeerCapabilityIPv6Overlay). Used by the local peer's
 	// Calculate() when deciding whether to emit IPv6 firewall rules
 	// (appendIPv6FirewallRule) against this peer's IPv6 address.
 	SupportsIpv6 bool `protobuf:"varint,11,opt,name=supports_ipv6,json=supportsIpv6,proto3" json:"supports_ipv6,omitempty"`
-	// Mirror of types.Peer.SupportsSourcePrefixes() —
+	// Mirror of types.Peer.SupportsSourcePrefixes() â€”
 	// HasCapability(PeerCapabilitySourcePrefixes). Determines whether the
 	// local peer's Calculate() emits SourcePrefixes alongside legacy PeerIP
 	// fields in proto.FirewallRule.
 	SupportsSourcePrefixes bool `protobuf:"varint,12,opt,name=supports_source_prefixes,json=supportsSourcePrefixes,proto3" json:"supports_source_prefixes,omitempty"`
 	// Mirror of types.Peer.Meta.Flags.ServerSSHAllowed. Read by Calculate()
-	// when expanding TCP port-22 firewall rules — the native SSH companion
+	// when expanding TCP port-22 firewall rules â€” the native SSH companion
 	// (port 22022) is only added when this flag is set and the peer agent
 	// version supports it.
 	ServerSshAllowed bool `protobuf:"varint,13,opt,name=server_ssh_allowed,json=serverSshAllowed,proto3" json:"server_ssh_allowed,omitempty"`
@@ -5690,7 +5690,7 @@ type PolicyCompact struct {
 	SourceGroupIds      []string `protobuf:"bytes,7,rep,name=source_group_ids,json=sourceGroupIds,proto3" json:"source_group_ids,omitempty"`
 	DestinationGroupIds []string `protobuf:"bytes,8,rep,name=destination_group_ids,json=destinationGroupIds,proto3" json:"destination_group_ids,omitempty"`
 	// SSH authorization fields. PolicyRule.AuthorizedGroups maps the rule's
-	// applicable group ids (public_ids) to a list of local-user names —
+	// applicable group ids (public_ids) to a list of local-user names â€”
 	// when a peer in one of those groups is the SSH destination, the named
 	// local users gain access. AuthorizedUser is the single-user form
 	// (legacy: rule scopes SSH to one specific user id).
@@ -5701,7 +5701,7 @@ type PolicyCompact struct {
 	AuthorizedUser   string                   `protobuf:"bytes,10,opt,name=authorized_user,json=authorizedUser,proto3" json:"authorized_user,omitempty"`
 	// Resource-typed rule sources/destinations. When a rule targets a specific
 	// peer (rather than groups), Calculate() reads SourceResource /
-	// DestinationResource — without these the rule's connection resources
+	// DestinationResource â€” without these the rule's connection resources
 	// can't be produced on the client. ResourceCompact's peer_index refers to
 	// NetworkMapComponentsFull.peers; type is the raw ResourceType string
 	// ("peer", "host", "subnet", "domain"). Only "peer" is meaningful for
@@ -5912,7 +5912,7 @@ func (x *ResourceCompact) GetId() string {
 	return ""
 }
 
-// UserNameList is a list of local-user names — used as the value type in
+// UserNameList is a list of local-user names â€” used as the value type in
 // PolicyCompact.authorized_groups.
 type UserNameList struct {
 	state         protoimpl.MessageState
@@ -5973,7 +5973,7 @@ type GroupCompact struct {
 	// Indexes into NetworkMapComponentsFull.peers.
 	PeerIndexes []uint32 `protobuf:"varint,2,rep,packed,name=peer_indexes,json=peerIndexes,proto3" json:"peer_indexes,omitempty"`
 	// True when the group is named "All" (types.Group.IsGroupAll). The
-	// client-side Calculate short-circuits group→peer expansion on such
+	// client-side Calculate short-circuits groupâ†’peer expansion on such
 	// groups exactly like the server does; without this bit the decoded
 	// groups lose that property and the two sides expand policy
 	// destinations differently.
@@ -6678,7 +6678,7 @@ func (x *PolicyIds) GetIds() []string {
 	return nil
 }
 
-// UserIDList is a list of user ids — used as the value type in
+// UserIDList is a list of user ids â€” used as the value type in
 // NetworkMapComponentsFull.group_id_to_user_ids.
 type UserIDList struct {
 	state         protoimpl.MessageState
@@ -6727,7 +6727,7 @@ func (x *UserIDList) GetUserIds() []string {
 	return nil
 }
 
-// PeerIndexSet is a set of peer indexes — used as the value type in
+// PeerIndexSet is a set of peer indexes â€” used as the value type in
 // NetworkMapComponentsFull.posture_failed_peers.
 type PeerIndexSet struct {
 	state         protoimpl.MessageState

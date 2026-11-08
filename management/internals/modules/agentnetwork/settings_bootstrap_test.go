@@ -37,7 +37,7 @@ func newBootstrapFixture(t *testing.T) *bootstrapFixture {
 	if runtime.GOOS == "windows" {
 		t.Skip("sqlite store not properly supported on Windows yet")
 	}
-	t.Setenv("NETBIRD_STORE_ENGINE", string(nbtypes.SqliteStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(nbtypes.SqliteStoreEngine))
 
 	st, cleanUp, err := store.NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	require.NoError(t, err, "test store setup must succeed")
@@ -72,7 +72,7 @@ func (f *bootstrapFixture) createSettings(ctx context.Context, accountID, userID
 
 // TestCreateSettingsRequiresPermission pins the gate: bootstrap assigns the
 // account's immutable endpoint, a settings write requiring the settings
-// Create permission — and a denial leaves no row behind.
+// Create permission â€” and a denial leaves no row behind.
 func TestCreateSettingsRequiresPermission(t *testing.T) {
 	ctx := context.Background()
 	f := newBootstrapFixture(t)
@@ -185,7 +185,7 @@ func TestCreateSettingsConflictsOnSecondBootstrap(t *testing.T) {
 }
 
 // TestCreateSettingsEndpointTaken pins global hostname uniqueness: a hostname
-// held by one account cannot be claimed by another, in either direction —
+// held by one account cannot be claimed by another, in either direction â€”
 // self-addressed onto self-addressed, or self-addressed onto an allocated
 // labeled endpoint.
 func TestCreateSettingsEndpointTaken(t *testing.T) {

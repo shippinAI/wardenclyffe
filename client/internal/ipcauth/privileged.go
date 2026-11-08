@@ -13,7 +13,7 @@ const (
 	// ErrorReasonPrivilegeRequired identifies the detail.
 	ErrorReasonPrivilegeRequired = "PRIVILEGE_REQUIRED"
 	// ErrorDomain scopes the reason to the WardenClyffe daemon.
-	ErrorDomain = "daemon.wardenclyffe.wardenclyffe.app"
+	ErrorDomain = "daemon.wardenclyffe.app"
 	// ErrorMetaSummary is the one-sentence explanation of what was refused.
 	ErrorMetaSummary = "summary"
 	// ErrorMetaCommand is the command that performs the same operation with the

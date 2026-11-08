@@ -32,7 +32,7 @@ const (
 	envMaxBatchSize = "NB_PROXY_MAX_BATCH_SIZE"
 )
 
-const DefaultManagementURL = "https://api.wardenclyffe.wardenclyffe.app:443"
+const DefaultManagementURL = "https://api.wardenclyffe.app:443"
 
 // envProxyToken is the environment variable name for the proxy access token.
 //

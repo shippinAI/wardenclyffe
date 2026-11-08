@@ -25,8 +25,8 @@ elif command -v doas > /dev/null && [ "$(id -u)" -ne 0 ]; then
     SUDO="doas"
 fi
 
-if [ -z ${NETBIRD_RELEASE+x} ]; then
-    NETBIRD_RELEASE=latest
+if [ -z ${WARDENCLYFFE_RELEASE+x} ]; then
+    WARDENCLYFFE_RELEASE=latest
 fi
 
 TAG_NAME=""
@@ -51,7 +51,7 @@ get_release() {
 }
 
 download_release_binary() {
-    VERSION=$(get_release "$NETBIRD_RELEASE")
+    VERSION=$(get_release "$WARDENCLYFFE_RELEASE")
 	echo "Using the following tag name for binary installation: ${TAG_NAME}"
     BASE_URL="https://github.com/${OWNER}/${REPO}/releases/download"
     BINARY_BASE_NAME="${VERSION#v}_${OS_TYPE}_${ARCH}.tar.gz"
@@ -470,7 +470,7 @@ fi
 
 UPDATE_FLAG=$1
 
-if [ "${UPDATE_NETBIRD}-x" = "true-x" ]; then
+if [ "${UPDATE_WARDENCLYFFE}-x" = "true-x" ]; then
   UPDATE_FLAG="--update"
 fi
 

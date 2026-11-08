@@ -66,7 +66,7 @@ func DecodeEnvelope(ctx context.Context, env *proto.NetworkMapEnvelope) (*types.
 	// snapshots. peerIDByIndex lets downstream phases resolve wire indexes
 	// back to that key. A peer with a missing or malformed wg_pub_key is
 	// skipped (and its index keeps "" so any cross-reference falls into the
-	// same missing-peer branch downstream) — matches legacy behaviour, which
+	// same missing-peer branch downstream) â€” matches legacy behaviour, which
 	// degrades gracefully rather than aborting the whole sync on a single
 	// bad row.
 	peerIDByIndex := make([]string, len(full.Peers))
@@ -188,7 +188,7 @@ func DecodeEnvelope(ctx context.Context, env *proto.NetworkMapEnvelope) (*types.
 		}
 	}
 
-	// Phase 8: resource_policies_map (resource seq id → list of *types.Policy
+	// Phase 8: resource_policies_map (resource seq id â†’ list of *types.Policy
 	// pointers from the decoded policies slice). Resource ID is synthesized
 	// the same way as in decodeNetworkResource.
 	for resourceID, ids := range full.ResourcePoliciesMap {
@@ -217,12 +217,12 @@ func DecodeEnvelope(ctx context.Context, env *proto.NetworkMapEnvelope) (*types.
 		c.ResourcePoliciesMap[r.ID] = policies
 	}
 
-	// Phase 9: group_id_to_user_ids — wire keys are seq ids, synth to strings.
+	// Phase 9: group_id_to_user_ids â€” wire keys are seq ids, synth to strings.
 	for groupId, list := range full.GroupIdToUserIds {
 		c.GroupIDToUserIDs[groupId] = append([]string(nil), list.UserIds...)
 	}
 
-	// Phase 10: posture_failed_peers — wire keys are posture-check seq ids,
+	// Phase 10: posture_failed_peers â€” wire keys are posture-check seq ids,
 	// values are peer indexes that need to be turned into peer ids. PolicyRule
 	// SourcePostureChecks (also synth ids) reference the same key space.
 	for checkID, set := range full.PostureFailedPeers {
@@ -239,7 +239,7 @@ func DecodeEnvelope(ctx context.Context, env *proto.NetworkMapEnvelope) (*types.
 		}
 	}
 
-	// Phase 11: router_peer_indexes — peers that act as routers. They're
+	// Phase 11: router_peer_indexes â€” peers that act as routers. They're
 	// already in c.Peers (router peers are appended to the global peers
 	// list by the encoder); RouterPeers is the subset.
 	for _, idx := range full.RouterPeerIndexes {
@@ -289,7 +289,7 @@ func policiesForNetworkResource(resourceId string, allPolicies []*nmdata.Policy,
 	return toret
 }
 
-// decodeAccountNetwork never returns nil — Calculate() dereferences
+// decodeAccountNetwork never returns nil â€” Calculate() dereferences
 // c.Network unconditionally, and servers that predate the fix omit the field
 // entirely from the empty-components envelope.
 func decodeAccountNetwork(an *proto.AccountNetwork) *nmdata.Network {
@@ -377,7 +377,7 @@ func decodePeerCompact(pc *proto.PeerCompact, peerID string) *nmdata.Peer {
 
 func decodePolicyCompact(pc *proto.PolicyCompact, policyID string, peerIDByIndex []string) *nmdata.Policy {
 	rule := &nmdata.PolicyRule{
-		ID:                  policyID, // 1 rule per policy → reuse synthesized id
+		ID:                  policyID, // 1 rule per policy â†’ reuse synthesized id
 		PolicyID:            policyID,
 		Enabled:             true,
 		Action:              string(actionFromProto(pc.Action)),
@@ -402,7 +402,7 @@ func decodePolicyCompact(pc *proto.PolicyCompact, policyID string, peerIDByIndex
 }
 
 // resourceFromProto rebuilds types.Resource. For peer-typed resources the
-// peer reference is reconstructed from the envelope's peer index — wire
+// peer reference is reconstructed from the envelope's peer index â€” wire
 // format ships no xid for peers, so we use the synthesized peer id.
 func resourceFromProto(r *proto.ResourceCompact, peerIDByIndex []string) nmdata.Resource {
 	if r == nil || !types.ResourceType(r.Type).Valid() {
@@ -580,7 +580,7 @@ func protocolFromProto(p proto.RuleProtocol) types.PolicyRuleProtocolType {
 		return types.PolicyRuleProtocolICMP
 	case proto.RuleProtocol_ALL:
 		return types.PolicyRuleProtocolALL
-	case proto.RuleProtocol_NETBIRD_SSH:
+	case proto.RuleProtocol_WARDENCLYFFE_SSH:
 		return types.PolicyRuleProtocolWardenclyffeSSH
 	default:
 		return types.PolicyRuleProtocolALL
@@ -600,7 +600,7 @@ func stringSliceToSet(s []string) map[string]struct{} {
 
 // domainsFromPunycode is a thin wrapper that converts a punycode list back to
 // the domain.List type the route.Route struct expects. It accepts the
-// punycode strings as-is (no extra decoding) — symmetric with
+// punycode strings as-is (no extra decoding) â€” symmetric with
 // route.Domains.ToPunycodeList() used in the encoder.
 func domainsFromPunycode(punycoded []string) domain.List {
 	if len(punycoded) == 0 {

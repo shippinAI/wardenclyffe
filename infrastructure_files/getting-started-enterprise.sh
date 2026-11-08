@@ -9,7 +9,7 @@ set -o pipefail
 
 SED_STRIP_PADDING='s/=//g'
 
-NETBIRD_EULA_URL="https://wardenclyffe.appself-hosted-EULA"
+WARDENCLYFFE_EULA_URL="https://wardenclyffe.appself-hosted-EULA"
 
 # Static IP for Traefik inside the compose bridge network. The management
 # server trusts X-Forwarded-* headers from this address only.
@@ -106,8 +106,8 @@ read_nb_domain() {
 }
 
 read_letsencrypt_email() {
-  if [[ -n "${NETBIRD_LETSENCRYPT_EMAIL:-}" ]]; then
-    echo "$NETBIRD_LETSENCRYPT_EMAIL"
+  if [[ -n "${WARDENCLYFFE_LETSENCRYPT_EMAIL:-}" ]]; then
+    echo "$WARDENCLYFFE_LETSENCRYPT_EMAIL"
     return
   fi
   local value=""
@@ -183,7 +183,7 @@ require_eula_acceptance() {
   On-Premise End User License Agreement (the "EULA"). Please read the EULA
   in full before continuing:
 
-      ${NETBIRD_EULA_URL}
+      ${WARDENCLYFFE_EULA_URL}
 
   By typing "accept" and continuing the installation, you confirm that you
   have read and agree to the EULA, that you are authorized to accept it on
@@ -306,7 +306,7 @@ report_license_verdict() {
     echo "     license server, then restart:"
   else
     echo "     Check the reason the server gave above, verify that"
-    echo "     NETBIRD_LICENSE_KEY in .env matches the key you were issued,"
+    echo "     WARDENCLYFFE_LICENSE_KEY in .env matches the key you were issued,"
     echo "     then restart:"
   fi
   echo ""
@@ -328,7 +328,7 @@ init_environment() {
   fi
 
   require_eula_acceptance
-  NETBIRD_EULA_ACCEPTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  WARDENCLYFFE_EULA_ACCEPTED_AT=$(date -u +%Y-%m-%dT%H:%M:%SZ)
 
   echo "WardenClyffe Enterprise bootstrap"
   echo ""
@@ -339,41 +339,41 @@ init_environment() {
   echo "  service) and wardenclyffe-enricher (the traffic log enricher service)."
   echo "  It still has to be turned on from the dashboard settings afterwards."
   echo "  See https://docs.wardenclyffe.app/manage/activity/traffic-events-logging"
-  NETBIRD_TRAFFIC_FLOW=$(read_yes_no "Enable traffic flow" "n")
+  WARDENCLYFFE_TRAFFIC_FLOW=$(read_yes_no "Enable traffic flow" "n")
 
   echo ""
-  NETBIRD_DOMAIN=$(read_nb_domain)
+  WARDENCLYFFE_DOMAIN=$(read_nb_domain)
 
   echo ""
-  NETBIRD_LETSENCRYPT_EMAIL=$(read_letsencrypt_email)
+  WARDENCLYFFE_LETSENCRYPT_EMAIL=$(read_letsencrypt_email)
 
   echo ""
 
-  NETBIRD_LICENSE_KEY=$(read_secret "Enter license key (input hidden)")
+  WARDENCLYFFE_LICENSE_KEY=$(read_secret "Enter license key (input hidden)")
 
   POSTGRES_USER="wardenclyffe"
   POSTGRES_DB="wardenclyffe"
   POSTGRES_PASSWORD=$(rand_secret)
-  NETBIRD_ENCRYPTION_KEY=$(rand_b64_key)
-  NETBIRD_SESSION_COOKIE_ENCRYPTION_KEY=$(rand_b64_key)
-  NETBIRD_RELAY_AUTH_SECRET=$(rand_secret)
+  WARDENCLYFFE_ENCRYPTION_KEY=$(rand_b64_key)
+  WARDENCLYFFE_SESSION_COOKIE_ENCRYPTION_KEY=$(rand_b64_key)
+  WARDENCLYFFE_RELAY_AUTH_SECRET=$(rand_secret)
 
   POSTGRES_DSN="host=postgres user=${POSTGRES_USER} password=${POSTGRES_PASSWORD} dbname=${POSTGRES_DB} port=5432 sslmode=disable TimeZone=UTC"
-  NETBIRD_RELAY_ENDPOINT="rels://${NETBIRD_DOMAIN}:443"
+  WARDENCLYFFE_RELAY_ENDPOINT="rels://${WARDENCLYFFE_DOMAIN}:443"
 
   echo ""
   echo "Selected:"
-  echo "  Traffic flow: ${NETBIRD_TRAFFIC_FLOW}"
-  echo "  Domain:       ${NETBIRD_DOMAIN}"
-  echo "  ACME email:   ${NETBIRD_LETSENCRYPT_EMAIL}"
+  echo "  Traffic flow: ${WARDENCLYFFE_TRAFFIC_FLOW}"
+  echo "  Domain:       ${WARDENCLYFFE_DOMAIN}"
+  echo "  ACME email:   ${WARDENCLYFFE_LETSENCRYPT_EMAIL}"
   echo ""
   echo "Rendering files into $(pwd) ..."
   install -m 600 /dev/null .env
   render_env >> .env
   render_docker_compose > docker-compose.yml
 
-  if [[ -z "${NETBIRD_LICENSE_SERVER_BASE_URL:-}" ]]; then
-    sed -i.bak '/NETBIRD_LICENSE_SERVER_BASE_URL/d' docker-compose.yml && rm -f docker-compose.yml.bak
+  if [[ -z "${WARDENCLYFFE_LICENSE_SERVER_BASE_URL:-}" ]]; then
+    sed -i.bak '/WARDENCLYFFE_LICENSE_SERVER_BASE_URL/d' docker-compose.yml && rm -f docker-compose.yml.bak
   fi
   install -m 600 /dev/null config.yaml
   render_config_yaml >> config.yaml
@@ -398,7 +398,7 @@ init_environment() {
   echo ""
   echo "Done."
   echo ""
-  echo "Dashboard: https://${NETBIRD_DOMAIN}"
+  echo "Dashboard: https://${WARDENCLYFFE_DOMAIN}"
   echo ""
   echo "Open the dashboard in a browser to complete the first-login owner setup."
   echo "All configuration and secrets are stored (mode 600) in $(pwd)/.env"
@@ -423,30 +423,30 @@ render_env() {
 # Holds all configuration and secrets for the stack. Mode 600.
 
 # WardenClyffe On-Premise EULA acceptance
-NETBIRD_EULA_ACCEPTED=yes
-NETBIRD_EULA_ACCEPTED_AT=${NETBIRD_EULA_ACCEPTED_AT}
-NETBIRD_EULA_URL=${NETBIRD_EULA_URL}
+WARDENCLYFFE_EULA_ACCEPTED=yes
+WARDENCLYFFE_EULA_ACCEPTED_AT=${WARDENCLYFFE_EULA_ACCEPTED_AT}
+WARDENCLYFFE_EULA_URL=${WARDENCLYFFE_EULA_URL}
 
 # Features (set by the script; don't edit without re-running)
-NETBIRD_TRAFFIC_FLOW_ENABLED=${NETBIRD_TRAFFIC_FLOW}
+WARDENCLYFFE_TRAFFIC_FLOW_ENABLED=${WARDENCLYFFE_TRAFFIC_FLOW}
 
 # Domain
-NETBIRD_DOMAIN=${NETBIRD_DOMAIN}
+WARDENCLYFFE_DOMAIN=${WARDENCLYFFE_DOMAIN}
 
 # Reverse proxy (Traefik)
-NETBIRD_LETSENCRYPT_EMAIL=${NETBIRD_LETSENCRYPT_EMAIL}
-NETBIRD_TRAEFIK_TAG=${NETBIRD_TRAEFIK_TAG:-v3.6}
-NETBIRD_TRAEFIK_IP=${TRAEFIK_IP}
+WARDENCLYFFE_LETSENCRYPT_EMAIL=${WARDENCLYFFE_LETSENCRYPT_EMAIL}
+WARDENCLYFFE_TRAEFIK_TAG=${WARDENCLYFFE_TRAEFIK_TAG:-v3.6}
+WARDENCLYFFE_TRAEFIK_IP=${TRAEFIK_IP}
 
 # Image tags. Default to "latest"
-NETBIRD_DASHBOARD_TAG=${NETBIRD_DASHBOARD_TAG:-latest}
-NETBIRD_SERVER_TAG=${NETBIRD_SERVER_TAG:-latest}
+WARDENCLYFFE_DASHBOARD_TAG=${WARDENCLYFFE_DASHBOARD_TAG:-latest}
+WARDENCLYFFE_SERVER_TAG=${WARDENCLYFFE_SERVER_TAG:-latest}
 EOF
 
-  if [[ "$NETBIRD_TRAFFIC_FLOW" == "yes" ]]; then
+  if [[ "$WARDENCLYFFE_TRAFFIC_FLOW" == "yes" ]]; then
     cat <<EOF
-NETBIRD_ENRICHER_TAG=${NETBIRD_ENRICHER_TAG:-latest}
-NETBIRD_RECEIVER_TAG=${NETBIRD_RECEIVER_TAG:-latest}
+WARDENCLYFFE_ENRICHER_TAG=${WARDENCLYFFE_ENRICHER_TAG:-latest}
+WARDENCLYFFE_RECEIVER_TAG=${WARDENCLYFFE_RECEIVER_TAG:-latest}
 EOF
   fi
 
@@ -454,13 +454,13 @@ EOF
 
 # License keys
 EOF
-  if [[ -n "${NETBIRD_LICENSE_SERVER_BASE_URL:-}" ]]; then
+  if [[ -n "${WARDENCLYFFE_LICENSE_SERVER_BASE_URL:-}" ]]; then
     cat <<EOF
-NETBIRD_LICENSE_SERVER_BASE_URL=${NETBIRD_LICENSE_SERVER_BASE_URL}
+WARDENCLYFFE_LICENSE_SERVER_BASE_URL=${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
 EOF
   fi
   cat <<EOF
-NETBIRD_LICENSE_KEY=${NETBIRD_LICENSE_KEY}
+WARDENCLYFFE_LICENSE_KEY=${WARDENCLYFFE_LICENSE_KEY}
 EOF
 
   cat <<EOF
@@ -469,17 +469,17 @@ EOF
 POSTGRES_USER=${POSTGRES_USER}
 POSTGRES_DB=${POSTGRES_DB}
 POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-NETBIRD_STORE_ENGINE_POSTGRES_DSN=${POSTGRES_DSN}
+WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=${POSTGRES_DSN}
 
 # Relay
-NETBIRD_RELAY_ENDPOINT=${NETBIRD_RELAY_ENDPOINT}
-NETBIRD_RELAY_AUTH_SECRET=${NETBIRD_RELAY_AUTH_SECRET}
+WARDENCLYFFE_RELAY_ENDPOINT=${WARDENCLYFFE_RELAY_ENDPOINT}
+WARDENCLYFFE_RELAY_AUTH_SECRET=${WARDENCLYFFE_RELAY_AUTH_SECRET}
 
 # Datastore encryption
-NETBIRD_ENCRYPTION_KEY=${NETBIRD_ENCRYPTION_KEY}
+WARDENCLYFFE_ENCRYPTION_KEY=${WARDENCLYFFE_ENCRYPTION_KEY}
 
 # Dashboard OIDC scopes
-NETBIRD_AUTH_SUPPORTED_SCOPES=${NETBIRD_AUTH_SUPPORTED_SCOPES:-openid profile email groups}
+WARDENCLYFFE_AUTH_SUPPORTED_SCOPES=${WARDENCLYFFE_AUTH_SUPPORTED_SCOPES:-openid profile email groups}
 EOF
 }
 
@@ -487,7 +487,7 @@ render_docker_compose() {
   render_compose_header
   render_compose_common
   render_compose_server
-  if [[ "$NETBIRD_TRAFFIC_FLOW" == "yes" ]]; then
+  if [[ "$WARDENCLYFFE_TRAFFIC_FLOW" == "yes" ]]; then
     render_compose_flow
   fi
   render_compose_postgres
@@ -514,11 +514,11 @@ render_compose_common() {
   # labels on the services below and picked up through the Docker provider.
   traefik:
     <<: *default
-    image: traefik:${NETBIRD_TRAEFIK_TAG}
+    image: traefik:${WARDENCLYFFE_TRAEFIK_TAG}
     container_name: wardenclyffe-traefik
     networks:
       wardenclyffe:
-        ipv4_address: ${NETBIRD_TRAEFIK_IP}
+        ipv4_address: ${WARDENCLYFFE_TRAEFIK_IP}
     command:
       # Logging
       - "--log.level=INFO"
@@ -541,7 +541,7 @@ render_compose_common() {
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
       # Let's Encrypt ACME
-      - "--certificatesresolvers.letsencrypt.acme.email=${NETBIRD_LETSENCRYPT_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.email=${WARDENCLYFFE_LETSENCRYPT_EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
       - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
     ports:
@@ -568,13 +568,13 @@ render_compose_common() {
 
   dashboard:
     <<: *default
-    image: ghcr.io/shippin/wardenclyffe/dashboard-cloud:${NETBIRD_DASHBOARD_TAG}
+    image: ghcr.io/shippin/wardenclyffe/dashboard-cloud:${WARDENCLYFFE_DASHBOARD_TAG}
     container_name: wardenclyffe-dashboard
     networks: [wardenclyffe]
     labels:
       - traefik.enable=true
       # Dashboard catch-all: lowest priority so every route below wins
-      - traefik.http.routers.wardenclyffe-dashboard.rule=Host(`${NETBIRD_DOMAIN}`)
+      - traefik.http.routers.wardenclyffe-dashboard.rule=Host(`${WARDENCLYFFE_DOMAIN}`)
       - traefik.http.routers.wardenclyffe-dashboard.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-dashboard.tls=true
       - traefik.http.routers.wardenclyffe-dashboard.tls.certresolver=letsencrypt
@@ -583,17 +583,17 @@ render_compose_common() {
       - traefik.http.routers.wardenclyffe-dashboard.priority=1
       - traefik.http.services.dashboard.loadbalancer.server.port=80
     environment:
-      - NETBIRD_MGMT_API_ENDPOINT=https://${NETBIRD_DOMAIN}
-      - NETBIRD_MGMT_GRPC_API_ENDPOINT=https://${NETBIRD_DOMAIN}
+      - WARDENCLYFFE_MGMT_API_ENDPOINT=https://${WARDENCLYFFE_DOMAIN}
+      - WARDENCLYFFE_MGMT_GRPC_API_ENDPOINT=https://${WARDENCLYFFE_DOMAIN}
       - AUTH_AUDIENCE=wardenclyffe-dashboard
       - AUTH_CLIENT_ID=wardenclyffe-dashboard
       - AUTH_CLIENT_SECRET=
-      - AUTH_AUTHORITY=https://${NETBIRD_DOMAIN}/oauth2
+      - AUTH_AUTHORITY=https://${WARDENCLYFFE_DOMAIN}/oauth2
       - USE_AUTH0=false
-      - AUTH_SUPPORTED_SCOPES=${NETBIRD_AUTH_SUPPORTED_SCOPES}
+      - AUTH_SUPPORTED_SCOPES=${WARDENCLYFFE_AUTH_SUPPORTED_SCOPES}
       - AUTH_REDIRECT_URI=/nb-auth
       - AUTH_SILENT_REDIRECT_URI=/nb-silent-auth
-      - NETBIRD_TOKEN_SOURCE=accessToken
+      - WARDENCLYFFE_TOKEN_SOURCE=accessToken
       - NGINX_SSL_PORT=443
       - LETSENCRYPT_DOMAIN=
       - LETSENCRYPT_EMAIL=
@@ -605,7 +605,7 @@ render_compose_server() {
   cat <<'EOF'
   wardenclyffe-server:
     <<: *default
-    image: ghcr.io/shippin/wardenclyffe-server-cloud:${NETBIRD_SERVER_TAG}
+    image: ghcr.io/shippin/wardenclyffe-server-cloud:${WARDENCLYFFE_SERVER_TAG}
     container_name: wardenclyffe-server
     networks: [wardenclyffe]
     depends_on:
@@ -622,7 +622,7 @@ render_compose_server() {
     labels:
       - traefik.enable=true
       # Signal + Management gRPC (needs an h2c backend for HTTP/2 cleartext)
-      - traefik.http.routers.wardenclyffe-grpc.rule=Host(`${NETBIRD_DOMAIN}`) && (PathPrefix(`/signalexchange.SignalExchange/`) || PathPrefix(`/management.ManagementService/`) || PathPrefix(`/management.ProxyService/`))
+      - traefik.http.routers.wardenclyffe-grpc.rule=Host(`${WARDENCLYFFE_DOMAIN}`) && (PathPrefix(`/signalexchange.SignalExchange/`) || PathPrefix(`/management.ManagementService/`) || PathPrefix(`/management.ProxyService/`))
       - traefik.http.routers.wardenclyffe-grpc.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-grpc.tls=true
       - traefik.http.routers.wardenclyffe-grpc.tls.certresolver=letsencrypt
@@ -630,7 +630,7 @@ render_compose_server() {
       - traefik.http.routers.wardenclyffe-grpc.service=wardenclyffe-server-h2c
       - traefik.http.routers.wardenclyffe-grpc.priority=100
       # Relay WebSocket, management API, and the embedded IdP
-      - traefik.http.routers.wardenclyffe-backend.rule=Host(`${NETBIRD_DOMAIN}`) && (PathPrefix(`/relay`) || PathPrefix(`/ws-proxy/`) || PathPrefix(`/api`) || PathPrefix(`/oauth2`))
+      - traefik.http.routers.wardenclyffe-backend.rule=Host(`${WARDENCLYFFE_DOMAIN}`) && (PathPrefix(`/relay`) || PathPrefix(`/ws-proxy/`) || PathPrefix(`/api`) || PathPrefix(`/oauth2`))
       - traefik.http.routers.wardenclyffe-backend.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-backend.tls=true
       - traefik.http.routers.wardenclyffe-backend.tls.certresolver=letsencrypt
@@ -642,8 +642,8 @@ render_compose_server() {
       - traefik.http.services.wardenclyffe-server-h2c.loadbalancer.server.port=80
       - traefik.http.services.wardenclyffe-server-h2c.loadbalancer.server.scheme=h2c
     environment:
-      - NB_LICENSE_KEY=${NETBIRD_LICENSE_KEY}
-      - NETBIRD_LICENSE_SERVER_BASE_URL=${NETBIRD_LICENSE_SERVER_BASE_URL}
+      - NB_LICENSE_KEY=${WARDENCLYFFE_LICENSE_KEY}
+      - WARDENCLYFFE_LICENSE_SERVER_BASE_URL=${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
 
 EOF
 }
@@ -661,7 +661,7 @@ render_compose_flow() {
 
   enricher:
     <<: *default
-    image: ghcr.io/shippin/wardenclyffe/flow-enricher-cloud:${NETBIRD_ENRICHER_TAG}
+    image: ghcr.io/shippin/wardenclyffe/flow-enricher-cloud:${WARDENCLYFFE_ENRICHER_TAG}
     container_name: wardenclyffe-enricher
     networks: [wardenclyffe]
     depends_on:
@@ -672,15 +672,15 @@ render_compose_flow() {
     volumes:
       - wardenclyffe_enricher:/var/lib/wardenclyffe
     environment:
-      - NB_LICENSE_KEY=${NETBIRD_LICENSE_KEY}
-      - NETBIRD_LICENSE_SERVER_BASE_URL=${NETBIRD_LICENSE_SERVER_BASE_URL}
+      - NB_LICENSE_KEY=${WARDENCLYFFE_LICENSE_KEY}
+      - WARDENCLYFFE_LICENSE_SERVER_BASE_URL=${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
       - NB_DATADIR=/var/lib/wardenclyffe
       - NB_MANAGEMENT_STORE_ENGINE=postgres
-      - NB_MANAGEMENT_POSTGRES_DSN=${NETBIRD_STORE_ENGINE_POSTGRES_DSN}
-      - NETBIRD_STORE_ENGINE_POSTGRES_DSN=${NETBIRD_STORE_ENGINE_POSTGRES_DSN}
-      - NB_TRAFFIC_EVENT_POSTGRES_DSN=${NETBIRD_STORE_ENGINE_POSTGRES_DSN}
+      - NB_MANAGEMENT_POSTGRES_DSN=${WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN}
+      - WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=${WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN}
+      - NB_TRAFFIC_EVENT_POSTGRES_DSN=${WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN}
       - NB_TRAFFIC_EVENT_STORE_ENGINE=postgres
-      - NB_MANAGEMENT_STORE_KEY=${NETBIRD_ENCRYPTION_KEY}
+      - NB_MANAGEMENT_STORE_KEY=${WARDENCLYFFE_ENCRYPTION_KEY}
       - NB_FLOW_ADAPTER_TYPE=nats
       - NB_FLOW_NATS_ENDPOINTS=nats://nats:4222
       - NB_FLOW_NATS_STREAM=traffic-events
@@ -689,24 +689,24 @@ render_compose_flow() {
 
   receiver:
     <<: *default
-    image: ghcr.io/shippin/wardenclyffe/flow-receiver-cloud:${NETBIRD_RECEIVER_TAG}
+    image: ghcr.io/shippin/wardenclyffe/flow-receiver-cloud:${WARDENCLYFFE_RECEIVER_TAG}
     container_name: wardenclyffe-receiver
     networks: [wardenclyffe]
     depends_on:
       nats:
         condition: service_started
     environment:
-      - NB_LICENSE_KEY=${NETBIRD_LICENSE_KEY}
-      - NETBIRD_LICENSE_SERVER_BASE_URL=${NETBIRD_LICENSE_SERVER_BASE_URL}
+      - NB_LICENSE_KEY=${WARDENCLYFFE_LICENSE_KEY}
+      - WARDENCLYFFE_LICENSE_SERVER_BASE_URL=${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
       - NB_FLOW_LISTEN_PORT=80
       - NB_FLOW_ADAPTER_TYPE=nats
       - NB_FLOW_NATS_ENDPOINTS=nats://nats:4222
       - NB_FLOW_NATS_STREAM=traffic-events
-      - NB_FLOW_AUTH_SECRET=${NETBIRD_RELAY_AUTH_SECRET}
+      - NB_FLOW_AUTH_SECRET=${WARDENCLYFFE_RELAY_AUTH_SECRET}
     labels:
       - traefik.enable=true
       # Flow receiver gRPC (h2c backend)
-      - traefik.http.routers.wardenclyffe-flow.rule=Host(`${NETBIRD_DOMAIN}`) && PathPrefix(`/flow.FlowService/`)
+      - traefik.http.routers.wardenclyffe-flow.rule=Host(`${WARDENCLYFFE_DOMAIN}`) && PathPrefix(`/flow.FlowService/`)
       - traefik.http.routers.wardenclyffe-flow.entrypoints=websecure
       - traefik.http.routers.wardenclyffe-flow.tls=true
       - traefik.http.routers.wardenclyffe-flow.tls.certresolver=letsencrypt
@@ -746,7 +746,7 @@ render_compose_footer() {
 volumes:
   wardenclyffe_data:
 EOF
-  if [[ "$NETBIRD_TRAFFIC_FLOW" == "yes" ]]; then
+  if [[ "$WARDENCLYFFE_TRAFFIC_FLOW" == "yes" ]]; then
     cat <<'EOF'
   wardenclyffe_nats_data:
   wardenclyffe_enricher:
@@ -774,7 +774,7 @@ render_config_yaml() {
 
 server:
   listenAddress: ":80"
-  exposedAddress: "https://${NETBIRD_DOMAIN}:443"
+  exposedAddress: "https://${WARDENCLYFFE_DOMAIN}:443"
 
   metricsPort: 9090
   healthcheckAddress: ":9000"
@@ -789,20 +789,20 @@ server:
     letsencrypt:
       enabled: false
 
-  authSecret: "${NETBIRD_RELAY_AUTH_SECRET}"
+  authSecret: "${WARDENCLYFFE_RELAY_AUTH_SECRET}"
   dataDir: "/var/lib/wardenclyffe/"
 
   disableAnonymousMetrics: false
   disableGeoliteUpdate: false
 
   auth:
-    issuer: "https://${NETBIRD_DOMAIN}/oauth2"
+    issuer: "https://${WARDENCLYFFE_DOMAIN}/oauth2"
     localAuthDisabled: false
     signKeyRefreshEnabled: false
-    sessionCookieEncryptionKey: "${NETBIRD_SESSION_COOKIE_ENCRYPTION_KEY}"
+    sessionCookieEncryptionKey: "${WARDENCLYFFE_SESSION_COOKIE_ENCRYPTION_KEY}"
     dashboardRedirectURIs:
-      - "https://${NETBIRD_DOMAIN}/nb-auth"
-      - "https://${NETBIRD_DOMAIN}/nb-silent-auth"
+      - "https://${WARDENCLYFFE_DOMAIN}/nb-auth"
+      - "https://${WARDENCLYFFE_DOMAIN}/nb-silent-auth"
     cliRedirectURIs:
       - "http://localhost:53000/"
 
@@ -819,19 +819,19 @@ server:
   store:
     engine: "postgres"
     dsn: "${POSTGRES_DSN}"
-    encryptionKey: "${NETBIRD_ENCRYPTION_KEY}"
+    encryptionKey: "${WARDENCLYFFE_ENCRYPTION_KEY}"
 
   activityStore:
     engine: "postgres"
     dsn: "${POSTGRES_DSN}"
 EOF
 
-  if [[ "$NETBIRD_TRAFFIC_FLOW" == "yes" ]]; then
+  if [[ "$WARDENCLYFFE_TRAFFIC_FLOW" == "yes" ]]; then
     cat <<EOF
 
   trafficFlow:
     enabled: true
-    address: "https://${NETBIRD_DOMAIN}:443"
+    address: "https://${WARDENCLYFFE_DOMAIN}:443"
     interval: "60s"
 EOF
   fi

@@ -26,7 +26,7 @@ const (
 	// PayloadEvent identifies an event type
 	PayloadEvent = "self-hosted stats"
 	// payloadEndpoint metrics defaultEndpoint to send anonymous data
-	payloadEndpoint = "https://metrics.wardenclyffe.wardenclyffe.app"
+	payloadEndpoint = "https://metrics.wardenclyffe.app"
 	// defaultPushInterval default interval to push metrics
 	defaultPushInterval = 12 * time.Hour
 	// requestTimeout http request timeout
@@ -109,12 +109,12 @@ func (w *Worker) Run(ctx context.Context) {
 
 func getMetricsInterval(ctx context.Context) time.Duration {
 	interval := defaultPushInterval
-	if os.Getenv("NETBIRD_METRICS_INTERVAL_IN_SECONDS") != "" {
-		newInterval, err := time.ParseDuration(os.Getenv("NETBIRD_METRICS_INTERVAL_IN_SECONDS") + "s")
+	if os.Getenv("WARDENCLYFFE_METRICS_INTERVAL_IN_SECONDS") != "" {
+		newInterval, err := time.ParseDuration(os.Getenv("WARDENCLYFFE_METRICS_INTERVAL_IN_SECONDS") + "s")
 		if err != nil {
-			log.WithContext(ctx).Errorf("unable to parse NETBIRD_METRICS_INTERVAL_IN_SECONDS, using default interval %v. Error: %v", defaultPushInterval, err)
+			log.WithContext(ctx).Errorf("unable to parse WARDENCLYFFE_METRICS_INTERVAL_IN_SECONDS, using default interval %v. Error: %v", defaultPushInterval, err)
 		} else {
-			log.WithContext(ctx).Infof("using NETBIRD_METRICS_INTERVAL_IN_SECONDS %s", newInterval)
+			log.WithContext(ctx).Infof("using WARDENCLYFFE_METRICS_INTERVAL_IN_SECONDS %s", newInterval)
 			interval = newInterval
 		}
 	}
@@ -160,7 +160,7 @@ func (w *Worker) sendMetrics(ctx context.Context) error {
 
 	log.WithContext(ctx).Infof("sent anonymous metrics, next push will happen in %s. "+
 		"You can disable these metrics by running with flag --disable-anonymous-metrics,"+
-		" see more information at https://docs.wardenclyffe.wardenclyffe.app/about-wardenclyffe/faq#why-and-what-are-the-anonymous-usage-metrics", getMetricsInterval(ctx))
+		" see more information at https://docs.wardenclyffe.app/about-wardenclyffe/faq#why-and-what-are-the-anonymous-usage-metrics", getMetricsInterval(ctx))
 
 	return nil
 }
@@ -226,7 +226,7 @@ func (w *Worker) generateProperties(ctx context.Context) properties {
 		servicesAuthPassword      int
 		servicesAuthPin           int
 		servicesAuthOIDC          int
-		// Private-service signals — track adoption of WardenClyffe-only mode
+		// Private-service signals â€” track adoption of WardenClyffe-only mode
 		// (services backed by an embedded proxy peer + access groups).
 		servicesPrivate                int
 		servicesPrivateWithGroups      int

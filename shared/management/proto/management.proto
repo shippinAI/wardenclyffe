@@ -151,11 +151,11 @@ message SyncResponse {
 
   // 3-state session deadline. Carried on every Sync snapshot so admin-side
   // changes propagate live without a client reconnect.
-  //   field unset (nil)        → snapshot carries no info; client keeps the
+  //   field unset (nil)        â†’ snapshot carries no info; client keeps the
   //                              deadline it already had
-  //   set, seconds=0 nanos=0   → explicit "expiry disabled" or peer is not
+  //   set, seconds=0 nanos=0   â†’ explicit "expiry disabled" or peer is not
   //                              SSO-registered; client clears its anchor
-  //   set, valid timestamp     → new absolute UTC deadline
+  //   set, valid timestamp     â†’ new absolute UTC deadline
   google.protobuf.Timestamp sessionExpiresAt = 7;
 
   // NetworkMapEnvelope carries the component-based wire format for peers that
@@ -286,9 +286,9 @@ message LoginResponse {
   repeated Checks Checks = 3;
 
   // 3-state session deadline; same encoding as SyncResponse.sessionExpiresAt.
-  //   field unset (nil)        → no info; client keeps any deadline it had
-  //   set, seconds=0 nanos=0   → explicit "expiry disabled" / non-SSO peer
-  //   set, valid timestamp     → new absolute UTC deadline
+  //   field unset (nil)        â†’ no info; client keeps any deadline it had
+  //   set, seconds=0 nanos=0   â†’ explicit "expiry disabled" / non-SSO peer
+  //   set, valid timestamp     â†’ new absolute UTC deadline
   google.protobuf.Timestamp sessionExpiresAt = 4;
 }
 
@@ -428,8 +428,8 @@ message PeerConfig {
 message AutoUpdateSettings {
   string version = 1;
   /*
-    alwaysUpdate = true → Updates are installed automatically in the background
-    alwaysUpdate = false → Updates require user interaction from the UI
+    alwaysUpdate = true â†’ Updates are installed automatically in the background
+    alwaysUpdate = false â†’ Updates require user interaction from the UI
    */
   bool alwaysUpdate = 2;
 }
@@ -656,13 +656,13 @@ enum RuleProtocol {
   UDP = 3;
   ICMP = 4;
   CUSTOM = 5;
-  // NETBIRD_SSH (types.PolicyRuleProtocolType "wardenclyffe-ssh") is the marker
+  // WARDENCLYFFE_SSH (types.PolicyRuleProtocolType "wardenclyffe-ssh") is the marker
   // policy rule that drives SSH-server activation in Calculate(). The legacy
   // proto.FirewallRule path doesn't ship this value (Calculate already
   // expands SSH rules into TCP/22 before encoding), but the components path
-  // ships RAW policies — the client must see this protocol to derive
+  // ships RAW policies â€” the client must see this protocol to derive
   // AuthorizedUsers locally.
-  NETBIRD_SSH = 6;
+  WARDENCLYFFE_SSH = 6;
 }
 
 enum RuleDirection {
@@ -825,13 +825,13 @@ message NetworkMapEnvelope {
 // NetworkMapComponentsFull is the full per-peer component snapshot. The
 // client decodes it into a types.NetworkMapComponents and runs Calculate()
 // locally to produce the same NetworkMap the legacy server path would have
-// produced. Every field carries RAW component data — no server-side
+// produced. Every field carries RAW component data â€” no server-side
 // expansion (firewall rules, DNS config, SSH auth, route firewall rules,
 // forwarding rules) is shipped; the client computes those itself.
 message NetworkMapComponentsFull {
   uint64 serial = 1;
 
-  // Peer config for the receiving peer (legacy proto.PeerConfig kept as-is —
+  // Peer config for the receiving peer (legacy proto.PeerConfig kept as-is â€”
   // it carries the receiving peer's own overlay address, FQDN, SSH config).
   PeerConfig peer_config = 2;
 
@@ -867,7 +867,7 @@ message NetworkMapComponentsFull {
   // Policies that affect the receiving peer.
   repeated PolicyCompact policies = 11;
 
-  // Groups in unspecified order — clients key off id (public_id).
+  // Groups in unspecified order â€” clients key off id (public_id).
   repeated GroupCompact groups = 12;
 
   // Routes relevant to this peer, raw shape (mirrors []*route.Route).
@@ -895,7 +895,7 @@ message NetworkMapComponentsFull {
   // that apply to it.
   map<string, PolicyIds> resource_policies_map = 19;
 
-  // Group-id (public_id) → user ids authorized for SSH on members.
+  // Group-id (public_id) â†’ user ids authorized for SSH on members.
   map<string, UserIDList> group_id_to_user_ids = 20;
 
   // Account-level allowed user ids (used by Calculate() when assembling SSH
@@ -914,11 +914,11 @@ message NetworkMapComponentsFull {
   // Pre-expanded NetworkMap fragments injected post-Calculate by external
   // controllers (BYOP / port-forwarding proxies). The receiving client
   // merges these into its locally-computed NetworkMap the same way the
-  // legacy server does via NetworkMap.Merge — so downstream consumers see
+  // legacy server does via NetworkMap.Merge â€” so downstream consumers see
   // a unified merged result regardless of source.
   ProxyPatch proxy_patch = 24;
 
-  // SSH UserIDClaim — server-side HttpServerConfig.AuthUserIDClaim, or
+  // SSH UserIDClaim â€” server-side HttpServerConfig.AuthUserIDClaim, or
   // "sub" by default. Populated in proto.SSHAuth.UserIDClaim when the
   // client rebuilds the NetworkMap from this envelope. Empty when the
   // account has no AuthorizedUsers (and thus no SshAuth to populate).
@@ -930,7 +930,7 @@ message NetworkMapComponentsFull {
 }
 
 // ProxyPatch carries NetworkMap fragments that don't fit the component-graph
-// model — they're pre-expanded by external controllers (BYOP /
+// model â€” they're pre-expanded by external controllers (BYOP /
 // port-forwarding proxies) and injected post-Calculate. Fields use the
 // legacy wire types because the proxy delivers them pre-formed; there is
 // no raw component shape to convert from. Empty when no proxy is active.
@@ -945,7 +945,7 @@ message ProxyPatch {
 
 // AccountSettingsCompact carries the account-level settings the client needs
 // to evaluate locally. Mirrors the subset of types.AccountSettingsInfo that
-// Calculate() actually reads — login-expiration (used to filter expired
+// Calculate() actually reads â€” login-expiration (used to filter expired
 // peers). Inactivity expiration is purely server-side bookkeeping and is not
 // shipped.
 message AccountSettingsCompact {
@@ -968,7 +968,7 @@ message AccountNetwork {
 }
 
 // NetworkMapComponentsDelta is reserved for the incremental update
-// protocol. Field numbers 1–100 are pre-allocated to keep room for the
+// protocol. Field numbers 1â€“100 are pre-allocated to keep room for the
 // planned event types without needing a renumber.
 message NetworkMapComponentsDelta {
   reserved 1 to 100;
@@ -976,7 +976,7 @@ message NetworkMapComponentsDelta {
 
 // PeerCompact is the wire-shape of a remote peer used by the component
 // format. It carries every field of types.Peer that the client's local
-// Calculate() reads — including the trio needed to evaluate
+// Calculate() reads â€” including the trio needed to evaluate
 // LoginExpired() (added_with_sso_login + login_expiration_enabled +
 // last_login_unix_nano). Fields the client does not consume (Status,
 // CreatedAt, etc.) are not shipped.
@@ -1007,14 +1007,14 @@ message PeerCompact {
   // (*Peer).LoginExpired() locally.
   bool added_with_sso_login = 7;
 
-  // True when the peer's login can expire — mirrors
+  // True when the peer's login can expire â€” mirrors
   // types.Peer.LoginExpirationEnabled.
   bool login_expiration_enabled = 8;
 
   // Unix-nanosecond timestamp of the peer's last login. 0 when the peer has
   // never logged in (server stores nil; client treats 0 as "epoch", which
   // makes a fresh peer immediately expired iff login_expiration_enabled is
-  // true — the same semantics as types.Peer.GetLastLogin).
+  // true â€” the same semantics as types.Peer.GetLastLogin).
   int64 last_login_unix_nano = 9;
 
   // True when the peer has an SSH server enabled locally. Used by the
@@ -1023,20 +1023,20 @@ message PeerCompact {
   // peer when this bit is set, even without an explicit WardenclyffeSSH rule.
   bool ssh_enabled = 10;
 
-  // Mirror of types.Peer.SupportsIPv6() — !Meta.Flags.DisableIPv6 &&
+  // Mirror of types.Peer.SupportsIPv6() â€” !Meta.Flags.DisableIPv6 &&
   // HasCapability(PeerCapabilityIPv6Overlay). Used by the local peer's
   // Calculate() when deciding whether to emit IPv6 firewall rules
   // (appendIPv6FirewallRule) against this peer's IPv6 address.
   bool supports_ipv6 = 11;
 
-  // Mirror of types.Peer.SupportsSourcePrefixes() —
+  // Mirror of types.Peer.SupportsSourcePrefixes() â€”
   // HasCapability(PeerCapabilitySourcePrefixes). Determines whether the
   // local peer's Calculate() emits SourcePrefixes alongside legacy PeerIP
   // fields in proto.FirewallRule.
   bool supports_source_prefixes = 12;
 
   // Mirror of types.Peer.Meta.Flags.ServerSSHAllowed. Read by Calculate()
-  // when expanding TCP port-22 firewall rules — the native SSH companion
+  // when expanding TCP port-22 firewall rules â€” the native SSH companion
   // (port 22022) is only added when this flag is set and the peer agent
   // version supports it.
   bool server_ssh_allowed = 13;
@@ -1072,7 +1072,7 @@ message PolicyCompact {
   repeated string destination_group_ids = 8;
 
   // SSH authorization fields. PolicyRule.AuthorizedGroups maps the rule's
-  // applicable group ids (public_ids) to a list of local-user names —
+  // applicable group ids (public_ids) to a list of local-user names â€”
   // when a peer in one of those groups is the SSH destination, the named
   // local users gain access. AuthorizedUser is the single-user form
   // (legacy: rule scopes SSH to one specific user id).
@@ -1084,7 +1084,7 @@ message PolicyCompact {
 
   // Resource-typed rule sources/destinations. When a rule targets a specific
   // peer (rather than groups), Calculate() reads SourceResource /
-  // DestinationResource — without these the rule's connection resources
+  // DestinationResource â€” without these the rule's connection resources
   // can't be produced on the client. ResourceCompact's peer_index refers to
   // NetworkMapComponentsFull.peers; type is the raw ResourceType string
   // ("peer", "host", "subnet", "domain"). Only "peer" is meaningful for
@@ -1110,7 +1110,7 @@ message ResourceCompact {
   string id = 5; // public id for domain/host/subnet resources
 }
 
-// UserNameList is a list of local-user names — used as the value type in
+// UserNameList is a list of local-user names â€” used as the value type in
 // PolicyCompact.authorized_groups.
 message UserNameList {
   repeated string names = 1;
@@ -1126,7 +1126,7 @@ message GroupCompact {
   repeated uint32 peer_indexes = 2;
 
   // True when the group is named "All" (types.Group.IsGroupAll). The
-  // client-side Calculate short-circuits group→peer expansion on such
+  // client-side Calculate short-circuits groupâ†’peer expansion on such
   // groups exactly like the server does; without this bit the decoded
   // groups lose that property and the two sides expand policy
   // destinations differently.
@@ -1230,13 +1230,13 @@ message PolicyIds {
   repeated string ids = 1;
 }
 
-// UserIDList is a list of user ids — used as the value type in
+// UserIDList is a list of user ids â€” used as the value type in
 // NetworkMapComponentsFull.group_id_to_user_ids.
 message UserIDList {
   repeated string user_ids = 1;
 }
 
-// PeerIndexSet is a set of peer indexes — used as the value type in
+// PeerIndexSet is a set of peer indexes â€” used as the value type in
 // NetworkMapComponentsFull.posture_failed_peers.
 message PeerIndexSet {
   repeated uint32 peer_indexes = 1;

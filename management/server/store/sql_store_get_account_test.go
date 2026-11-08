@@ -44,7 +44,7 @@ func TestPostgresql_GetAccount_LoadsCustomDomains(t *testing.T) {
 		t.Skip("skip CI tests on darwin and windows")
 	}
 
-	t.Setenv("NETBIRD_STORE_ENGINE", string(types.PostgresStoreEngine))
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", string(types.PostgresStoreEngine))
 	store, cleanup, err := NewTestStoreFromSQL(context.Background(), "", t.TempDir())
 	require.NoError(t, err)
 	t.Cleanup(cleanup)
@@ -1152,5 +1152,5 @@ func TestGetAccount_ComprehensiveFieldValidation(t *testing.T) {
 		assert.WithinDuration(t, now, retrievedAccount.Onboarding.CreatedAt, time.Second, "Onboarding created at mismatch")
 	})
 
-	t.Log("✅ All comprehensive account field validations passed!")
+	t.Log("âœ… All comprehensive account field validations passed!")
 }

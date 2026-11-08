@@ -92,7 +92,7 @@ func statusFunc(cmd *cobra.Command, args []string) error {
 			" wardenclyffe up \n\n"+
 			"If you are running a self-hosted version and no SSO provider has been configured in your Management Server,\n"+
 			"you can use a setup-key:\n\n wardenclyffe up --management-url <YOUR_MANAGEMENT_URL> --setup-key <YOUR_SETUP_KEY>\n\n"+
-			"More info: https://docs.wardenclyffe.wardenclyffe.app/how-to/register-machines-using-setup-keys\n\n",
+			"More info: https://docs.wardenclyffe.app/how-to/register-machines-using-setup-keys\n\n",
 			resp.GetStatus(),
 		)
 		return nil

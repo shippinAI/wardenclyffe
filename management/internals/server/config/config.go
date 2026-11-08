@@ -132,7 +132,7 @@ type HttpServerConfig struct {
 // Host represents a Wardenclyffe host (e.g. STUN, TURN, Signal)
 type Host struct {
 	Proto Protocol
-	// URI e.g. turns://stun.wardenclyffe.wardenclyffe.app:4430 or signal.wardenclyffe.wardenclyffe.app:10000
+	// URI e.g. turns://stun.wardenclyffe.app:4430 or signal.wardenclyffe.app:10000
 	URI      string
 	Username string
 	Password string

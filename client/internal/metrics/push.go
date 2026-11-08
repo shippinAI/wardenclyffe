@@ -25,7 +25,7 @@ const (
 var defaultMetricsServerURL *url.URL
 
 func init() {
-	defaultMetricsServerURL, _ = url.Parse("https://ingest.wardenclyffe.wardenclyffe.app")
+	defaultMetricsServerURL, _ = url.Parse("https://ingest.wardenclyffe.app")
 }
 
 // PushConfig holds configuration for metrics push

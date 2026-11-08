@@ -14,7 +14,7 @@ RUN apk add --no-cache \
     iptables
 
 ENV \
-    NETBIRD_BIN="/usr/local/bin/wardenclyffe" \
+    WARDENCLYFFE_BIN="/usr/local/bin/wardenclyffe" \
     NB_LOG_FILE="console,/var/log/wardenclyffe/client.log" \
     NB_DAEMON_ADDR="unix:///var/run/wardenclyffe.sock" \
     NB_ENABLE_CAPTURE="false" \
@@ -22,6 +22,6 @@ ENV \
 
 ENTRYPOINT [ "/usr/local/bin/wardenclyffe-entrypoint.sh" ]
 ARG TARGETPLATFORM
-ARG NETBIRD_BINARY=$TARGETPLATFORM/wardenclyffe
+ARG WARDENCLYFFE_BINARY=$TARGETPLATFORM/wardenclyffe
 COPY client/wardenclyffe-entrypoint.sh /usr/local/bin/wardenclyffe-entrypoint.sh
-COPY "${NETBIRD_BINARY}"  /usr/local/bin/wardenclyffe
+COPY "${WARDENCLYFFE_BINARY}"  /usr/local/bin/wardenclyffe

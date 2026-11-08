@@ -88,7 +88,7 @@ nfpms:
     scripts:
       postinstall: "release_files/ui-post-install.sh"
     contents:
-      - src: client/ui/build/linux/netbird.desktop
+      - src: client/ui/build/linux/wardenclyffe.desktop
         dst: /usr/share/applications/org.wails.wardenclyffe.desktop
       - src: client/ui/build/appicon.png
         dst: /usr/share/pixmaps/wardenclyffe.png
@@ -117,7 +117,7 @@ nfpms:
     scripts:
       postinstall: "release_files/ui-post-install.sh"
     contents:
-      - src: client/ui/build/linux/netbird.desktop
+      - src: client/ui/build/linux/wardenclyffe.desktop
         dst: /usr/share/applications/org.wails.wardenclyffe.desktop
       - src: client/ui/build/appicon.png
         dst: /usr/share/pixmaps/wardenclyffe.png

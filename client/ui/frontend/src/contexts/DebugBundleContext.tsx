@@ -5,7 +5,7 @@ import i18next from "@/lib/i18n";
 import { errorDialog, formatErrorMessage } from "@/lib/errors.ts";
 import { startConnection } from "@/lib/connection.ts";
 
-const NETBIRD_UPLOAD_URL = "https://upload.debug.wardenclyffe.app/upload-url";
+const WARDENCLYFFE_UPLOAD_URL = "https://upload.debug.wardenclyffe.app/upload-url";
 const TRACE_LOG_FILE_COUNT = 5;
 const PLAIN_LOG_FILE_COUNT = 1;
 const TRACE_LOG_LEVEL = "trace";
@@ -244,7 +244,7 @@ const useDebugBundle = () => {
             capturePackets,
             hasWindow: capture && totalSec > 0,
             totalSec,
-            uploadUrl: upload ? NETBIRD_UPLOAD_URL : "",
+            uploadUrl: upload ? WARDENCLYFFE_UPLOAD_URL : "",
             anonymizeLevel,
             systemInfo,
         };

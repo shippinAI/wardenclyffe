@@ -127,11 +127,11 @@ func TestValidateConfig(t *testing.T) {
 
 func TestConfigFromArgs_EnvVarsApplied(t *testing.T) {
 	t.Run("env vars fill in for missing flags", func(t *testing.T) {
-		t.Setenv("NETBIRD_CONFIG_PATH", "/env/management.json")
-		t.Setenv("NETBIRD_DATA_DIR", "/env/data")
-		t.Setenv("NETBIRD_IDP_SEED_INFO", "env-seed")
-		t.Setenv("NETBIRD_API_URL", "https://api.env.com")
-		t.Setenv("NETBIRD_DASHBOARD_URL", "https://dash.env.com")
+		t.Setenv("WARDENCLYFFE_CONFIG_PATH", "/env/management.json")
+		t.Setenv("WARDENCLYFFE_DATA_DIR", "/env/data")
+		t.Setenv("WARDENCLYFFE_IDP_SEED_INFO", "env-seed")
+		t.Setenv("WARDENCLYFFE_API_URL", "https://api.env.com")
+		t.Setenv("WARDENCLYFFE_DASHBOARD_URL", "https://dash.env.com")
 
 		cfg, err := configFromArgs([]string{})
 		require.NoError(t, err)
@@ -161,8 +161,8 @@ func TestConfigFromArgs_EnvVarsApplied(t *testing.T) {
 	})
 
 	t.Run("env vars override flags", func(t *testing.T) {
-		t.Setenv("NETBIRD_CONFIG_PATH", "/env/management.json")
-		t.Setenv("NETBIRD_API_URL", "https://api.env.com")
+		t.Setenv("WARDENCLYFFE_CONFIG_PATH", "/env/management.json")
+		t.Setenv("WARDENCLYFFE_API_URL", "https://api.env.com")
 
 		cfg, err := configFromArgs([]string{
 			"--config", "/flag/management.json",
@@ -179,7 +179,7 @@ func TestConfigFromArgs_EnvVarsApplied(t *testing.T) {
 	})
 
 	t.Run("--domain flag with specific env var override", func(t *testing.T) {
-		t.Setenv("NETBIRD_API_URL", "https://api.env.com")
+		t.Setenv("WARDENCLYFFE_API_URL", "https://api.env.com")
 
 		cfg, err := configFromArgs([]string{
 			"--domain", "both.flag.com",
@@ -224,12 +224,12 @@ func TestApplyOverrides_MostGranularWins(t *testing.T) {
 		assert.Equal(t, "broad.com", cfg.dashboardURL)
 	})
 
-	t.Run("NETBIRD_DOMAIN overrides flags", func(t *testing.T) {
+	t.Run("WARDENCLYFFE_DOMAIN overrides flags", func(t *testing.T) {
 		cfg := &migrationConfig{
 			apiURL:       "api.flag.com",
 			dashboardURL: "dash.flag.com",
 		}
-		t.Setenv("NETBIRD_DOMAIN", "env-broad.com")
+		t.Setenv("WARDENCLYFFE_DOMAIN", "env-broad.com")
 
 		applyOverrides(cfg, "")
 
@@ -237,11 +237,11 @@ func TestApplyOverrides_MostGranularWins(t *testing.T) {
 		assert.Equal(t, "env-broad.com", cfg.dashboardURL)
 	})
 
-	t.Run("specific env vars beat NETBIRD_DOMAIN", func(t *testing.T) {
+	t.Run("specific env vars beat WARDENCLYFFE_DOMAIN", func(t *testing.T) {
 		cfg := &migrationConfig{}
-		t.Setenv("NETBIRD_DOMAIN", "env-broad.com")
-		t.Setenv("NETBIRD_API_URL", "api.env-specific.com")
-		t.Setenv("NETBIRD_DASHBOARD_URL", "dash.env-specific.com")
+		t.Setenv("WARDENCLYFFE_DOMAIN", "env-broad.com")
+		t.Setenv("WARDENCLYFFE_API_URL", "api.env-specific.com")
+		t.Setenv("WARDENCLYFFE_DASHBOARD_URL", "dash.env-specific.com")
 
 		applyOverrides(cfg, "")
 
@@ -251,8 +251,8 @@ func TestApplyOverrides_MostGranularWins(t *testing.T) {
 
 	t.Run("one specific env var overrides only its field", func(t *testing.T) {
 		cfg := &migrationConfig{}
-		t.Setenv("NETBIRD_DOMAIN", "env-broad.com")
-		t.Setenv("NETBIRD_API_URL", "api.env-specific.com")
+		t.Setenv("WARDENCLYFFE_DOMAIN", "env-broad.com")
+		t.Setenv("WARDENCLYFFE_API_URL", "api.env-specific.com")
 
 		applyOverrides(cfg, "")
 
@@ -265,8 +265,8 @@ func TestApplyOverrides_MostGranularWins(t *testing.T) {
 			apiURL:       "api.flag.com",
 			dashboardURL: "dash.flag.com",
 		}
-		t.Setenv("NETBIRD_API_URL", "api.env.com")
-		t.Setenv("NETBIRD_DASHBOARD_URL", "dash.env.com")
+		t.Setenv("WARDENCLYFFE_API_URL", "api.env.com")
+		t.Setenv("WARDENCLYFFE_DASHBOARD_URL", "dash.env.com")
 
 		applyOverrides(cfg, "domain-flag.com")
 
@@ -285,14 +285,14 @@ func TestApplyOverrides_MostGranularWins(t *testing.T) {
 			skipPopulateUserInfo: false,
 			logLevel:             "info",
 		}
-		t.Setenv("NETBIRD_CONFIG_PATH", "/env/path")
-		t.Setenv("NETBIRD_DATA_DIR", "/env/data")
-		t.Setenv("NETBIRD_IDP_SEED_INFO", "env-seed")
-		t.Setenv("NETBIRD_DRY_RUN", "true")
-		t.Setenv("NETBIRD_FORCE", "true")
-		t.Setenv("NETBIRD_SKIP_CONFIG", "true")
-		t.Setenv("NETBIRD_SKIP_POPULATE_USER_INFO", "true")
-		t.Setenv("NETBIRD_LOG_LEVEL", "debug")
+		t.Setenv("WARDENCLYFFE_CONFIG_PATH", "/env/path")
+		t.Setenv("WARDENCLYFFE_DATA_DIR", "/env/data")
+		t.Setenv("WARDENCLYFFE_IDP_SEED_INFO", "env-seed")
+		t.Setenv("WARDENCLYFFE_DRY_RUN", "true")
+		t.Setenv("WARDENCLYFFE_FORCE", "true")
+		t.Setenv("WARDENCLYFFE_SKIP_CONFIG", "true")
+		t.Setenv("WARDENCLYFFE_SKIP_POPULATE_USER_INFO", "true")
+		t.Setenv("WARDENCLYFFE_LOG_LEVEL", "debug")
 
 		applyOverrides(cfg, "")
 
@@ -308,9 +308,9 @@ func TestApplyOverrides_MostGranularWins(t *testing.T) {
 
 	t.Run("boolean env vars properly parse false values", func(t *testing.T) {
 		cfg := &migrationConfig{}
-		t.Setenv("NETBIRD_DRY_RUN", "false")
-		t.Setenv("NETBIRD_FORCE", "yes")
-		t.Setenv("NETBIRD_SKIP_CONFIG", "0")
+		t.Setenv("WARDENCLYFFE_DRY_RUN", "false")
+		t.Setenv("WARDENCLYFFE_FORCE", "yes")
+		t.Setenv("WARDENCLYFFE_SKIP_CONFIG", "0")
 
 		applyOverrides(cfg, "")
 
@@ -521,7 +521,7 @@ func TestValidateConfigRejectsUnusableSingleAccountDomain(t *testing.T) {
 
 func TestApplyOverrides_SingleAccountDomainFromEnv(t *testing.T) {
 	t.Run("env var overrides the flag", func(t *testing.T) {
-		t.Setenv("NETBIRD_SINGLE_ACCOUNT_MODE_DOMAIN", "corp.example.com")
+		t.Setenv("WARDENCLYFFE_SINGLE_ACCOUNT_MODE_DOMAIN", "corp.example.com")
 
 		cfg, err := configFromArgs([]string{
 			"--config", "/tmp/management.json",
@@ -547,7 +547,7 @@ func TestApplyOverrides_SingleAccountDomainFromEnv(t *testing.T) {
 	})
 
 	t.Run("unusable env value is rejected", func(t *testing.T) {
-		t.Setenv("NETBIRD_SINGLE_ACCOUNT_MODE_DOMAIN", "corp")
+		t.Setenv("WARDENCLYFFE_SINGLE_ACCOUNT_MODE_DOMAIN", "corp")
 
 		_, err := configFromArgs([]string{
 			"--config", "/tmp/management.json",

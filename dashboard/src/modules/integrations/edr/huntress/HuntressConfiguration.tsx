@@ -37,7 +37,7 @@ import { HuntressIntegration } from "@/interfaces/EDR";
 import useGroupHelper from "@/modules/groups/useGroupHelper";
 import {
   HUNTRESS_DOCUMENTATION_URL,
-  HUNTRESS_NETBIRD_DOCUMENTATION_URL,
+  HUNTRESS_WARDENCLYFFE_DOCUMENTATION_URL,
   matchAttributesReducer,
 } from "@/modules/integrations/edr/huntress/Huntress";
 import { IntegrationModalHeader } from "@/modules/integrations/IntegrationModalHeader";
@@ -395,7 +395,7 @@ export function ConfigurationContent({
           <Paragraph className={"text-sm mt-auto"}>
             Learn more about
             <InlineLink
-              href={HUNTRESS_NETBIRD_DOCUMENTATION_URL}
+              href={HUNTRESS_WARDENCLYFFE_DOCUMENTATION_URL}
               target={"_blank"}
             >
               Huntress Integration

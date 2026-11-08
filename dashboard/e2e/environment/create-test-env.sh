@@ -154,7 +154,7 @@ wait_api() {
 create_new_project() {
   INSTANCE_URL=$1
   PAT=$2
-  PROJECT_NAME="NETBIRD"
+  PROJECT_NAME="WARDENCLYFFE"
 
   RESPONSE=$(
     curl -sS -X POST "$INSTANCE_URL/management/v1/projects" \
@@ -407,7 +407,7 @@ PROXYEOF
 
 init_zitadel() {
   echo -e "\nInitializing Zitadel with WardenClyffe's applications\n"
-  INSTANCE_URL="$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT"
+  INSTANCE_URL="$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT"
 
   TOKEN_PATH=./machinekey/zitadel-admin-sa.token
 
@@ -428,8 +428,8 @@ init_zitadel() {
   PROJECT_ID=$(create_new_project "$INSTANCE_URL" "$PAT")
 
   ZITADEL_DEV_MODE=false
-  BASE_REDIRECT_URL=$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN
-  if [[ $NETBIRD_HTTP_PROTOCOL == "http" ]]; then
+  BASE_REDIRECT_URL=$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN
+  if [[ $WARDENCLYFFE_HTTP_PROTOCOL == "http" ]]; then
     ZITADEL_DEV_MODE=true
   fi
 
@@ -472,10 +472,10 @@ init_zitadel() {
       echo "Please remove it manually"
   fi
 
-  export NETBIRD_AUTH_CLIENT_ID=$DASHBOARD_APPLICATION_CLIENT_ID
-  export NETBIRD_AUTH_CLIENT_ID_CLI=$CLI_APPLICATION_CLIENT_ID
-  export NETBIRD_IDP_MGMT_CLIENT_ID=$SERVICE_USER_CLIENT_ID
-  export NETBIRD_IDP_MGMT_CLIENT_SECRET=$SERVICE_USER_CLIENT_SECRET
+  export WARDENCLYFFE_AUTH_CLIENT_ID=$DASHBOARD_APPLICATION_CLIENT_ID
+  export WARDENCLYFFE_AUTH_CLIENT_ID_CLI=$CLI_APPLICATION_CLIENT_ID
+  export WARDENCLYFFE_IDP_MGMT_CLIENT_ID=$SERVICE_USER_CLIENT_ID
+  export WARDENCLYFFE_IDP_MGMT_CLIENT_SECRET=$SERVICE_USER_CLIENT_SECRET
   export ZITADEL_ADMIN_USERNAME
   export ZITADEL_ADMIN_PASSWORD
 }
@@ -483,25 +483,25 @@ init_zitadel() {
 check_nb_domain() {
   DOMAIN=$1
   if [ "$DOMAIN-x" == "-x" ]; then
-    echo "The NETBIRD_DOMAIN variable cannot be empty." > /dev/stderr
+    echo "The WARDENCLYFFE_DOMAIN variable cannot be empty." > /dev/stderr
     return 1
   fi
 
   if [ "$DOMAIN" == "wardenclyffe.example.com" ]; then
-    echo "The NETBIRD_DOMAIN cannot be wardenclyffe.example.com" > /dev/stderr
+    echo "The WARDENCLYFFE_DOMAIN cannot be wardenclyffe.example.com" > /dev/stderr
     return 1
   fi
   return 0
 }
 
 read_nb_domain() {
-  READ_NETBIRD_DOMAIN=""
+  READ_WARDENCLYFFE_DOMAIN=""
   echo -n "Enter the domain you want to use for WardenClyffe (e.g. wardenclyffe.my-domain.com): " > /dev/stderr
-  read -r READ_NETBIRD_DOMAIN < /dev/tty
-  if ! check_nb_domain "$READ_NETBIRD_DOMAIN"; then
+  read -r READ_WARDENCLYFFE_DOMAIN < /dev/tty
+  if ! check_nb_domain "$READ_WARDENCLYFFE_DOMAIN"; then
     read_nb_domain
   fi
-  echo "$READ_NETBIRD_DOMAIN"
+  echo "$READ_WARDENCLYFFE_DOMAIN"
 }
 
 initEnvironment() {
@@ -509,14 +509,14 @@ initEnvironment() {
   ZITADEL_EXTERNALSECURE="false"
   ZITADEL_TLS_MODE="disabled"
   ZITADEL_MASTERKEY="$(openssl rand -base64 32 | head -c 32)"
-  NETBIRD_PORT=33080
-  NETBIRD_HTTP_PROTOCOL="http"
+  WARDENCLYFFE_PORT=33080
+  WARDENCLYFFE_HTTP_PROTOCOL="http"
   TURN_USER="self"
   TURN_PASSWORD=$(openssl rand -base64 32 | sed 's/=//g')
   TURN_MIN_PORT=49152
   TURN_MAX_PORT=65535
 
-  NETBIRD_DOMAIN=$(get_main_ip_address)
+  WARDENCLYFFE_DOMAIN=$(get_main_ip_address)
 
   if [[ "$OSTYPE" == "darwin"* ]]; then
       ZIDATE_TOKEN_EXPIRATION_DATE=$(date -u -v+30M "+%Y-%m-%dT%H:%M:%SZ")
@@ -607,7 +607,7 @@ initEnvironment() {
 
   echo -e "\nDone!\n"
   echo "Run 'npm run test:dev' to start the dashboard at http://localhost:1337"
-  echo "Management API is at $NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT"
+  echo "Management API is at $WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT"
   echo "Login with the following credentials:"
   echo "Username: $ZITADEL_ADMIN_USERNAME" | tee .env
   echo "Password: $ZITADEL_ADMIN_PASSWORD" | tee -a .env
@@ -703,14 +703,14 @@ renderManagementJson() {
     "Stuns": [
         {
             "Proto": "udp",
-            "URI": "stun:$NETBIRD_DOMAIN:3478"
+            "URI": "stun:$WARDENCLYFFE_DOMAIN:3478"
         }
     ],
     "TURNConfig": {
         "Turns": [
             {
                 "Proto": "udp",
-                "URI": "turn:$NETBIRD_DOMAIN:3478",
+                "URI": "turn:$WARDENCLYFFE_DOMAIN:3478",
                 "Username": "$TURN_USER",
                 "Password": "$TURN_PASSWORD"
             }
@@ -718,31 +718,31 @@ renderManagementJson() {
         "TimeBasedCredentials": false
     },
     "Signal": {
-        "Proto": "$NETBIRD_HTTP_PROTOCOL",
-        "URI": "$NETBIRD_DOMAIN:$NETBIRD_PORT"
+        "Proto": "$WARDENCLYFFE_HTTP_PROTOCOL",
+        "URI": "$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT"
     },
     "HttpConfig": {
-        "AuthIssuer": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT",
-        "AuthAudience": "$NETBIRD_AUTH_CLIENT_ID",
-        "OIDCConfigEndpoint":"$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT/.well-known/openid-configuration"
+        "AuthIssuer": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT",
+        "AuthAudience": "$WARDENCLYFFE_AUTH_CLIENT_ID",
+        "OIDCConfigEndpoint":"$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT/.well-known/openid-configuration"
     },
     "IdpManagerConfig": {
         "ManagerType": "zitadel",
         "ClientConfig": {
-            "Issuer": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT",
-            "TokenEndpoint": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT/oauth/v2/token",
-            "ClientID": "$NETBIRD_IDP_MGMT_CLIENT_ID",
-            "ClientSecret": "$NETBIRD_IDP_MGMT_CLIENT_SECRET",
+            "Issuer": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT",
+            "TokenEndpoint": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT/oauth/v2/token",
+            "ClientID": "$WARDENCLYFFE_IDP_MGMT_CLIENT_ID",
+            "ClientSecret": "$WARDENCLYFFE_IDP_MGMT_CLIENT_SECRET",
             "GrantType": "client_credentials"
         },
         "ExtraConfig": {
-            "ManagementEndpoint": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT/management/v1"
+            "ManagementEndpoint": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT/management/v1"
         }
      },
     "PKCEAuthorizationFlow": {
         "ProviderConfig": {
-            "Audience": "$NETBIRD_AUTH_CLIENT_ID_CLI",
-            "ClientID": "$NETBIRD_AUTH_CLIENT_ID_CLI",
+            "Audience": "$WARDENCLYFFE_AUTH_CLIENT_ID_CLI",
+            "ClientID": "$WARDENCLYFFE_AUTH_CLIENT_ID_CLI",
             "Scope": "openid profile email offline_access",
             "RedirectURLs": ["http://localhost:53000/","http://localhost:54000/"]
         }
@@ -755,12 +755,12 @@ renderDashboardEnv() {
   cat <<EOF
 {
   "auth0Auth": "false",
-  "authAuthority": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT",
-  "authClientId": "$NETBIRD_AUTH_CLIENT_ID",
+  "authAuthority": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT",
+  "authClientId": "$WARDENCLYFFE_AUTH_CLIENT_ID",
   "authScopesSupported": "openid profile email offline_access",
-  "authAudience": "$NETBIRD_AUTH_CLIENT_ID",
-  "apiOrigin": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT",
-  "grpcApiOrigin": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT",
+  "authAudience": "$WARDENCLYFFE_AUTH_CLIENT_ID",
+  "apiOrigin": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT",
+  "grpcApiOrigin": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT",
   "redirectURI": "/nb-auth",
   "silentRedirectURI": "/nb-silent-auth"
 }
@@ -783,8 +783,8 @@ ZITADEL_DATABASE_COCKROACH_ADMIN_SSL_CERT="/crdb-certs/client.root.crt"
 ZITADEL_DATABASE_COCKROACH_ADMIN_SSL_KEY="/crdb-certs/client.root.key"
 ZITADEL_EXTERNALSECURE=$ZITADEL_EXTERNALSECURE
 ZITADEL_TLS_ENABLED="false"
-ZITADEL_EXTERNALPORT=$NETBIRD_PORT
-ZITADEL_EXTERNALDOMAIN=$NETBIRD_DOMAIN
+ZITADEL_EXTERNALPORT=$WARDENCLYFFE_PORT
+ZITADEL_EXTERNALDOMAIN=$WARDENCLYFFE_DOMAIN
 ZITADEL_FIRSTINSTANCE_PATPATH=/machinekey/zitadel-admin-sa.token
 ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_USERNAME=zitadel-admin-sa
 ZITADEL_FIRSTINSTANCE_ORG_MACHINE_MACHINE_NAME=Admin
@@ -858,15 +858,15 @@ services:
     restart: unless-stopped
     networks: [wardenclyffe]
     environment:
-     - NETBIRD_STORE_ENGINE_POSTGRES_DSN=host=postgres user=wardenclyffe password=wardenclyffe dbname=wardenclyffe port=5432
+     - WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=host=postgres user=wardenclyffe password=wardenclyffe dbname=wardenclyffe port=5432
      - NB_TRAFFIC_EVENT_POSTGRES_DSN=host=postgres user=wardenclyffe password=wardenclyffe dbname=wardenclyffe port=5432
-     - NETBIRD_STORE_CONFIG_ENGINE=postgres
+     - WARDENCLYFFE_STORE_CONFIG_ENGINE=postgres
      - NB_TRAFFIC_EVENT_STORE_ENGINE=postgres
      - NB_LICENSE_KEY=${NB_LICENSE_KEY}
      - NB_TRAFFIC_FLOW_ADDRESS=http://127.0.0.1:8084
-     - NETBIRD_DATADIR=/var/lib/wardenclyffe/
-     - NETBIRD_ENCRYPTION_KEY=saFhCwIBtO+4QfRqMA19kKYqNPSrtXq7+TVWfHax+3I=
-     - NETBIRD_LICENSE_SERVER_BASE_URL=${NETBIRD_LICENSE_SERVER_BASE_URL}
+     - WARDENCLYFFE_DATADIR=/var/lib/wardenclyffe/
+     - WARDENCLYFFE_ENCRYPTION_KEY=saFhCwIBtO+4QfRqMA19kKYqNPSrtXq7+TVWfHax+3I=
+     - WARDENCLYFFE_LICENSE_SERVER_BASE_URL=${WARDENCLYFFE_LICENSE_SERVER_BASE_URL}
      - NB_TRAFFIC_FLOW_INTERVAL=20s
      - NB_SINGLE_INSTANCE_MODE=true
     volumes:
@@ -927,8 +927,8 @@ services:
       # when pkgs.wardenclyffe.app is slow.
       - NB_PROXY_DISABLE_GEOLOCATION=true
       # Declare the private capability so this cluster can host the agent
-      # network endpoint. That endpoint is a private service — reachable only
-      # from connected peers — and management refuses to bootstrap it onto a
+      # network endpoint. That endpoint is a private service â€” reachable only
+      # from connected peers â€” and management refuses to bootstrap it onto a
       # cluster without a private-capable proxy; the connect-provider wizard
       # reads the same flag (supports_private) to pick its cluster. Without
       # it no cluster qualifies and the wizard stops at the provider tab,
@@ -1012,7 +1012,7 @@ EOF
 renderPlaywrightEnv() {
   cat <<EOF
 {
-  "ZITADEL_URL": "$NETBIRD_HTTP_PROTOCOL://$NETBIRD_DOMAIN:$NETBIRD_PORT",
+  "ZITADEL_URL": "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN:$WARDENCLYFFE_PORT",
   "BASE_URL": "http://localhost:1337"
 }
 EOF

@@ -1,4 +1,4 @@
-FROM golang:1.26.7-alpine AS builder
+FROM golang:1.27.3-alpine AS builder
 WORKDIR /app
 
 RUN echo "wardenclyffe:x:1000:1000:wardenclyffe:/var/lib/wardenclyffe:/sbin/nologin" > /tmp/passwd && \

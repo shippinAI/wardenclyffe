@@ -1,13 +1,13 @@
 // Package networkmap contains the shared NetworkMap helpers that both the
 // management server and the client agent need.
 //
-// The proto-conversion helpers (types.NetworkMap → proto.NetworkMap) live
+// The proto-conversion helpers (types.NetworkMap â†’ proto.NetworkMap) live
 // here so the client can run the same conversion locally after deriving its
 // NetworkMap from a NetworkMapEnvelope, without taking a dependency on the
 // server-side conversion package (which pulls in cloud integrations and is
 // otherwise an unwanted internal import on the client).
 //
-// The helpers are pure functions over inputs — no caches, no IO, no logging
+// The helpers are pure functions over inputs â€” no caches, no IO, no logging
 // beyond a context-aware error log when an individual user-id hash fails.
 package networkmap
 
@@ -144,7 +144,7 @@ func GetProtoProtocol(protocol string) proto.RuleProtocol {
 	case types.PolicyRuleProtocolICMP:
 		return proto.RuleProtocol_ICMP
 	case types.PolicyRuleProtocolWardenclyffeSSH:
-		return proto.RuleProtocol_NETBIRD_SSH
+		return proto.RuleProtocol_WARDENCLYFFE_SSH
 	default:
 		return proto.RuleProtocol_UNKNOWN
 	}
@@ -241,7 +241,7 @@ type DNSConfigCache interface {
 }
 
 // ToProtocolDNSConfig converts nbdns.Config to proto.DNSConfig. If cache is
-// non-nil, NameServerGroup proto values are cached by NSG.ID across calls —
+// non-nil, NameServerGroup proto values are cached by NSG.ID across calls â€”
 // the server amortises this across peers, the client passes nil.
 func ToProtocolDNSConfig(update nbdns.Config, cache DNSConfigCache, forwardPort int64) *proto.DNSConfig {
 	protoUpdate := &proto.DNSConfig{

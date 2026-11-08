@@ -19,7 +19,7 @@ set -euo pipefail
 
 readonly SCRIPT_VERSION="1.0.0"
 readonly DASHBOARD_IMAGE="shippin/wardenclyffe/dashboard:latest"
-readonly NETBIRD_SERVER_IMAGE="shippin/wardenclyffe-server:latest"
+readonly WARDENCLYFFE_SERVER_IMAGE="shippin/wardenclyffe-server:latest"
 readonly SED_STRIP_PADDING='s/=//g'
 readonly MSG_SEPARATOR="=========================================="
 readonly PROXY_TYPE_CADDY="caddy_embedded"
@@ -284,7 +284,7 @@ detect_reverse_proxy() {
   fi
 
   # Check for disabled Let's Encrypt (external proxy)
-  if [[ -f "$INSTALL_DIR/setup.env" ]] && grep -q 'NETBIRD_DISABLE_LETSENCRYPT=true' "$INSTALL_DIR/setup.env" 2>/dev/null; then
+  if [[ -f "$INSTALL_DIR/setup.env" ]] && grep -q 'WARDENCLYFFE_DISABLE_LETSENCRYPT=true' "$INSTALL_DIR/setup.env" 2>/dev/null; then
     PROXY_TYPE="external"
     log_info "Detected: External reverse proxy (Let's Encrypt disabled)"
     return 0
@@ -408,7 +408,7 @@ detect_domain() {
 
   # Try setup.env first
   if [[ -z "$DOMAIN" && -f "$INSTALL_DIR/setup.env" ]]; then
-    DOMAIN=$(grep '^NETBIRD_DOMAIN=' "$INSTALL_DIR/setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
+    DOMAIN=$(grep '^WARDENCLYFFE_DOMAIN=' "$INSTALL_DIR/setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
   fi
 
   # Try EmbeddedIdP.Issuer (v0.62.0+ getting-started.sh format)
@@ -429,10 +429,10 @@ detect_domain() {
     fi
   fi
 
-  # Try dashboard.env NETBIRD_MGMT_API_ENDPOINT
+  # Try dashboard.env WARDENCLYFFE_MGMT_API_ENDPOINT
   if [[ -z "$DOMAIN" && -f "$INSTALL_DIR/dashboard.env" ]]; then
     local endpoint
-    endpoint=$(grep '^NETBIRD_MGMT_API_ENDPOINT=' "$INSTALL_DIR/dashboard.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
+    endpoint=$(grep '^WARDENCLYFFE_MGMT_API_ENDPOINT=' "$INSTALL_DIR/dashboard.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
     if [[ -n "$endpoint" ]]; then
       DOMAIN=$(echo "$endpoint" | sed 's|https\?://||' | sed 's|/.*||' | sed 's|:.*||')
     fi
@@ -445,7 +445,7 @@ detect_domain() {
 
   # Detect Let's Encrypt email from setup.env or dashboard.env LETSENCRYPT_DOMAIN
   if [[ -f "$INSTALL_DIR/setup.env" ]]; then
-    LETSENCRYPT_EMAIL=$(grep '^NETBIRD_LETSENCRYPT_EMAIL=' "$INSTALL_DIR/setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
+    LETSENCRYPT_EMAIL=$(grep '^WARDENCLYFFE_LETSENCRYPT_EMAIL=' "$INSTALL_DIR/setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
   fi
 
   log_success "Domain: $DOMAIN"
@@ -468,13 +468,13 @@ detect_store_config() {
   # DSN from environment files
   if [[ -f "$INSTALL_DIR/setup.env" ]]; then
     local pg_dsn
-    pg_dsn=$(grep '^NETBIRD_STORE_ENGINE_POSTGRES_DSN=' "$INSTALL_DIR/setup.env" 2>/dev/null | sed 's/^NETBIRD_STORE_ENGINE_POSTGRES_DSN=//' | tr -d '"' || echo "")
+    pg_dsn=$(grep '^WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=' "$INSTALL_DIR/setup.env" 2>/dev/null | sed 's/^WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=//' | tr -d '"' || echo "")
     if [[ -n "$pg_dsn" ]]; then
       STORE_DSN="$pg_dsn"
     fi
 
     local mysql_dsn
-    mysql_dsn=$(grep '^NETBIRD_STORE_ENGINE_MYSQL_DSN=' "$INSTALL_DIR/setup.env" 2>/dev/null | sed 's/^NETBIRD_STORE_ENGINE_MYSQL_DSN=//' | tr -d '"' || echo "")
+    mysql_dsn=$(grep '^WARDENCLYFFE_STORE_ENGINE_MYSQL_DSN=' "$INSTALL_DIR/setup.env" 2>/dev/null | sed 's/^WARDENCLYFFE_STORE_ENGINE_MYSQL_DSN=//' | tr -d '"' || echo "")
     if [[ -n "$mysql_dsn" ]]; then
       STORE_DSN="$mysql_dsn"
     fi
@@ -483,13 +483,13 @@ detect_store_config() {
   # Also check base.setup.env
   if [[ -z "$STORE_DSN" && -f "$INSTALL_DIR/base.setup.env" ]]; then
     local pg_dsn
-    pg_dsn=$(grep '^NETBIRD_STORE_ENGINE_POSTGRES_DSN=' "$INSTALL_DIR/base.setup.env" 2>/dev/null | sed 's/^NETBIRD_STORE_ENGINE_POSTGRES_DSN=//' | tr -d '"' || echo "")
+    pg_dsn=$(grep '^WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=' "$INSTALL_DIR/base.setup.env" 2>/dev/null | sed 's/^WARDENCLYFFE_STORE_ENGINE_POSTGRES_DSN=//' | tr -d '"' || echo "")
     if [[ -n "$pg_dsn" ]]; then
       STORE_DSN="$pg_dsn"
     fi
 
     local mysql_dsn
-    mysql_dsn=$(grep '^NETBIRD_STORE_ENGINE_MYSQL_DSN=' "$INSTALL_DIR/base.setup.env" 2>/dev/null | sed 's/^NETBIRD_STORE_ENGINE_MYSQL_DSN=//' | tr -d '"' || echo "")
+    mysql_dsn=$(grep '^WARDENCLYFFE_STORE_ENGINE_MYSQL_DSN=' "$INSTALL_DIR/base.setup.env" 2>/dev/null | sed 's/^WARDENCLYFFE_STORE_ENGINE_MYSQL_DSN=//' | tr -d '"' || echo "")
     if [[ -n "$mysql_dsn" ]]; then
       STORE_DSN="$mysql_dsn"
     fi
@@ -519,12 +519,12 @@ extract_config_values() {
 
   # Fallback: relay secret from setup.env
   if [[ (-z "$RELAY_SECRET" || "$RELAY_SECRET" == "null") && -f "$INSTALL_DIR/setup.env" ]]; then
-    RELAY_SECRET=$(grep '^NETBIRD_RELAY_AUTH_SECRET=' "$INSTALL_DIR/setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
+    RELAY_SECRET=$(grep '^WARDENCLYFFE_RELAY_AUTH_SECRET=' "$INSTALL_DIR/setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
   fi
 
   # Fallback: relay secret from base.setup.env
   if [[ (-z "$RELAY_SECRET" || "$RELAY_SECRET" == "null") && -f "$INSTALL_DIR/base.setup.env" ]]; then
-    RELAY_SECRET=$(grep '^NETBIRD_RELAY_AUTH_SECRET=' "$INSTALL_DIR/base.setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
+    RELAY_SECRET=$(grep '^WARDENCLYFFE_RELAY_AUTH_SECRET=' "$INSTALL_DIR/base.setup.env" 2>/dev/null | cut -d'=' -f2 | tr -d '"' | tr -d "'" || echo "")
   fi
 
   # Generate if still empty
@@ -798,8 +798,8 @@ generate_dashboard_env() {
 
   cat > "$INSTALL_DIR/dashboard.env" <<EOF
 # Endpoints
-NETBIRD_MGMT_API_ENDPOINT=https://${DOMAIN}
-NETBIRD_MGMT_GRPC_API_ENDPOINT=https://${DOMAIN}
+WARDENCLYFFE_MGMT_API_ENDPOINT=https://${DOMAIN}
+WARDENCLYFFE_MGMT_GRPC_API_ENDPOINT=https://${DOMAIN}
 # OIDC - using embedded IdP
 AUTH_AUDIENCE=wardenclyffe-dashboard
 AUTH_CLIENT_ID=wardenclyffe-dashboard
@@ -907,7 +907,7 @@ services:
 
   # Combined server (Management + Signal + Relay + STUN)
   wardenclyffe-server:
-    image: ${NETBIRD_SERVER_IMAGE}
+    image: ${WARDENCLYFFE_SERVER_IMAGE}
     container_name: wardenclyffe-server
     restart: unless-stopped
     networks: [wardenclyffe]
@@ -993,7 +993,7 @@ services:
 
   # Combined server (Management + Signal + Relay + STUN)
   wardenclyffe-server:
-    image: ${NETBIRD_SERVER_IMAGE}
+    image: ${WARDENCLYFFE_SERVER_IMAGE}
     container_name: wardenclyffe-server
     restart: unless-stopped
     networks: [wardenclyffe]

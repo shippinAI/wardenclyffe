@@ -17,7 +17,7 @@ import { loginToApp, navigateTo } from "../helpers/auth";
 
 const SIGNUP_SOURCE_KEY = "wardenclyffe-signup-source";
 const AGENT_NETWORK_SOURCE = "wardenclyffe.ai";
-// Drives the NETBIRD_AGENT_NETWORK_ONLY / _ENABLED deployment flags against the
+// Drives the WARDENCLYFFE_AGENT_NETWORK_ONLY / _ENABLED deployment flags against the
 // test build (see testAgentNetworkOverride in utils/wardenclyffe.ts).
 const AGENT_NETWORK_CONFIG_KEY = "wardenclyffe-test-agent-network";
 
@@ -282,7 +282,7 @@ test.describe.serial("Agent Network focused view @agent-network", () => {
     }
   });
 
-  // Matrix of the two deployment flags (NETBIRD_AGENT_NETWORK_ONLY / _ENABLED,
+  // Matrix of the two deployment flags (WARDENCLYFFE_AGENT_NETWORK_ONLY / _ENABLED,
   // "off" = neither) crossed with the wardenclyffe.ai signup source, with no explicit
   // account settings. The API defaults agent_network_only to false, so the
   // deployment flags must still take effect. A present source implies a new

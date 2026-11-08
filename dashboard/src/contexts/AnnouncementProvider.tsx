@@ -184,7 +184,7 @@ export default function AnnouncementProvider({ children }: Readonly<Props>) {
         }
 
         // The operator's own announcement for this deployment
-        // (NETBIRD_ANNOUNCEMENT) stays up ahead of the remote and MSP ones;
+        // (WARDENCLYFFE_ANNOUNCEMENT) stays up ahead of the remote and MSP ones;
         // only the billing warnings below, when they open, come before it.
         const deployment = deploymentAnnouncement(config.announcement);
         if (deployment) {

@@ -47,7 +47,7 @@ Auth0 so far is the only 3rd party dependency that can't be really self-hosted.
 
    To obtain these, please use [Auth0 React SDK Guide](https://auth0.com/docs/quickstart/spa/react) up until "Configure Allowed Web Origins"
 
-4. WardenClyffe UI Dashboard uses WardenClyffe's Management Service HTTP API, so setting `NETBIRD_MGMT_API_ENDPOINT` is required. Most likely it will be `http://localhost:33071` if you are hosting Management API on the same server.
+4. WardenClyffe UI Dashboard uses WardenClyffe's Management Service HTTP API, so setting `WARDENCLYFFE_MGMT_API_ENDPOINT` is required. Most likely it will be `http://localhost:33071` if you are hosting Management API on the same server.
 5. Run docker container without SSL (Let's Encrypt):
 
    ```shell
@@ -56,7 +56,7 @@ Auth0 so far is the only 3rd party dependency that can't be really self-hosted.
      -e AUTH0_DOMAIN=<SET YOUR AUTH DOMAIN> \
      -e AUTH0_CLIENT_ID=<SET YOUR CLIENT ID> \
      -e AUTH0_AUDIENCE=<SET YOUR AUDIENCE> \
-     -e NETBIRD_MGMT_API_ENDPOINT=<SET YOUR MANAGEMENT API URL> \
+     -e WARDENCLYFFE_MGMT_API_ENDPOINT=<SET YOUR MANAGEMENT API URL> \
      shippin/wardenclyffe/dashboard:main
    ```
 
@@ -71,7 +71,7 @@ Auth0 so far is the only 3rd party dependency that can't be really self-hosted.
      -e AUTH0_DOMAIN=<SET YOUR AUTH DOMAIN> \
      -e AUTH0_CLIENT_ID=<SET YOUR CLEITN ID> \
      -e AUTH0_AUDIENCE=<SET YOUR AUDIENCE> \
-     -e NETBIRD_MGMT_API_ENDPOINT=<SET YOUR MANAGEMENT API URL> \
+     -e WARDENCLYFFE_MGMT_API_ENDPOINT=<SET YOUR MANAGEMENT API URL> \
      shippin/wardenclyffe/dashboard:main
    ```
 

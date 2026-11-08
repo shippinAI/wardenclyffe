@@ -77,9 +77,9 @@ func configFromArgs(args []string) (*migrationConfig, error) {
 // The most granular value always wins:
 //
 //	--domain flag (broadest, only fills blanks)
-//	NETBIRD_DOMAIN env (overrides flags, sets both)
+//	WARDENCLYFFE_DOMAIN env (overrides flags, sets both)
 //	--api-domain / --dashboard-domain flags (more specific than --domain)
-//	NETBIRD_API_URL / NETBIRD_DASHBOARD_URL env (most specific, always wins)
+//	WARDENCLYFFE_API_URL / WARDENCLYFFE_DASHBOARD_URL env (most specific, always wins)
 //
 // Other env vars unconditionally override their corresponding flags.
 func applyOverrides(cfg *migrationConfig, domain string) {
@@ -96,48 +96,48 @@ func applyOverrides(cfg *migrationConfig, domain string) {
 
 	// Env vars override flags. Broad env var first, then narrow ones on top,
 	// so the most granular value always wins.
-	if val, ok := os.LookupEnv("NETBIRD_DOMAIN"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_DOMAIN"); ok {
 		cfg.dashboardURL = val
 		cfg.apiURL = val
 	}
 
-	if val, ok := os.LookupEnv("NETBIRD_API_URL"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_API_URL"); ok {
 		cfg.apiURL = val
 	}
 
-	if val, ok := os.LookupEnv("NETBIRD_DASHBOARD_URL"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_DASHBOARD_URL"); ok {
 		cfg.dashboardURL = val
 	}
 
-	if val, ok := os.LookupEnv("NETBIRD_CONFIG_PATH"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_CONFIG_PATH"); ok {
 		cfg.configPath = val
 	}
 
-	if val, ok := os.LookupEnv("NETBIRD_DATA_DIR"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_DATA_DIR"); ok {
 		cfg.dataDir = val
 	}
 
-	if val, ok := os.LookupEnv("NETBIRD_IDP_SEED_INFO"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_IDP_SEED_INFO"); ok {
 		cfg.idpSeedInfo = val
 	}
 
-	if val, ok := os.LookupEnv("NETBIRD_SINGLE_ACCOUNT_MODE_DOMAIN"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_SINGLE_ACCOUNT_MODE_DOMAIN"); ok {
 		cfg.singleAccountDomain = val
 	}
 
 	// Enforce dry run if any value is provided
-	if sval, ok := os.LookupEnv("NETBIRD_DRY_RUN"); ok {
+	if sval, ok := os.LookupEnv("WARDENCLYFFE_DRY_RUN"); ok {
 		if val, err := strconv.ParseBool(sval); err == nil {
 			cfg.dryRun = val
 		}
 	}
 
-	cfg.dryRun = parseBool("NETBIRD_DRY_RUN", cfg.dryRun)
-	cfg.force = parseBool("NETBIRD_FORCE", cfg.force)
-	cfg.skipConfig = parseBool("NETBIRD_SKIP_CONFIG", cfg.skipConfig)
-	cfg.skipPopulateUserInfo = parseBool("NETBIRD_SKIP_POPULATE_USER_INFO", cfg.skipPopulateUserInfo)
+	cfg.dryRun = parseBool("WARDENCLYFFE_DRY_RUN", cfg.dryRun)
+	cfg.force = parseBool("WARDENCLYFFE_FORCE", cfg.force)
+	cfg.skipConfig = parseBool("WARDENCLYFFE_SKIP_CONFIG", cfg.skipConfig)
+	cfg.skipPopulateUserInfo = parseBool("WARDENCLYFFE_SKIP_POPULATE_USER_INFO", cfg.skipPopulateUserInfo)
 
-	if val, ok := os.LookupEnv("NETBIRD_LOG_LEVEL"); ok {
+	if val, ok := os.LookupEnv("WARDENCLYFFE_LOG_LEVEL"); ok {
 		cfg.logLevel = val
 	}
 }

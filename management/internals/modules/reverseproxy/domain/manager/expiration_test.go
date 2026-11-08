@@ -231,7 +231,7 @@ func setupClockDomainTest(t *testing.T) *domainTestEnv {
 	t.Helper()
 	// Network driver watchers cannot share cancellation channels across synctest bubbles.
 	// Store boundary and concurrency tests still exercise the selected database engine.
-	t.Setenv("NETBIRD_STORE_ENGINE", "sqlite")
+	t.Setenv("WARDENCLYFFE_STORE_ENGINE", "sqlite")
 	return setupDomainTest(t)
 }
 

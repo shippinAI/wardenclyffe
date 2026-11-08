@@ -27,7 +27,7 @@ func (m *mockRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) 
 	m.callCount.Add(1)
 
 	var body string
-	if strings.Contains(req.URL.String(), "pkgs.wardenclyffe.wardenclyffe.app") {
+	if strings.Contains(req.URL.String(), "pkgs.wardenclyffe.app") {
 		// Plain text response for management version
 		body = m.managementVersion
 	} else if strings.Contains(req.URL.String(), "github.com") {

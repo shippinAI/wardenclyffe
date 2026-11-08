@@ -29,7 +29,7 @@ var (
 
 func TestMain(m *testing.M) {
 	var cleanup func()
-	kind, _ := os.LookupEnv("NETBIRD_STORE_ENGINE")
+	kind, _ := os.LookupEnv("WARDENCLYFFE_STORE_ENGINE")
 	switch kind {
 	case string(types.PostgresStoreEngine):
 		engine = string(types.PostgresStoreEngine)
@@ -39,7 +39,7 @@ func TestMain(m *testing.M) {
 		engine = string(types.SqliteStoreEngine)
 		sqlitestore, cleanup = createSqliteTestStore(baseData)
 	default:
-		log.Fatalf("unsupported db '%s' in NETBIRD_STORE_ENGINE env var", kind)
+		log.Fatalf("unsupported db '%s' in WARDENCLYFFE_STORE_ENGINE env var", kind)
 	}
 
 	code := m.Run()

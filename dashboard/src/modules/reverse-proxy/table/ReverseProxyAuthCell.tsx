@@ -56,7 +56,7 @@ const HEADER_AUTH_METHOD = {
   Icon: FileCode2Icon,
 };
 
-const NETBIRD_ONLY_METHOD = {
+const WARDENCLYFFE_ONLY_METHOD = {
   label: "WardenClyffe Only",
   hoverLabel: "WardenClyffe-Only Access",
   Icon: CircleUser,
@@ -200,7 +200,7 @@ export default function ReverseProxyAuthCell({
                     <ListItem
                       className={"py-0.5"}
                       icon={<CircleUser size={14} />}
-                      label={NETBIRD_ONLY_METHOD.hoverLabel}
+                      label={WARDENCLYFFE_ONLY_METHOD.hoverLabel}
                       value={
                         <div className={"text-green-500"}>
                           {accessGroups.length === 0

@@ -26,7 +26,7 @@ type Props = {
 export const HUNTRESS_DOCUMENTATION_URL =
   "https://support.huntress.io/hc/en-us/articles/4408425850515-Managed-Microsoft-Defender-Terms-and-Definitions";
 
-export const HUNTRESS_NETBIRD_DOCUMENTATION_URL =
+export const HUNTRESS_WARDENCLYFFE_DOCUMENTATION_URL =
   "https://docs.wardenclyffe.app/how-to/huntress-edr";
 
 export const Huntress = ({ account }: Props) => {

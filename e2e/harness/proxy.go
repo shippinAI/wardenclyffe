@@ -23,7 +23,7 @@ const (
 
 	// AgentNetworkCluster is the proxy cluster the e2e provider bootstraps and
 	// the proxy serves. It must equal the management's exposed domain
-	// (combinedAlias) — the working manual setup uses one NETBIRD_DOMAIN for
+	// (combinedAlias) — the working manual setup uses one WARDENCLYFFE_DOMAIN for
 	// both. The agent-network endpoint is <subdomain>.<cluster>.
 	AgentNetworkCluster = combinedAlias
 )

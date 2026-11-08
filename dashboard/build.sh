@@ -49,8 +49,8 @@ if [[ "${SKIP_BUILD:-0}" != "1" ]]; then
     echo "==> Installing dependencies (npm ci)"
     npm ci
   fi
-  echo "==> Building static export (next build) into out/"
-  npx next build
+  echo "==> Building static export into out/"
+  npm run build
 fi
 
 if [[ ! -d out ]]; then
@@ -76,14 +76,14 @@ echo "  docker load < /tmp/${OUTPUT##*/}"
 echo
 echo "Run (nginx serves on container port ${CONTAINER_PORT}). Set the runtime env vars the"
 echo "dashboard templates at startup — for the Agent Network onboarding test,"
-echo "flip NETBIRD_AGENT_NETWORK_ONLY=true:"
+echo "flip WARDENCLYFFE_AGENT_NETWORK_ONLY=true:"
 echo "  docker run -d --name ${IMAGE_NAME} --restart unless-stopped \\"
 echo "    -p 8080:${CONTAINER_PORT} \\"
-echo "    -e NETBIRD_MGMT_API_ENDPOINT=https://your-mgmt:443 \\"
+echo "    -e WARDENCLYFFE_MGMT_API_ENDPOINT=https://your-mgmt:443 \\"
 echo "    -e AUTH_AUTHORITY=https://your-idp/realms/wardenclyffe \\"
 echo "    -e AUTH_CLIENT_ID=wardenclyffe-dashboard \\"
 echo "    -e AUTH_AUDIENCE=wardenclyffe-dashboard \\"
 echo "    -e AUTH_SUPPORTED_SCOPES='openid profile email' \\"
 echo "    -e USE_AUTH0=false \\"
-echo "    -e NETBIRD_AGENT_NETWORK_ONLY=true \\"
+echo "    -e WARDENCLYFFE_AGENT_NETWORK_ONLY=true \\"
 echo "    ${IMAGE}"

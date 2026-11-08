@@ -14,7 +14,7 @@ RUN --mount=type=cache,target=/go/pkg/mod \
 
 FROM alpine:3.24
 RUN apk add --no-cache bash ca-certificates ip6tables iproute2 iptables
-ENV NETBIRD_BIN="/usr/local/bin/wardenclyffe" \
+ENV WARDENCLYFFE_BIN="/usr/local/bin/wardenclyffe" \
     NB_LOG_FILE="console,/var/log/wardenclyffe/client.log" \
     NB_DAEMON_ADDR="unix:///var/run/wardenclyffe.sock" \
     NB_ENABLE_CAPTURE="false" \

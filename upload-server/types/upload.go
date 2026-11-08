@@ -8,7 +8,7 @@ const (
 	// GetURLPath is the path for the GetURL request
 	GetURLPath = "/upload-url"
 
-	DefaultBundleURL = "https://upload.debug.wardenclyffe.wardenclyffe.app" + GetURLPath
+	DefaultBundleURL = "https://upload.debug.wardenclyffe.app" + GetURLPath
 )
 
 // GetURLResponse is the response for the GetURL request
