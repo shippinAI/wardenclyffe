@@ -13,6 +13,7 @@ import React, {
 import { useMSP } from "@/cloud/msp/contexts/MSPProvider";
 import { trialExpiresInfo, usageLimitInfo } from "@/contexts/BillingProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
+import { parseScriptedAnnouncementsPayload } from "@/modules/scripted-events/parser";
 
 const config = loadConfig();
 
@@ -97,7 +98,10 @@ const getRemoteAnnouncements = async (): Promise<{
           closedAnnouncements: stored?.closedAnnouncements ?? [],
         };
       }
-      raw = await response.json();
+      const payload: unknown = await response.json();
+      raw = parseScriptedAnnouncementsPayload(payload).map((announcement) => ({
+        ...announcement,
+      }));
     }
 
     const isCloud = isWardenClyffe();

@@ -20,6 +20,7 @@ import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode
 import AgentAccountControlsCard from "@/modules/agent-network/AgentAccountControlsCard";
 import AgentBudgetRulesTable from "@/modules/agent-network/AgentBudgetRulesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
+import { ScriptedEventsAdminPanel } from "@/modules/scripted-events/ScriptedEventsAdminPanel";
 
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
@@ -28,6 +29,7 @@ const ClustersTable = lazy(
 const TAB_BUDGET_SETTINGS = "budget-settings";
 const TAB_LOG_SETTINGS = "log-settings";
 const TAB_CLUSTERS = "clusters";
+const TAB_SCRIPTED_EVENTS = "scripted-events";
 
 // AgentNetworkConfigurationPage holds the configuration surfaces extracted from
 // Usage & Logs — global limits and log-collection controls — using the same
@@ -47,7 +49,11 @@ export default function AgentNetworkConfigurationPage() {
   // fall back to the first tab so a matching content pane always renders.
   const canReadClusters = !!permission?.services?.read;
   const selectableTabs = useMemo(() => {
-    const tabs = new Set([TAB_BUDGET_SETTINGS, TAB_LOG_SETTINGS]);
+    const tabs = new Set([
+      TAB_BUDGET_SETTINGS,
+      TAB_LOG_SETTINGS,
+      TAB_SCRIPTED_EVENTS,
+    ]);
     if (canReadClusters) tabs.add(TAB_CLUSTERS);
     return tabs;
   }, [canReadClusters]);
@@ -72,6 +78,10 @@ export default function AgentNetworkConfigurationPage() {
           <VerticalTabs.Trigger value={TAB_LOG_SETTINGS}>
             <ScrollText size={14} />
             Log Collection
+          </VerticalTabs.Trigger>
+          <VerticalTabs.Trigger value={TAB_SCRIPTED_EVENTS}>
+            <AgentNetworkIcon size={14} />
+            Scripted Events
           </VerticalTabs.Trigger>
           {canReadClusters && (
             <VerticalTabs.Trigger value={TAB_CLUSTERS}>
@@ -113,6 +123,21 @@ export default function AgentNetworkConfigurationPage() {
                     <Suspense fallback={<SkeletonTable />}>
                       <AgentAccountControlsCard />
                     </Suspense>
+                  </Tabs.Content>
+
+                  <Tabs.Content
+                    value={TAB_SCRIPTED_EVENTS}
+                    className={"w-full"}
+                  >
+                    <ConfigTabHeader
+                      label={"Scripted Events"}
+                      href={"/agent-network/configuration?tab=scripted-events"}
+                    >
+                      Manage the canonical scripted-event fabric that drives
+                      Clyffy/council visibility, machine-only sink lanes, and
+                      the persistent assistant overlay behavior.
+                    </ConfigTabHeader>
+                    <ScriptedEventsAdminPanel />
                   </Tabs.Content>
 
                   {canReadClusters && (

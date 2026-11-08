@@ -28,10 +28,36 @@ The dashboard makes it possible to:
 - ReactJS
 - Tailwind CSS
 - [React Flow](https://reactflow.dev/) for the Control Center
+- [Arktype](https://arktype.io/) for strict scripted-event and MCP payload contracts
 - Auth0
 - Nginx
 - Docker
 - Let's Encrypt
+
+## Scripted event contracts
+
+Dashboard scripted UI events (announcements/tooltips/popups) and MCP response
+payloads use strict Arktype contracts in
+`src/modules/scripted-events/contracts.ts`, parsed by
+`src/modules/scripted-events/parser.ts`.
+
+The orchestrator lane model in `src/modules/scripted-events/orchestrator.ts`
+partitions visible UI events (for Clyffy/council surfaces) from background
+data-sink events used for behind-the-scenes optimization and testing
+comparisons.
+
+The live dashboard now mounts a persistent assistant overlay from
+`src/modules/scripted-events/ScriptedAssistantOverlay.tsx`, and an admin
+control surface in Agent Network Configuration (`?tab=scripted-events`) via
+`src/modules/scripted-events/ScriptedEventsAdminPanel.tsx`.
+
+Phase 1 canonical UI foundation now lives in:
+
+- `src/components/canonical/CanonicalButton.tsx`
+- `src/components/canonical/CanonicalCard.tsx`
+- `src/components/canonical/PersistentAssistantOverlay.tsx`
+- `src/app/globals.css` fluid clamp tokens (`--wc-*`) for responsive sizing
+  without breakpoint-driven typography/spacing.
 
 ## How to run
 

@@ -2,7 +2,7 @@
 
 import "../app/globals.css";
 import { useOidcUser } from "@axa-fr/react-oidc";
-import Button from "@components/Button";
+import { CanonicalButton } from "@components/canonical/CanonicalButton";
 import { UserAvatar } from "@components/ui/UserAvatar";
 import { cn } from "@utils/helpers";
 import { isWardenClyffe } from "@utils/wardenclyffe";
@@ -25,6 +25,8 @@ import GroupsProvider from "@/contexts/GroupsProvider";
 import UsersProvider from "@/contexts/UsersProvider";
 import Navigation from "@/layouts/Navigation";
 import { OnboardingProvider } from "@/modules/onboarding/OnboardingProvider";
+import { ScriptedAssistantOverlay } from "@/modules/scripted-events/ScriptedAssistantOverlay";
+import { ScriptedEventsProvider } from "@/modules/scripted-events/ScriptedEventsProvider";
 import Header, { headerHeight } from "./Header";
 
 export default function DashboardLayout({
@@ -43,7 +45,9 @@ export default function DashboardLayout({
                   <CountryProvider>
                     <WardenClyffeProvider />
                     {!isWardenClyffe() && <OnboardingProvider />}
-                    <DashboardPageContent>{children}</DashboardPageContent>
+                    <ScriptedEventsProvider>
+                      <DashboardPageContent>{children}</DashboardPageContent>
+                    </ScriptedEventsProvider>
                   </CountryProvider>
                 </GroupsProvider>
               </BillingProvider>
@@ -88,11 +92,7 @@ function DashboardPageContent({
             x: -200,
           }}
         >
-          <div
-            className={
-              "flex items-center justify-between gap-3 pl-4 pr-8 pt-8 pb-3 w-11/12"
-            }
-          >
+          <div className={"flex items-center justify-between gap-3 pl-4 pr-8 pt-8 pb-3 w-11/12"}>
             <div className={"flex items-center gap-3 max-w-[22rem]"}>
               <UserAvatar size={"small"} />
               <div className="flex flex-col space-y-1">
@@ -104,16 +104,16 @@ function DashboardPageContent({
                 </p>
               </div>
             </div>
-            <Button
+            <CanonicalButton
               className={"!px-3"}
-              variant={"default-outline"}
-              size={"xs"}
+              variant={"ghost"}
+              size={"sm"}
               onClick={toggleMobileNav}
             >
               <div>
                 <XIcon size={16} className={"relative"} />
               </div>
-            </Button>
+            </CanonicalButton>
           </div>
           <Navigation fullWidth />
         </motion.div>
@@ -121,11 +121,7 @@ function DashboardPageContent({
       <AnimatePresence mode={"wait"}>
         <motion.div
           layout={"position"}
-          className={cn(
-            mobileNavOpen
-              ? "border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75"
-              : "",
-          )}
+          className={cn(mobileNavOpen ? "border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75" : "", "bg-nb-gray-960")}
           transition={{
             type: "spring",
             stiffness: 500,
@@ -170,14 +166,19 @@ function DashboardPageContent({
           >
             <Header />
             <div
-              className={"flex flex-row flex-grow"}
+              className={"flex flex-row flex-grow px-[var(--wc-space-2)] pb-[var(--wc-space-2)] gap-[var(--wc-space-2)]"}
               style={{
                 height: `calc(100vh - ${headerHeight + bannerHeight}px)`,
               }}
             >
-              <Navigation hideOnMobile />
-              <React.Fragment key={"page"}>{children}</React.Fragment>
+              <div className="wc-shell-frame overflow-hidden">
+                <Navigation hideOnMobile />
+              </div>
+              <div className="wc-shell-frame flex-1 overflow-auto">
+                <React.Fragment key={"page"}>{children}</React.Fragment>
+              </div>
             </div>
+            <ScriptedAssistantOverlay />
           </motion.div>
         </motion.div>
       </AnimatePresence>

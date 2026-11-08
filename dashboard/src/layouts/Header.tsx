@@ -1,6 +1,6 @@
 "use client";
 
-import Button from "@components/Button";
+import { CanonicalButton } from "@components/canonical/CanonicalButton";
 import { WardenClyffeLogo } from "@components/WardenClyffeLogo";
 import { AnnouncementBanner } from "@components/ui/AnnouncementBanner";
 import HelpAndSupportButton from "@components/ui/HelpAndSupportButton";
@@ -35,24 +35,22 @@ export default function NavbarWithDropdown() {
         <AnnouncementBanner />
         <div
           className={cn(
-            "bg-white px-2 py-3 dark:border-gray-700 dark:bg-nb-gray backdrop-blur-lg sm:px-6",
-            "border-b dark:border-zinc-700/40 px-3 md:px-4 w-full",
+            "wc-shell-frame mx-[var(--wc-space-2)] mt-[var(--wc-space-2)] px-[var(--wc-space-2)] py-[var(--wc-space-2)]",
+            "border dark:border-zinc-700/40 w-auto",
             "flex justify-between items-center transition-all",
           )}
         >
           <div className={"flex items-center gap-4 md:hidden"}>
-            <Button
-              className={cn(
-                "!px-3 md:hidden",
-                isRestricted && "opacity-0 pointer-events-none",
-              )}
-              variant={"default-outline"}
+            <CanonicalButton
+              className={cn("md:hidden", isRestricted && "opacity-0 pointer-events-none")}
+              variant={"ghost"}
+              size={"sm"}
               onClick={toggleMobileNav}
             >
               <div>
                 <MenuIcon size={20} className={"relative"} />
               </div>
-            </Button>
+            </CanonicalButton>
           </div>
           <div className={"flex gap-4 mr-auto"}>
             <button
@@ -90,20 +88,24 @@ const ToggleCollapsableNavigationButton = () => {
 
   return (
     !isRestricted && (
-      <button
+      <CanonicalButton
         onClick={toggleNavigation}
         data-navbar-colappse-toggle
         className={cn(
           "h-10 w-10 hover:text-white flex items-center justify-center text-nb-gray-300 transition-all ml-2",
           "hidden md:block",
         )}
+        variant={"ghost"}
+        size={"sm"}
+        iconOnly
+        aria-label={isNavigationCollapsed ? "Expand navigation" : "Collapse navigation"}
       >
         {isNavigationCollapsed ? (
           <PanelLeftOpenIcon size={16} />
         ) : (
           <PanelLeftCloseIcon size={16} />
         )}
-      </button>
+      </CanonicalButton>
     )
   );
 };

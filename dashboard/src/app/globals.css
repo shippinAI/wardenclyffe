@@ -5,6 +5,21 @@
 :root {
     --toasts-before: 0;
     --lift: 1;
+    --wc-radius-sm: 0.5rem;
+    --wc-radius-md: 0.75rem;
+    --wc-radius-lg: 1rem;
+    --wc-space-1: clamp(0.25rem, 0.2rem + 0.25vw, 0.5rem);
+    --wc-space-2: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
+    --wc-space-3: clamp(0.75rem, 0.6rem + 0.6vw, 1rem);
+    --wc-space-4: clamp(1rem, 0.8rem + 0.8vw, 1.5rem);
+    --wc-text-xs: clamp(0.75rem, 0.72rem + 0.1vw, 0.8rem);
+    --wc-text-sm: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
+    --wc-text-md: clamp(0.95rem, 0.88rem + 0.25vw, 1.1rem);
+    --wc-text-lg: clamp(1.1rem, 1rem + 0.4vw, 1.4rem);
+    --wc-shell-top: clamp(3rem, 2.6rem + 1vw, 4rem);
+    --wc-shell-left: clamp(3.25rem, 2.8rem + 1vw, 4.25rem);
+    --wc-frame-stroke: color-mix(in oklab, var(--wc-ink), transparent 80%);
+    --wc-frame-bg: color-mix(in oklab, var(--wc-tile), transparent 15%);
 }
 
 /*
@@ -41,6 +56,18 @@
 html{
     @apply bg-nb-gray;
 }
+
+.wc-shell-frame {
+    border: 1px solid var(--wc-frame-stroke);
+    border-radius: var(--wc-radius-lg);
+    background: var(--wc-frame-bg);
+    backdrop-filter: blur(8px);
+}
+
+.wc-fluid-text-xs { font-size: var(--wc-text-xs); }
+.wc-fluid-text-sm { font-size: var(--wc-text-sm); }
+.wc-fluid-text-md { font-size: var(--wc-text-md); }
+.wc-fluid-text-lg { font-size: var(--wc-text-lg); }
 
 h1 {
     @apply text-2xl font-medium text-gray-700 dark:text-nb-gray-100 my-1;
