@@ -189,7 +189,7 @@ export const AWSChoosePlan = ({ onSuccess }: Props) => {
                     <div className={"flex gap-4 w-full mt-5"}>
                       <a
                         href={
-                          "mailto:support@netbid.io?subject=Request%20for%20Assistance%20-%20AWS%20Marketplace"
+                          "mailto:support@wardenclyffe.app?subject=Request%20for%20Assistance%20-%20AWS%20Marketplace"
                         }
                         className={"w-full"}
                       >

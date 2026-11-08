@@ -100,7 +100,7 @@ const CheckContent = ({ value, onChange, disabled }: Props) => {
             Learn more about
             <InlineLink
               href={
-                "https://docs.wardenclyffe.app/how-to/manage-posture-checks#net-bird-client-version-check"
+                "https://docs.wardenclyffe.app/how-to/manage-posture-checks#wardenclyffe-client-version-check"
               }
               target={"_blank"}
             >

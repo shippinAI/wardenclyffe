@@ -1,5 +1,19 @@
 # WardenClyffe Dashboard
 
+## Branding build boundaries
+
+The dashboard uses `src/components/WardenClyffeLogo.tsx` and the cyan
+`wardenclyffe` Tailwind palette. The embedded sign-in pages belong to the
+combined service, not this dashboard image. Their shared header references
+`idp/dex/web/themes/light/logo.svg`, `favicon.svg`, and `styles.css`, embedded
+by `idp/dex/web/web.go`. Rebuild the combined image after changing these assets;
+rebuilding only the dashboard does not update sign-in pages.
+
+Go dependency replacement paths identify the repositories that actually publish
+the pinned revisions; they are not product branding. Keep those sources reachable.
+Renaming a replacement to a WardenClyffe fork requires publishing that fork and
+its referenced revision first, otherwise the combined service cannot rebuild.
+
 This project is the UI for WardenClyffe's Management service.
 
 **Hosted version:** https://app.wardenclyffe.app/

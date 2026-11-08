@@ -83,7 +83,7 @@ require (
 	github.com/miekg/dns v1.1.73
 	github.com/mitchellh/hashstructure/v2 v2.0.2
 	github.com/moby/moby/api v1.54.1
-	github.com/netbirdio/go-nat v0.0.0-20260821095157-6b2c8c5c74e8
+	github.com/shippinAI/go-nat v0.0.0-20260821095157-6b2c8c5c74e8
 	github.com/oapi-codegen/runtime v1.1.2
 	github.com/okta/okta-sdk-golang/v2 v2.18.0
 	github.com/ory/dockertest/v4 v4.0.0
@@ -348,6 +348,8 @@ require (
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	rsc.io/qr v0.2.0 // indirect
 )
+
+replace github.com/shippinAI/go-nat => github.com/netbirdio/go-nat v0.0.0-20260821095157-6b2c8c5c74e8
 
 replace github.com/kardianos/service => github.com/netbirdio/service v0.0.0-20240911161631-f62744f42502
 

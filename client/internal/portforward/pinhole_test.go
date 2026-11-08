@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/netbirdio/go-nat"
+	"github.com/shippinAI/go-nat"
 	log "github.com/sirupsen/logrus"
 	"github.com/sirupsen/logrus/hooks/test"
 	"github.com/stretchr/testify/assert"
