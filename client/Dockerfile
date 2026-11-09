@@ -23,5 +23,6 @@ ENV \
 ENTRYPOINT [ "/usr/local/bin/wardenclyffe-entrypoint.sh" ]
 ARG TARGETPLATFORM
 ARG WARDENCLYFFE_BINARY=$TARGETPLATFORM/wardenclyffe
-COPY client/wardenclyffe-entrypoint.sh /usr/local/bin/wardenclyffe-entrypoint.sh
+COPY --chmod=0755 client/wardenclyffe-entrypoint.sh /usr/local/bin/wardenclyffe-entrypoint.sh
+RUN sed -i 's/\r$//' /usr/local/bin/wardenclyffe-entrypoint.sh
 COPY "${WARDENCLYFFE_BINARY}"  /usr/local/bin/wardenclyffe

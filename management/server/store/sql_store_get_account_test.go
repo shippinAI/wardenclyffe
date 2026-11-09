@@ -96,6 +96,13 @@ func TestGetAccount_ComprehensiveFieldValidation(t *testing.T) {
 	require.NoError(t, err)
 	defer cleanup()
 
+	assertGetAccountComprehensiveFields(t, store)
+}
+
+func assertGetAccountComprehensiveFields(t *testing.T, store Store) {
+	t.Helper()
+	ctx := context.Background()
+
 	// Create comprehensive test data
 	accountID := "test-account-comprehensive"
 	userID1 := "user-1"
@@ -680,7 +687,7 @@ func TestGetAccount_ComprehensiveFieldValidation(t *testing.T) {
 	}
 
 	// Save the account to the database
-	err = store.SaveAccount(ctx, account)
+	err := store.SaveAccount(ctx, account)
 	require.NoError(t, err, "Failed to save comprehensive test account")
 
 	// Retrieve the account from the database

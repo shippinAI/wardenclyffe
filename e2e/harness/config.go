@@ -35,6 +35,7 @@ const combinedConfigYAML = `server:
     issuer: "%s"
   store:
     engine: "sqlite"
+    encryptionKey: "%s"
   agentNetwork:
     pricingDefaultsFile: "` + PricingDefaultsFileName + `"
 `

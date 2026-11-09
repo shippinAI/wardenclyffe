@@ -64,6 +64,12 @@ func TestSqlStoreGroupLookupsUseRuntimeTables(t *testing.T) {
 	}
 	require.NoError(t, sqlStore.AddPeerToGroup(ctx, "account-a", "peer-a", "populated"))
 	require.NoError(t, sqlStore.AddPeerToGroup(ctx, "account-b", "peer-a", "foreign"))
+	require.NoError(t, sqlStore.CreateGroups(ctx, "account-a", []*types.Group{
+		{ID: "empty", AccountID: "account-a", Name: "team"},
+	}))
+	require.NoError(t, sqlStore.UpdateGroups(ctx, "account-a", []*types.Group{
+		{ID: "empty", AccountID: "account-a", Name: "team"},
+	}))
 	assert.False(t, sqlStore.db.Migrator().HasTable("groups"), "fresh store must not need legacy groups")
 	assert.False(t, sqlStore.db.Migrator().HasTable("group_peers"), "fresh store must not need legacy memberships")
 

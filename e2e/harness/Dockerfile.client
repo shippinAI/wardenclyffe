@@ -25,4 +25,5 @@ ENTRYPOINT [ "/usr/local/bin/wardenclyffe-entrypoint.sh" ]
 # where every file is 0444 — the cache drops the executable bit git records — and
 # a bare COPY then produces an entrypoint the runtime cannot exec.
 COPY --chmod=0755 client/wardenclyffe-entrypoint.sh /usr/local/bin/wardenclyffe-entrypoint.sh
+RUN sed -i 's/\r$//' /usr/local/bin/wardenclyffe-entrypoint.sh
 COPY --from=builder /out/wardenclyffe /usr/local/bin/wardenclyffe

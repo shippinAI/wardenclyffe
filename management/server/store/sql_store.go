@@ -696,7 +696,7 @@ func (s *SqlStore) CreateGroups(ctx context.Context, accountID string, groups []
 			Clauses(
 				clause.OnConflict{
 					Columns:   []clause.Column{{Name: "id"}},
-					Where:     clause.Where{Exprs: []clause.Expression{clause.Eq{Column: "groups.account_id", Value: accountID}}},
+					Where:     clause.Where{Exprs: []clause.Expression{clause.Eq{Column: clause.Column{Table: clause.CurrentTable, Name: "account_id"}, Value: accountID}}},
 					DoUpdates: groupUpsertColumns(),
 				},
 			).
@@ -722,7 +722,7 @@ func (s *SqlStore) UpdateGroups(ctx context.Context, accountID string, groups []
 			Clauses(
 				clause.OnConflict{
 					Columns:   []clause.Column{{Name: "id"}},
-					Where:     clause.Where{Exprs: []clause.Expression{clause.Eq{Column: "groups.account_id", Value: accountID}}},
+					Where:     clause.Where{Exprs: []clause.Expression{clause.Eq{Column: clause.Column{Table: clause.CurrentTable, Name: "account_id"}, Value: accountID}}},
 					DoUpdates: groupUpsertColumns(),
 				},
 			).
@@ -1638,7 +1638,7 @@ func (s *SqlStore) getAccountPgx(ctx context.Context, accountID string) (*types.
 func (s *SqlStore) getAccount(ctx context.Context, accountID string) (*types.Account, error) {
 	var account types.Account
 	account.Network = &types.Network{}
-	const accountQuery = `
+	accountQuery := `
 		SELECT
 			id, created_by, created_at, domain, domain_category, is_domain_primary_account,
 			-- Embedded Network
@@ -1658,7 +1658,7 @@ func (s *SqlStore) getAccount(ctx context.Context, accountID string) (*types.Acc
 			-- Embedded ExtraSettings
 			settings_extra_peer_approval_enabled, settings_extra_user_approval_required,
 			settings_extra_integrated_validator, settings_extra_integrated_validator_groups
-		FROM accounts WHERE id = $1`
+		FROM ` + schema.RuntimeTableName("accounts") + ` WHERE id = $1`
 
 	var (
 		sPeerLoginExpirationEnabled      sql.NullBool
@@ -1829,8 +1829,8 @@ func (s *SqlStore) getAccount(ctx context.Context, accountID string) (*types.Acc
 }
 
 func (s *SqlStore) getSetupKeys(ctx context.Context, accountID string) ([]types.SetupKey, error) {
-	const query = `SELECT id, account_id, key, key_secret, name, type, created_at, expires_at, updated_at, 
-	revoked, used_times, last_used, auto_groups, usage_limit, ephemeral, allow_extra_dns_labels FROM setup_keys WHERE account_id = $1`
+	query := `SELECT id, account_id, key, key_secret, name, type, created_at, expires_at, updated_at, 
+	revoked, used_times, last_used, auto_groups, usage_limit, ephemeral, allow_extra_dns_labels FROM ` + schema.RuntimeTableName("setup_keys") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -1892,14 +1892,14 @@ func (s *SqlStore) getSetupKeys(ctx context.Context, accountID string) ([]types.
 }
 
 func (s *SqlStore) getPeers(ctx context.Context, accountID string) ([]nbpeer.Peer, error) {
-	const query = `SELECT id, account_id, key, ip, name, dns_label, user_id, ssh_key, ssh_enabled, login_expiration_enabled,
+	query := `SELECT id, account_id, key, ip, name, dns_label, user_id, ssh_key, ssh_enabled, login_expiration_enabled,
 	inactivity_expiration_enabled, last_login, created_at, ephemeral, extra_dns_labels, allow_extra_dns_labels, meta_hostname,
 	meta_go_os, meta_kernel, meta_core, meta_platform, meta_os, meta_os_version, meta_wt_version, meta_ui_version,
 	meta_kernel_version, meta_network_addresses, meta_system_serial_number, meta_system_product_name, meta_system_manufacturer,
 	meta_environment, meta_flags, meta_files, meta_capabilities, peer_status_last_seen, peer_status_session_started_at,
 	peer_status_connected, peer_status_login_expired, peer_status_requires_approval, location_connection_ip,
 	location_country_code, location_city_name, location_geo_name_id, proxy_meta_embedded, proxy_meta_cluster, ipv6, meta_sync_message_version
-	FROM peers WHERE account_id = $1`
+	FROM ` + schema.RuntimeTableName("peers") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2063,7 +2063,7 @@ func (s *SqlStore) getPeers(ctx context.Context, accountID string) ([]nbpeer.Pee
 }
 
 func (s *SqlStore) getUsers(ctx context.Context, accountID string) ([]types.User, error) {
-	const query = `SELECT id, account_id, role, is_service_user, non_deletable, service_user_name, auto_groups, blocked, pending_approval, last_login, created_at, issued, integration_ref_id, integration_ref_integration_type, email, name FROM users WHERE account_id = $1`
+	query := `SELECT id, account_id, role, is_service_user, non_deletable, service_user_name, auto_groups, blocked, pending_approval, last_login, created_at, issued, integration_ref_id, integration_ref_integration_type, email, name FROM ` + schema.RuntimeTableName("users") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2108,7 +2108,7 @@ func (s *SqlStore) getUsers(ctx context.Context, accountID string) ([]types.User
 }
 
 func (s *SqlStore) getGroups(ctx context.Context, accountID string) ([]*types.Group, error) {
-	const query = `SELECT id, account_id, public_id, name, issued, resources, integration_ref_id, integration_ref_integration_type FROM groups WHERE account_id = $1`
+	query := `SELECT id, account_id, public_id, name, issued, resources, integration_ref_id, integration_ref_integration_type FROM ` + schema.RuntimeTableName("groups") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2143,7 +2143,7 @@ func (s *SqlStore) getGroups(ctx context.Context, accountID string) ([]*types.Gr
 }
 
 func (s *SqlStore) getPolicies(ctx context.Context, accountID string) ([]*types.Policy, error) {
-	const query = `SELECT id, account_id, public_id, name, description, enabled, source_posture_checks FROM policies WHERE account_id = $1`
+	query := `SELECT id, account_id, public_id, name, description, enabled, source_posture_checks FROM ` + schema.RuntimeTableName("policies") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2170,7 +2170,7 @@ func (s *SqlStore) getPolicies(ctx context.Context, accountID string) ([]*types.
 }
 
 func (s *SqlStore) getRoutes(ctx context.Context, accountID string) ([]route.Route, error) {
-	const query = `SELECT id, account_id, public_id, network, domains, keep_route, net_id, description, peer, peer_groups, network_type, masquerade, metric, enabled, groups, access_control_groups, skip_auto_apply FROM routes WHERE account_id = $1`
+	query := `SELECT id, account_id, public_id, network, domains, keep_route, net_id, description, peer, peer_groups, network_type, masquerade, metric, enabled, groups, access_control_groups, skip_auto_apply FROM ` + schema.RuntimeTableName("routes") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2222,7 +2222,7 @@ func (s *SqlStore) getRoutes(ctx context.Context, accountID string) ([]route.Rou
 }
 
 func (s *SqlStore) getNameServerGroups(ctx context.Context, accountID string) ([]nbdns.NameServerGroup, error) {
-	const query = `SELECT id, account_id, public_id, name, description, name_servers, groups, "primary", domains, enabled, search_domains_enabled FROM name_server_groups WHERE account_id = $1`
+	query := `SELECT id, account_id, public_id, name, description, name_servers, groups, "primary", domains, enabled, search_domains_enabled FROM ` + schema.RuntimeTableName("name_server_groups") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2267,7 +2267,7 @@ func (s *SqlStore) getNameServerGroups(ctx context.Context, accountID string) ([
 }
 
 func (s *SqlStore) getPostureChecks(ctx context.Context, accountID string) ([]*posture.Checks, error) {
-	const query = `SELECT id, account_id, public_id, name, description, checks FROM posture_checks WHERE account_id = $1`
+	query := `SELECT id, account_id, public_id, name, description, checks FROM ` + schema.RuntimeTableName("posture_checks") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2303,7 +2303,7 @@ const targetSelectColumns = `id, account_id, service_id, path, host, port, proto
 	capture_content_types, agent_network, disable_access_log`
 
 func (s *SqlStore) getServices(ctx context.Context, accountID string) ([]*rpservice.Service, error) {
-	const serviceQuery = `SELECT ` + serviceSelectColumns + ` FROM services WHERE account_id = $1`
+	serviceQuery := `SELECT ` + serviceSelectColumns + ` FROM ` + schema.RuntimeTableName("services") + ` WHERE account_id = $1`
 
 	serviceRows, err := s.pool.Query(ctx, serviceQuery, accountID)
 	if err != nil {
@@ -2457,7 +2457,7 @@ func serviceMetaFromRow(createdAt, certIssuedAt, lastRenewedAt sql.NullTime, sta
 }
 
 func (s *SqlStore) getServiceTargets(ctx context.Context, serviceIDs []string) ([]*rpservice.Target, error) {
-	const targetsQuery = `SELECT ` + targetSelectColumns + ` FROM targets WHERE service_id = ANY($1)`
+	targetsQuery := `SELECT ` + targetSelectColumns + ` FROM ` + schema.RuntimeTableName("targets") + ` WHERE service_id = ANY($1)`
 
 	rows, err := s.pool.Query(ctx, targetsQuery, serviceIDs)
 	if err != nil {
@@ -2536,7 +2536,7 @@ func scanTarget(row pgx.CollectableRow) (*rpservice.Target, error) {
 }
 
 func (s *SqlStore) getNetworks(ctx context.Context, accountID string) ([]*networkTypes.Network, error) {
-	const query = `SELECT id, account_id, public_id, name, description FROM networks WHERE account_id = $1`
+	query := `SELECT id, account_id, public_id, name, description FROM ` + schema.RuntimeTableName("networks") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2553,7 +2553,7 @@ func (s *SqlStore) getNetworks(ctx context.Context, accountID string) ([]*networ
 }
 
 func (s *SqlStore) getNetworkRouters(ctx context.Context, accountID string) ([]*routerTypes.NetworkRouter, error) {
-	const query = `SELECT id, network_id, account_id, public_id, peer, peer_groups, masquerade, metric, enabled FROM network_routers WHERE account_id = $1`
+	query := `SELECT id, network_id, account_id, public_id, peer, peer_groups, masquerade, metric, enabled FROM ` + schema.RuntimeTableName("network_routers") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2591,7 +2591,7 @@ func (s *SqlStore) getNetworkRouters(ctx context.Context, accountID string) ([]*
 }
 
 func (s *SqlStore) getNetworkResources(ctx context.Context, accountID string) ([]*resourceTypes.NetworkResource, error) {
-	const query = `SELECT id, network_id, account_id, public_id, name, description, type, domain, prefix, enabled FROM network_resources WHERE account_id = $1`
+	query := `SELECT id, network_id, account_id, public_id, name, description, type, domain, prefix, enabled FROM ` + schema.RuntimeTableName("network_resources") + ` WHERE account_id = $1`
 	rows, err := s.pool.Query(ctx, query, accountID)
 	if err != nil {
 		return nil, err
@@ -2622,7 +2622,7 @@ func (s *SqlStore) getNetworkResources(ctx context.Context, accountID string) ([
 }
 
 func (s *SqlStore) getAccountOnboarding(ctx context.Context, accountID string, account *types.Account) error {
-	const query = `SELECT account_id, onboarding_flow_pending, signup_form_pending, created_at, updated_at FROM account_onboardings WHERE account_id = $1`
+	query := `SELECT account_id, onboarding_flow_pending, signup_form_pending, created_at, updated_at FROM ` + schema.RuntimeTableName("account_onboardings") + ` WHERE account_id = $1`
 	var onboardingFlowPending, signupFormPending sql.NullBool
 	var createdAt, updatedAt sql.NullTime
 	err := s.pool.QueryRow(ctx, query, accountID).Scan(
@@ -2654,7 +2654,7 @@ func (s *SqlStore) getPersonalAccessTokens(ctx context.Context, userIDs []string
 	if len(userIDs) == 0 {
 		return nil, nil
 	}
-	const query = `SELECT id, user_id, name, hashed_token, expiration_date, created_by, created_at, last_used FROM personal_access_tokens WHERE user_id = ANY($1)`
+	query := `SELECT id, user_id, name, hashed_token, expiration_date, created_by, created_at, last_used FROM ` + schema.RuntimeTableName("personal_access_tokens") + ` WHERE user_id = ANY($1)`
 	rows, err := s.pool.Query(ctx, query, userIDs)
 	if err != nil {
 		return nil, err
@@ -2686,7 +2686,7 @@ func (s *SqlStore) getPolicyRules(ctx context.Context, policyIDs []string) ([]*t
 	if len(policyIDs) == 0 {
 		return nil, nil
 	}
-	const query = `SELECT id, policy_id, name, description, enabled, action, destinations, destination_resource, sources, source_resource, bidirectional, protocol, ports, port_ranges, authorized_groups, authorized_user FROM policy_rules WHERE policy_id = ANY($1)`
+	query := `SELECT id, policy_id, name, description, enabled, action, destinations, destination_resource, sources, source_resource, bidirectional, protocol, ports, port_ranges, authorized_groups, authorized_user FROM ` + schema.RuntimeTableName("policy_rules") + ` WHERE policy_id = ANY($1)`
 	rows, err := s.pool.Query(ctx, query, policyIDs)
 	if err != nil {
 		return nil, err
@@ -2741,7 +2741,7 @@ func (s *SqlStore) getGroupPeers(ctx context.Context, groupIDs []string) ([]type
 	if len(groupIDs) == 0 {
 		return nil, nil
 	}
-	const query = `SELECT account_id, group_id, peer_id FROM group_peers WHERE group_id = ANY($1)`
+	query := `SELECT account_id, group_id, peer_id FROM ` + schema.RuntimeTableName("group_peers") + ` WHERE group_id = ANY($1)`
 	rows, err := s.pool.Query(ctx, query, groupIDs)
 	if err != nil {
 		return nil, err
@@ -5855,10 +5855,10 @@ func (s *SqlStore) DeleteOldAgentNetworkAccessLogs(ctx context.Context, accountI
 	var deleted int64
 	err := s.db.Transaction(func(tx *gorm.DB) error {
 		// Remove group child rows for the soon-to-be-deleted logs first.
-		if err := tx.Exec(
-			"DELETE FROM agent_network_access_log_group WHERE account_id = ? AND log_id IN (SELECT id FROM agent_network_access_log WHERE account_id = ? AND timestamp < ?)",
-			accountID, accountID, olderThan,
-		).Error; err != nil {
+		expiredLogs := tx.Model(&agentNetworkTypes.AgentNetworkAccessLog{}).
+			Select("id").Where("account_id = ? AND timestamp < ?", accountID, olderThan)
+		if err := tx.Where("account_id = ? AND log_id IN (?)", accountID, expiredLogs).
+			Delete(&agentNetworkTypes.AgentNetworkAccessLogGroup{}).Error; err != nil {
 			return err
 		}
 		res := tx.Where("account_id = ? AND timestamp < ?", accountID, olderThan).
@@ -5916,8 +5916,9 @@ func (s *SqlStore) applyAgentNetworkUsageFilters(query *gorm.DB, filter agentNet
 	}
 	if len(filter.GroupIDs) > 0 {
 		query = query.Where(
-			"id IN (SELECT usage_id FROM agent_network_request_usage_group WHERE group_id IN ?)",
-			filter.GroupIDs,
+			"id IN (?)",
+			s.db.Model(&agentNetworkTypes.AgentNetworkUsageGroup{}).
+				Select("usage_id").Where("group_id IN ?", filter.GroupIDs),
 		)
 	}
 	if filter.StartDate != nil {
@@ -5974,8 +5975,9 @@ func (s *SqlStore) applyAgentNetworkAccessLogFilters(query *gorm.DB, filter agen
 	if filter.Search != nil {
 		p := "%" + *filter.Search + "%"
 		query = query.Where(
-			"id LIKE ? OR host LIKE ? OR path LIKE ? OR model LIKE ? OR user_id IN (SELECT id FROM users WHERE email LIKE ? OR name LIKE ?)",
-			p, p, p, p, p, p,
+			"id LIKE ? OR host LIKE ? OR path LIKE ? OR model LIKE ? OR user_id IN (?)",
+			p, p, p, p, s.db.Model(&types.User{}).Select("id").
+				Where("email LIKE ? OR name LIKE ?", p, p),
 		)
 	}
 	if filter.UserID != nil {
@@ -5998,8 +6000,9 @@ func (s *SqlStore) applyAgentNetworkAccessLogFilters(query *gorm.DB, filter agen
 	}
 	if len(filter.GroupIDs) > 0 {
 		query = query.Where(
-			"id IN (SELECT log_id FROM agent_network_access_log_group WHERE group_id IN ?)",
-			filter.GroupIDs,
+			"id IN (?)",
+			s.db.Model(&agentNetworkTypes.AgentNetworkAccessLogGroup{}).
+				Select("log_id").Where("group_id IN ?", filter.GroupIDs),
 		)
 	}
 	if filter.StartDate != nil {
@@ -6197,8 +6200,10 @@ func (s *SqlStore) applyAccessLogFilters(query *gorm.DB, filter accesslogs.Acces
 	if filter.Search != nil {
 		searchPattern := "%" + *filter.Search + "%"
 		query = query.Where(
-			"id LIKE ? OR location_connection_ip LIKE ? OR host LIKE ? OR path LIKE ? OR CONCAT(host, path) LIKE ? OR user_id IN (SELECT id FROM users WHERE email LIKE ? OR name LIKE ?)",
-			searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern,
+			"id LIKE ? OR location_connection_ip LIKE ? OR host LIKE ? OR path LIKE ? OR CONCAT(host, path) LIKE ? OR user_id IN (?)",
+			searchPattern, searchPattern, searchPattern, searchPattern, searchPattern,
+			s.db.Model(&types.User{}).Select("id").
+				Where("email LIKE ? OR name LIKE ?", searchPattern, searchPattern),
 		)
 	}
 

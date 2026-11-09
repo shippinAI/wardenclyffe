@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/netip"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -39,6 +40,7 @@ type Client struct {
 // clientOptions is what the ClientOption values assemble.
 type clientOptions struct {
 	name string
+	env  map[string]string
 }
 
 // ClientOption adjusts how StartClient runs the agent.
@@ -53,6 +55,18 @@ type ClientOption func(*clientOptions)
 // is shared, and two containers cannot hold the same alias on one network.
 func WithClientName(name string) ClientOption {
 	return func(o *clientOptions) { o.name = name }
+}
+
+// WithClientEnv overrides environment variables on a disposable test client.
+func WithClientEnv(env map[string]string) ClientOption {
+	return func(o *clientOptions) {
+		if o.env == nil {
+			o.env = make(map[string]string)
+		}
+		for key, value := range env {
+			o.env[key] = value
+		}
+	}
 }
 
 // StartClient builds the client image and runs it on the combined server's
@@ -93,6 +107,9 @@ func StartClient(ctx context.Context, c *Combined, setupKey string, opts ...Clie
 		HostConfigModifier: func(hc *container.HostConfig) {
 			hc.CapAdd = append(hc.CapAdd, "NET_ADMIN", "SYS_ADMIN", "SYS_RESOURCE")
 		},
+	}
+	for key, value := range o.env {
+		req.Env[key] = value
 	}
 
 	ctr, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
@@ -138,9 +155,9 @@ func (cl *Client) Up(ctx context.Context, extraArgs ...string) error {
 	return nil
 }
 
-// Status returns `wardenclyffe status` output from inside the client.
-func (cl *Client) Status(ctx context.Context) (string, error) {
-	code, reader, err := cl.container.Exec(ctx, []string{"wardenclyffe", "status"}, tcexec.Multiplexed())
+// Status returns `wardenclyffe status` output with optional format flags.
+func (cl *Client) Status(ctx context.Context, args ...string) (string, error) {
+	code, reader, err := cl.container.Exec(ctx, append([]string{"wardenclyffe", "status"}, args...), tcexec.Multiplexed())
 	if err != nil {
 		return "", err
 	}
@@ -149,6 +166,27 @@ func (cl *Client) Status(ctx context.Context) (string, error) {
 		return string(out), fmt.Errorf("wardenclyffe status exited %d", code)
 	}
 	return string(out), nil
+}
+
+// PingPeer sends an actual ICMP probe from the disposable client's network namespace.
+func (cl *Client) PingPeer(ctx context.Context, address netip.Addr) error {
+	if !address.IsValid() {
+		return fmt.Errorf("ping peer: invalid address")
+	}
+	code, reader, err := cl.container.Exec(ctx,
+		[]string{"ping", "-n", "-c", "1", "-W", "2", address.Unmap().String()},
+		tcexec.Multiplexed())
+	if err != nil {
+		return fmt.Errorf("ping peer: %w", err)
+	}
+	out, err := io.ReadAll(reader)
+	if err != nil {
+		return fmt.Errorf("read ping result: %w", err)
+	}
+	if code != 0 {
+		return fmt.Errorf("ping peer exited %d: %s", code, string(out))
+	}
+	return nil
 }
 
 // WaitConnected polls until the client reports Management: Connected.

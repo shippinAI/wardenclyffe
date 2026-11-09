@@ -14,12 +14,14 @@ import (
 
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/go-connections/nat"
+	log "github.com/sirupsen/logrus"
 	"github.com/testcontainers/testcontainers-go"
 	tcexec "github.com/testcontainers/testcontainers-go/exec"
 	"github.com/testcontainers/testcontainers-go/network"
 	"github.com/testcontainers/testcontainers-go/wait"
 
 	"github.com/shippin/wardenclyffe/shared/management/client/rest"
+	"github.com/shippin/wardenclyffe/util/crypt"
 )
 
 const (
@@ -142,9 +144,22 @@ func StartCombined(ctx context.Context, opts ...CombinedOption) (*Combined, erro
 		_ = net.Remove(ctx)
 		return nil, fmt.Errorf("create work dir: %w", err)
 	}
+	keepWorkDir := false
+	defer func() {
+		if !keepWorkDir {
+			if err := os.RemoveAll(workDir); err != nil {
+				log.WithContext(ctx).Debugf("failed to remove combined test work dir: %v", err)
+			}
+		}
+	}()
 
-	cfg := fmt.Sprintf(combinedConfigYAML, combinedExposedURL, !o.geolocation, containerIssuer)
-	if err := os.WriteFile(filepath.Join(workDir, "config.yaml"), []byte(cfg), 0o644); err != nil { //nolint:gosec // non-secret config, bind-mounted and read by the container
+	encryptionKey, err := crypt.GenerateKey()
+	if err != nil {
+		_ = net.Remove(ctx)
+		return nil, fmt.Errorf("generate datastore encryption key: %w", err)
+	}
+	cfg := fmt.Sprintf(combinedConfigYAML, combinedExposedURL, !o.geolocation, containerIssuer, encryptionKey)
+	if err := os.WriteFile(filepath.Join(workDir, "config.yaml"), []byte(cfg), 0o600); err != nil {
 		_ = net.Remove(ctx)
 		return nil, fmt.Errorf("write combined config: %w", err)
 	}
@@ -200,6 +215,7 @@ func StartCombined(ctx context.Context, opts ...CombinedOption) (*Combined, erro
 		return nil, fmt.Errorf("mapped port: %w", err)
 	}
 
+	keepWorkDir = true
 	return &Combined{
 		container: c,
 		network:   net,
@@ -301,6 +317,27 @@ func (c *Combined) SnapshotStoreDB(dstDir string) (string, error) {
 		}
 	}
 	return dst, nil
+}
+
+// Restart restarts the disposable server while retaining its mounted data.
+func (c *Combined) Restart(ctx context.Context) error {
+	if err := c.container.Stop(ctx, nil); err != nil {
+		return fmt.Errorf("stop combined server: %w", err)
+	}
+	if err := c.container.Start(ctx); err != nil {
+		return fmt.Errorf("restart combined server: %w", err)
+	}
+	host, err := c.container.Host(ctx)
+	if err != nil {
+		return fmt.Errorf("restarted container host: %w", err)
+	}
+	port, err := c.container.MappedPort(ctx, nat.Port(combinedHTTPPort))
+	if err != nil {
+		return fmt.Errorf("restarted container port: %w", err)
+	}
+	c.BaseURL = fmt.Sprintf("http://%s:%s", host, port.Port())
+	c.api = rest.New(c.BaseURL, c.PAT)
+	return nil
 }
 
 // Logs returns the combined server container logs, for diagnostics.

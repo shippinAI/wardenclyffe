@@ -67,6 +67,9 @@ Client versions currently participate in capability and posture checks.
 Do not substitute `0.5.0` into those checks or lower inherited minimum versions
 without a tested product-version and compatibility design.
 
+See the [0.5.0 execution plan and acceptance gates](docs/release-0.5.0.md)
+for verified behavior, upstream differences and remaining release blockers.
+
 ### Self-host WardenClyffe (video)
 
 [![Watch the video](https://img.youtube.com/vi/bZAgpT6nzaQ/0.jpg)](https://youtu.be/bZAgpT6nzaQ)

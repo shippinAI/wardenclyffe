@@ -1,6 +1,7 @@
 package version
 
 import (
+	"context"
 	"io"
 	"net/http"
 	"sync"
@@ -27,8 +28,13 @@ type Update struct {
 	latestAvailable *goversion.Version
 	versionsLock    sync.Mutex
 
-	fetchTicker *time.Ticker
-	fetchDone   chan struct{}
+	fetchLock    sync.Mutex
+	fetchContext context.Context
+	fetchCancel  context.CancelFunc
+	fetchDone    chan struct{}
+	fetchURL     string
+	fetchRunning bool
+	fetchStopped bool
 
 	onUpdateListener func()
 	listenerLock     sync.Mutex
@@ -41,15 +47,20 @@ func NewUpdate(httpAgent string) *Update {
 		currentVersion, _ = goversion.NewVersion("0.0.0")
 	}
 
+	ctx, cancel := context.WithCancel(context.Background())
 	u := &Update{
-		httpAgent: httpAgent,
-		uiVersion: currentVersion,
-		fetchDone: make(chan struct{}),
+		httpAgent:    httpAgent,
+		uiVersion:    currentVersion,
+		fetchDone:    make(chan struct{}),
+		fetchContext: ctx,
+		fetchCancel:  cancel,
+		fetchURL:     versionURL,
 	}
 
 	return u
 }
 
+// NewUpdateAndStart creates an updater and starts its fetch loop.
 func NewUpdateAndStart(httpAgent string) *Update {
 	u := NewUpdate(httpAgent)
 	go u.StartFetcher()
@@ -59,15 +70,13 @@ func NewUpdateAndStart(httpAgent string) *Update {
 
 // StopWatch stop the version info fetch loop
 func (u *Update) StopWatch() {
-	if u.fetchTicker == nil {
-		return
-	}
-
-	u.fetchTicker.Stop()
-
-	select {
-	case u.fetchDone <- struct{}{}:
-	default:
+	u.fetchLock.Lock()
+	u.fetchStopped = true
+	u.fetchCancel()
+	running, done := u.fetchRunning, u.fetchDone
+	u.fetchLock.Unlock()
+	if running {
+		<-done
 	}
 }
 
@@ -93,25 +102,33 @@ func (u *Update) SetDaemonVersion(newVersion string) bool {
 // SetOnUpdateListener set new update listener
 func (u *Update) SetOnUpdateListener(updateFn func()) {
 	u.listenerLock.Lock()
-	defer u.listenerLock.Unlock()
-
 	u.onUpdateListener = updateFn
-	if u.isUpdateAvailable() {
-		u.onUpdateListener()
+	u.listenerLock.Unlock()
+	if updateFn != nil && u.isUpdateAvailable() {
+		updateFn()
 	}
 }
 
+// LatestVersion returns the latest successfully fetched version.
 func (u *Update) LatestVersion() *goversion.Version {
 	u.versionsLock.Lock()
 	defer u.versionsLock.Unlock()
 	return u.latestAvailable
 }
 
+// StartFetcher runs the update loop until stopped; a stopped updater cannot restart.
 func (u *Update) StartFetcher() {
-	if u.fetchTicker != nil {
+	u.fetchLock.Lock()
+	if u.fetchRunning || u.fetchStopped {
+		u.fetchLock.Unlock()
 		return
 	}
-	u.fetchTicker = time.NewTicker(fetchPeriod)
+	u.fetchRunning = true
+	ctx, done := u.fetchContext, u.fetchDone
+	u.fetchLock.Unlock()
+	ticker := time.NewTicker(fetchPeriod)
+	defer ticker.Stop()
+	defer close(done)
 
 	if changed := u.fetchVersion(); changed {
 		u.checkUpdate()
@@ -119,9 +136,9 @@ func (u *Update) StartFetcher() {
 
 	for {
 		select {
-		case <-u.fetchDone:
+		case <-ctx.Done():
 			return
-		case <-u.fetchTicker.C:
+		case <-ticker.C:
 			if changed := u.fetchVersion(); changed {
 				u.checkUpdate()
 			}
@@ -130,9 +147,11 @@ func (u *Update) StartFetcher() {
 }
 
 func (u *Update) fetchVersion() bool {
-	log.Debugf("fetching version info from %s", versionURL)
+	log.Debugf("fetching version info from %s", u.fetchURL)
 
-	req, err := http.NewRequest("GET", versionURL, nil)
+	ctx, cancel := context.WithTimeout(u.fetchContext, 30*time.Second)
+	defer cancel()
+	req, err := http.NewRequestWithContext(ctx, "GET", u.fetchURL, nil)
 	if err != nil {
 		log.Errorf("failed to create request for version info: %s", err)
 		return false
@@ -142,6 +161,10 @@ func (u *Update) fetchVersion() bool {
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
+		if u.fetchContext.Err() != nil {
+			log.Debugf("version fetch cancelled: %v", err)
+			return false
+		}
 		log.Errorf("failed to fetch version info: %s", err)
 		return false
 	}
@@ -157,9 +180,13 @@ func (u *Update) fetchVersion() bool {
 		return false
 	}
 
-	content, err := io.ReadAll(resp.Body)
+	content, err := io.ReadAll(io.LimitReader(resp.Body, 101))
 	if err != nil {
 		log.Errorf("failed to read content: %s", err)
+		return false
+	}
+	if len(content) > 100 {
+		log.Errorf("version response exceeds 100 bytes")
 		return false
 	}
 
@@ -186,12 +213,13 @@ func (u *Update) checkUpdate() bool {
 	}
 
 	u.listenerLock.Lock()
-	defer u.listenerLock.Unlock()
-	if u.onUpdateListener == nil {
+	listener := u.onUpdateListener
+	u.listenerLock.Unlock()
+	if listener == nil {
 		return true
 	}
 
-	go u.onUpdateListener()
+	go listener()
 	return true
 }
 

@@ -66,11 +66,10 @@ func TestCombinedConfigGeolocation(t *testing.T) {
 			for _, opt := range tc.opts {
 				opt(&o)
 			}
-			cfg := fmt.Sprintf(combinedConfigYAML, combinedExposedURL, !o.geolocation, containerIssuer)
+			cfg := fmt.Sprintf(combinedConfigYAML, combinedExposedURL, !o.geolocation, containerIssuer, "test-key")
 			assert.Contains(t, cfg, tc.want, "geolocation not rendered as expected")
-			// The issuer is the last verb; a mis-ordered argument list would put
-			// the boolean here instead and the server would fail to start.
 			assert.Contains(t, cfg, `issuer: "`+containerIssuer+`"`, "issuer not rendered")
+			assert.Contains(t, cfg, `encryptionKey: "test-key"`, "restart must use the configured encryption key")
 		})
 	}
 }

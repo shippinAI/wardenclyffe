@@ -361,72 +361,57 @@ get_upstream_host() {
   return 0
 }
 
-wait_management_proxy() {
-  local proxy_container="${1:-traefik}"
-  local use_docker_logs=false
-  set +e
-
-  if [[ "$proxy_container" == "detect-traefik" ]]; then
-    proxy_container=$(docker ps --format "{{.ID}}\t{{.Image}}\t{{.Ports}}" \
-    | awk -F'\t' '$2 ~ /traefik/ && $3 ~ /:(80|443)->/ {print $1; exit}')
-
-    if [[ -z "$proxy_container" ]]; then
-      echo "Warning: could not auto-detect Traefik container, log output will be skipped on timeout." > /dev/stderr
-    else
-      use_docker_logs=true
-    fi
+check_management_ready() {
+  local base_url="$1"
+  local discovery instance
+  if ! discovery=$(curl --fail --silent --show-error --connect-timeout 5 --max-time 10 \
+    "$base_url/oauth2/.well-known/openid-configuration"); then
+    return 1
   fi
+  if ! jq -e --arg issuer "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/oauth2" \
+    'type == "object" and .issuer == $issuer
+      and (.authorization_endpoint | type == "string")
+      and (.token_endpoint | type == "string")
+      and (.jwks_uri | type == "string")' <<< "$discovery" >/dev/null; then
+    echo "Readiness rejected: invalid OIDC discovery or unexpected issuer." >&2
+    return 1
+  fi
+  if ! instance=$(curl --fail --silent --show-error --connect-timeout 5 --max-time 10 \
+    "$base_url/api/instance"); then
+    return 1
+  fi
+  if ! jq -e 'type == "object" and (.setup_required | type == "boolean")' \
+    <<< "$instance" >/dev/null; then
+    echo "Readiness rejected: invalid management instance response." >&2
+    return 1
+  fi
+}
 
-  echo -n "Waiting for WardenClyffe server to become ready"
-  counter=1
-  while true; do
-    # Check the embedded IdP endpoint through the reverse proxy
-    if curl -sk -f -o /dev/null "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN/oauth2/.well-known/openid-configuration" 2>/dev/null; then
-      break
+wait_management_ready() {
+  local base_url="$1"
+  local timeout="${2:-120}"
+  local deadline=$((SECONDS + timeout))
+  echo "Waiting for WardenClyffe management and identity endpoints at $base_url"
+  while [[ "$SECONDS" -lt "$deadline" ]]; do
+    if check_management_ready "$base_url"; then
+      echo "Management and identity endpoints are ready; peer connectivity is not yet verified."
+      return 0
     fi
-    if [[ $counter -eq 60 ]]; then
-      echo ""
-      echo "Taking too long. Checking logs..."
-      if [[ -n "$proxy_container" ]]; then
-        if [[ "$use_docker_logs" == "true" ]]; then
-          docker logs --tail=20 "$proxy_container"
-        else
-          $DOCKER_COMPOSE_COMMAND logs --tail=20 "$proxy_container"
-        fi
-      fi
-      $DOCKER_COMPOSE_COMMAND logs --tail=20 wardenclyffe-server
-    fi
-    echo -n " ."
     sleep 2
-    counter=$((counter + 1))
   done
-  echo " done"
-  set -e
-  return 0
+  echo "ERROR: Management readiness timed out. Check DNS, certificate trust, issuer and reverse-proxy routes." >&2
+  echo "Inspect service logs with: $DOCKER_COMPOSE_COMMAND logs --tail=20 wardenclyffe-server" >&2
+  return 1
+}
+
+wait_management_proxy() {
+  wait_management_ready "$WARDENCLYFFE_HTTP_PROTOCOL://$WARDENCLYFFE_DOMAIN"
 }
 
 wait_management_direct() {
-  set +e
-  local upstream_host=$(get_upstream_host)
-  echo -n "Waiting for WardenClyffe server to become ready"
-  counter=1
-  while true; do
-    # Check the embedded IdP endpoint directly (no reverse proxy)
-    if curl -sk -f -o /dev/null "http://${upstream_host}:${MANAGEMENT_HOST_PORT}/oauth2/.well-known/openid-configuration" 2>/dev/null; then
-      break
-    fi
-    if [[ $counter -eq 60 ]]; then
-      echo ""
-      echo "Taking too long. Checking logs..."
-      $DOCKER_COMPOSE_COMMAND logs --tail=20 wardenclyffe-server
-    fi
-    echo -n " ."
-    sleep 2
-    counter=$((counter + 1))
-  done
-  echo " done"
-  set -e
-  return 0
+  local upstream_host
+  upstream_host=$(get_upstream_host)
+  wait_management_ready "http://${upstream_host}:${MANAGEMENT_HOST_PORT}"
 }
 
 ############################################
