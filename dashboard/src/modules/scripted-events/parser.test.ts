@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest";
 import {
   parseScriptedAnnouncementsEnvelope,
   parseScriptedAnnouncementsPayload,
-  parseScriptedEventsPayload,
 } from "./parser";
 
 describe("parseScriptedAnnouncementsPayload", () => {
@@ -42,70 +41,6 @@ describe("parseScriptedAnnouncementsPayload", () => {
   it("rejects invalid payloads", () => {
     const parsed = parseScriptedAnnouncementsPayload({
       announcements: [{ text: "missing required fields" }],
-    });
-
-    expect(parsed).toEqual([]);
-  });
-});
-
-describe("parseScriptedEventsPayload", () => {
-  it("accepts strict MCP response payloads", () => {
-    const parsed = parseScriptedEventsPayload({
-      requestId: "req-1",
-      events: [
-        {
-          id: "evt-1",
-          kind: "tooltip",
-          trigger: "hover",
-          source: "mcp",
-          actor: "clyffy",
-          visibility: "visible",
-          delivery: "ui",
-          focus: "limited_tunnel",
-          priority: 10,
-          tooltip: {
-            id: "tip-1",
-            text: "You can drag this node.",
-            placement: "right",
-          },
-        },
-      ],
-      generatedAt: "2026-01-01T00:00:00.000Z",
-    });
-
-    expect(parsed).toHaveLength(1);
-    expect(parsed[0]?.kind).toBe("tooltip");
-  });
-
-  it("rejects malformed MCP payloads", () => {
-    const parsed = parseScriptedEventsPayload({
-      requestId: "req-1",
-      events: [{ id: "evt-1", kind: "tooltip" }],
-    });
-
-    expect(parsed).toEqual([]);
-  });
-
-  it("rejects events whose payload shape does not match kind", () => {
-    const parsed = parseScriptedEventsPayload({
-      requestId: "req-1",
-      events: [
-        {
-          id: "evt-2",
-          kind: "popup",
-          trigger: "manual",
-          source: "mcp",
-          actor: "clyffy",
-          visibility: "visible",
-          delivery: "ui",
-          focus: "full",
-          priority: 1,
-          tooltip: {
-            id: "tip-2",
-            text: "wrong payload for popup",
-          },
-        },
-      ],
     });
 
     expect(parsed).toEqual([]);

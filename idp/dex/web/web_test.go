@@ -49,4 +49,25 @@ func TestLoginTemplatesRemoveLegacyOrange(t *testing.T) {
 		require.NotContains(t, strings.ToLower(string(content)), "#f68330",
 			"Template %s must not retain legacy orange", name)
 	}
+
+}
+
+func TestPublicChatBoundary(t *testing.T) {
+	footer, err := fs.ReadFile(FS(), "templates/footer.html")
+	require.NoError(t, err)
+	tmpl, err := template.New("footer").Funcs(template.FuncMap{
+		"url": func(_ string, asset string) string { return "../../" + asset },
+	}).Parse(string(footer))
+	require.NoError(t, err)
+	var rendered bytes.Buffer
+	require.NoError(t, tmpl.Execute(&rendered, struct{ ReqPath string }{ReqPath: "/oauth2/auth/local"}))
+	require.Contains(t, rendered.String(), `aria-label="Clyffy Chat"`, "Sign-in must include a dedicated chat boundary")
+	require.Contains(t, rendered.String(), `src="../../theme/chat/chat.js"`, "Sign-in must load chat controls")
+	require.Contains(t, rendered.String(), "Chat is unavailable", "Chat must not claim a connected backend")
+	require.Contains(t, rendered.String(), `<button type="button" disabled>Send message</button>`, "Chat must not accept messages without a backend")
+	require.NotContains(t, rendered.String(), "guidance", "Chat must not contain scripted guidance")
+	_, err = fs.ReadFile(FS(), "themes/light/chat/chat.js")
+	require.NoError(t, err)
+	_, err = fs.ReadFile(FS(), "themes/light/chat/styles.css")
+	require.NoError(t, err)
 }

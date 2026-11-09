@@ -16,11 +16,13 @@ import PeersProvider from "@/contexts/PeersProvider";
 import { usePermissions } from "@/contexts/PermissionsProvider";
 import { REVERSE_PROXY_CLUSTERS_DOCS_LINK } from "@/interfaces/ReverseProxy";
 import PageContainer from "@/layouts/PageContainer";
-import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
+import { UiEventsAdminPanel } from "@/modules/a2ui/admin/UiEventsAdminPanel";
 import AgentAccountControlsCard from "@/modules/agent-network/AgentAccountControlsCard";
 import AgentBudgetRulesTable from "@/modules/agent-network/AgentBudgetRulesTable";
 import AIProvidersProvider from "@/modules/agent-network/AIProvidersProvider";
-import { ScriptedEventsAdminPanel } from "@/modules/scripted-events/ScriptedEventsAdminPanel";
+import { useAgentNetworkMode } from "@/modules/agent-network/useAgentNetworkMode";
+import { ChatAdminPanel } from "@/modules/chat/admin/ChatAdminPanel";
+import { MCPAdminPanel } from "@/modules/mcp/admin/MCPAdminPanel";
 
 const ClustersTable = lazy(
   () => import("@/modules/reverse-proxy/clusters/ClustersTable"),
@@ -30,6 +32,8 @@ const TAB_BUDGET_SETTINGS = "budget-settings";
 const TAB_LOG_SETTINGS = "log-settings";
 const TAB_CLUSTERS = "clusters";
 const TAB_SCRIPTED_EVENTS = "scripted-events";
+const TAB_CHAT = "chat";
+const TAB_MCP = "mcp";
 
 // AgentNetworkConfigurationPage holds the configuration surfaces extracted from
 // Usage & Logs — global limits and log-collection controls — using the same
@@ -53,6 +57,8 @@ export default function AgentNetworkConfigurationPage() {
       TAB_BUDGET_SETTINGS,
       TAB_LOG_SETTINGS,
       TAB_SCRIPTED_EVENTS,
+      TAB_CHAT,
+      TAB_MCP,
     ]);
     if (canReadClusters) tabs.add(TAB_CLUSTERS);
     return tabs;
@@ -82,6 +88,14 @@ export default function AgentNetworkConfigurationPage() {
           <VerticalTabs.Trigger value={TAB_SCRIPTED_EVENTS}>
             <AgentNetworkIcon size={14} />
             Scripted Events
+          </VerticalTabs.Trigger>
+          <VerticalTabs.Trigger value={TAB_CHAT}>
+            <AgentNetworkIcon size={14} />
+            Chat
+          </VerticalTabs.Trigger>
+          <VerticalTabs.Trigger value={TAB_MCP}>
+            <ServerIcon size={14} />
+            MCP Connections
           </VerticalTabs.Trigger>
           {canReadClusters && (
             <VerticalTabs.Trigger value={TAB_CLUSTERS}>
@@ -133,11 +147,37 @@ export default function AgentNetworkConfigurationPage() {
                       label={"Scripted Events"}
                       href={"/agent-network/configuration?tab=scripted-events"}
                     >
-                      Manage the canonical scripted-event fabric that drives
-                      Clyffy/council visibility, machine-only sink lanes, and
-                      the persistent assistant overlay behavior.
+                      Manage knowledge drops, provenance, visible events, and
+                      background sink lanes. This is not chat or MCP connection
+                      management.
                     </ConfigTabHeader>
-                    <ScriptedEventsAdminPanel />
+                    <UiEventsAdminPanel
+                      canUpdate={!!permission?.settings?.update}
+                    />
+                  </Tabs.Content>
+                  <Tabs.Content value={TAB_CHAT} className="w-full">
+                    <ConfigTabHeader
+                      label="Chat"
+                      href="/agent-network/configuration?tab=chat"
+                    >
+                      Manage the conversation boundary independently of scripted
+                      events and MCP connections.
+                    </ConfigTabHeader>
+                    <ChatAdminPanel
+                      canUpdate={
+                        !!permission?.["agent_network.settings"]?.update
+                      }
+                    />
+                  </Tabs.Content>
+                  <Tabs.Content value={TAB_MCP} className="w-full">
+                    <ConfigTabHeader
+                      label="MCP Connections"
+                      href="/agent-network/configuration?tab=mcp"
+                    >
+                      Tool and data connections belong here, not in the chat or
+                      event controls.
+                    </ConfigTabHeader>
+                    <MCPAdminPanel />
                   </Tabs.Content>
 
                   {canReadClusters && (

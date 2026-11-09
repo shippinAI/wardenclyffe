@@ -1,9 +1,9 @@
 import { type } from "arktype";
 import {
-  ScriptedAnnouncementsPayloadContract,
-  ScriptedEventsMCPResponseContract,
   type ScriptedAnnouncement,
+  ScriptedAnnouncementsPayloadContract,
   type ScriptedEvent,
+  ScriptedEventContract,
 } from "./contracts";
 
 const logSchemaMismatch = (surface: string, summary: string) => {
@@ -52,12 +52,14 @@ export const parseScriptedAnnouncementsPayload = (
   return parseScriptedAnnouncementsEnvelope(payload).announcements;
 };
 
-export const parseScriptedEventsPayload = (payload: unknown): ScriptedEvent[] => {
-  const parsed = ScriptedEventsMCPResponseContract(payload);
+export const parseScriptedEventsPayload = (
+  payload: unknown,
+): ScriptedEvent[] => {
+  const parsed = ScriptedEventContract.array()(payload);
   if (parsed instanceof type.errors) {
-    logSchemaMismatch("mcp response", parsed.summary);
+    logSchemaMismatch("events", parsed.summary);
     return [];
   }
 
-  return keepRenderableEvents(parsed.events);
+  return keepRenderableEvents(parsed);
 };

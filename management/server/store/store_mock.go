@@ -415,6 +415,20 @@ func (mr *MockStoreMockRecorder) CreateService(ctx, arg1 any) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateService", reflect.TypeOf((*MockStore)(nil).CreateService), ctx, arg1)
 }
 
+// CreateUIEvent mocks base method.
+func (m *MockStore) CreateUIEvent(ctx context.Context, event *types3.UIEvent) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateUIEvent", ctx, event)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// CreateUIEvent indicates an expected call of CreateUIEvent.
+func (mr *MockStoreMockRecorder) CreateUIEvent(ctx, event any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateUIEvent", reflect.TypeOf((*MockStore)(nil).CreateUIEvent), ctx, event)
+}
+
 // CreateZone mocks base method.
 func (m *MockStore) CreateZone(ctx context.Context, zone *zones.Zone) error {
 	m.ctrl.T.Helper()
@@ -836,6 +850,20 @@ func (m *MockStore) DeleteTokenID2UserIDIndex(tokenID string) error {
 func (mr *MockStoreMockRecorder) DeleteTokenID2UserIDIndex(tokenID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteTokenID2UserIDIndex", reflect.TypeOf((*MockStore)(nil).DeleteTokenID2UserIDIndex), tokenID)
+}
+
+// DeleteUIEvent mocks base method.
+func (m *MockStore) DeleteUIEvent(ctx context.Context, accountID, eventID string) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "DeleteUIEvent", ctx, accountID, eventID)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// DeleteUIEvent indicates an expected call of DeleteUIEvent.
+func (mr *MockStoreMockRecorder) DeleteUIEvent(ctx, accountID, eventID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DeleteUIEvent", reflect.TypeOf((*MockStore)(nil).DeleteUIEvent), ctx, accountID, eventID)
 }
 
 // DeleteUser mocks base method.
@@ -1492,6 +1520,21 @@ func (m *MockStore) GetAccountSetupKeys(ctx context.Context, lockStrength Lockin
 func (mr *MockStoreMockRecorder) GetAccountSetupKeys(ctx, lockStrength, accountID any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccountSetupKeys", reflect.TypeOf((*MockStore)(nil).GetAccountSetupKeys), ctx, lockStrength, accountID)
+}
+
+// GetAccountUIEvents mocks base method.
+func (m *MockStore) GetAccountUIEvents(ctx context.Context, accountID string) ([]*types3.UIEvent, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "GetAccountUIEvents", ctx, accountID)
+	ret0, _ := ret[0].([]*types3.UIEvent)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// GetAccountUIEvents indicates an expected call of GetAccountUIEvents.
+func (mr *MockStoreMockRecorder) GetAccountUIEvents(ctx, accountID any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetAccountUIEvents", reflect.TypeOf((*MockStore)(nil).GetAccountUIEvents), ctx, accountID)
 }
 
 // GetAccountUserInvites mocks base method.
@@ -3912,6 +3955,20 @@ func (m *MockStore) UpdateService(ctx context.Context, arg1 *service.Service) er
 func (mr *MockStoreMockRecorder) UpdateService(ctx, arg1 any) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateService", reflect.TypeOf((*MockStore)(nil).UpdateService), ctx, arg1)
+}
+
+// UpdateUIEvent mocks base method.
+func (m *MockStore) UpdateUIEvent(ctx context.Context, accountID, eventID string, event *types3.UIEvent) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateUIEvent", ctx, accountID, eventID, event)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// UpdateUIEvent indicates an expected call of UpdateUIEvent.
+func (mr *MockStoreMockRecorder) UpdateUIEvent(ctx, accountID, eventID, event any) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateUIEvent", reflect.TypeOf((*MockStore)(nil).UpdateUIEvent), ctx, accountID, eventID, event)
 }
 
 // UpdateZone mocks base method.

@@ -2,7 +2,7 @@
 
 import { CanonicalButton } from "@/components/canonical/CanonicalButton";
 import { CanonicalCard } from "@/components/canonical/CanonicalCard";
-import { useScriptedEvents } from "./ScriptedEventsProvider";
+import { useScriptedEvents } from "../ScriptedEventsProvider";
 
 const eventSummary = (event: {
   kind: "announcement" | "tooltip" | "popup";
@@ -10,12 +10,17 @@ const eventSummary = (event: {
   tooltip?: { text: string };
   popup?: { title: string };
 }) => {
-  if (event.kind === "announcement") return event.announcement?.text ?? "announcement";
+  if (event.kind === "announcement")
+    return event.announcement?.text ?? "announcement";
   if (event.kind === "tooltip") return event.tooltip?.text ?? "tooltip";
   return event.popup?.title ?? "popup";
 };
 
-export const ScriptedEventsAdminPanel = () => {
+export const ScriptedEventsAdminPanel = ({
+  canUpdate = false,
+}: {
+  canUpdate?: boolean;
+}) => {
   const {
     events,
     laneFilters,
@@ -29,9 +34,16 @@ export const ScriptedEventsAdminPanel = () => {
     <div className="p-default py-6 space-y-[var(--wc-space-3)]">
       <CanonicalCard
         heading="Scripted Event Control Plane"
-        subtitle="Manage Clyffy/council event lanes, visibility and data-sink behavior."
+        subtitle="Browser-local event previews, visibility and data-sink classification. Not chat or MCP settings."
         actions={
-          <CanonicalButton variant="secondary" size="sm" onClick={resetDefaults}>
+          <CanonicalButton
+            variant="secondary"
+            size="sm"
+            disabled={!canUpdate}
+            onClick={() => {
+              if (canUpdate) resetDefaults();
+            }}
+          >
             Reset to defaults
           </CanonicalButton>
         }
@@ -40,8 +52,10 @@ export const ScriptedEventsAdminPanel = () => {
           <label className="flex items-center gap-2 text-nb-gray-200">
             <input
               type="checkbox"
+              disabled={!canUpdate}
               checked={laneFilters.clyffyVisible}
               onChange={(e) =>
+                canUpdate &&
                 setLaneFilters((prev) => ({
                   ...prev,
                   clyffyVisible: e.target.checked,
@@ -53,8 +67,10 @@ export const ScriptedEventsAdminPanel = () => {
           <label className="flex items-center gap-2 text-nb-gray-200">
             <input
               type="checkbox"
+              disabled={!canUpdate}
               checked={laneFilters.councilVisible}
               onChange={(e) =>
+                canUpdate &&
                 setLaneFilters((prev) => ({
                   ...prev,
                   councilVisible: e.target.checked,
@@ -66,8 +82,10 @@ export const ScriptedEventsAdminPanel = () => {
           <label className="flex items-center gap-2 text-nb-gray-200">
             <input
               type="checkbox"
+              disabled={!canUpdate}
               checked={laneFilters.includeBackground}
               onChange={(e) =>
+                canUpdate &&
                 setLaneFilters((prev) => ({
                   ...prev,
                   includeBackground: e.target.checked,
@@ -79,7 +97,10 @@ export const ScriptedEventsAdminPanel = () => {
         </div>
       </CanonicalCard>
 
-      <CanonicalCard heading="Event Fabric Inventory" subtitle="Enable only what should surface in the UX">
+      <CanonicalCard
+        heading="Event Fabric Inventory"
+        subtitle="Enable only what should surface in the UX"
+      >
         <div className="space-y-[var(--wc-space-2)]">
           {events.map((event) => (
             <label
@@ -89,14 +110,20 @@ export const ScriptedEventsAdminPanel = () => {
               <div>
                 <p className="text-nb-gray-100 wc-fluid-text-sm">{event.id}</p>
                 <p className="text-nb-gray-300 wc-fluid-text-xs">
-                  {event.actor} · {event.source} · {event.visibility} · {event.delivery}
+                  {event.actor} · {event.source} · {event.visibility} ·{" "}
+                  {event.delivery}
                 </p>
-                <p className="text-nb-gray-250 wc-fluid-text-xs">{eventSummary(event)}</p>
+                <p className="text-nb-gray-250 wc-fluid-text-xs">
+                  {eventSummary(event)}
+                </p>
               </div>
               <input
                 type="checkbox"
+                disabled={!canUpdate}
                 checked={event.enabled !== false}
-                onChange={(e) => setEventEnabled(event.id, e.target.checked)}
+                onChange={(e) => {
+                  if (canUpdate) setEventEnabled(event.id, e.target.checked);
+                }}
                 aria-label={`Enable ${event.id}`}
               />
             </label>
@@ -117,4 +144,3 @@ export const ScriptedEventsAdminPanel = () => {
     </div>
   );
 };
-

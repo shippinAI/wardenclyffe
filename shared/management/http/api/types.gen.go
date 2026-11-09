@@ -823,11 +823,11 @@ func (e PolicyRuleAction) Valid() bool {
 
 // Defines values for PolicyRuleProtocol.
 const (
-	PolicyRuleProtocolAll        PolicyRuleProtocol = "all"
-	PolicyRuleProtocolIcmp       PolicyRuleProtocol = "icmp"
+	PolicyRuleProtocolAll             PolicyRuleProtocol = "all"
+	PolicyRuleProtocolIcmp            PolicyRuleProtocol = "icmp"
+	PolicyRuleProtocolTcp             PolicyRuleProtocol = "tcp"
+	PolicyRuleProtocolUdp             PolicyRuleProtocol = "udp"
 	PolicyRuleProtocolWardenclyffeSsh PolicyRuleProtocol = "wardenclyffe-ssh"
-	PolicyRuleProtocolTcp        PolicyRuleProtocol = "tcp"
-	PolicyRuleProtocolUdp        PolicyRuleProtocol = "udp"
 )
 
 // Valid indicates whether the value is a known member of the PolicyRuleProtocol enum.
@@ -837,11 +837,11 @@ func (e PolicyRuleProtocol) Valid() bool {
 		return true
 	case PolicyRuleProtocolIcmp:
 		return true
-	case PolicyRuleProtocolWardenclyffeSsh:
-		return true
 	case PolicyRuleProtocolTcp:
 		return true
 	case PolicyRuleProtocolUdp:
+		return true
+	case PolicyRuleProtocolWardenclyffeSsh:
 		return true
 	default:
 		return false
@@ -868,11 +868,11 @@ func (e PolicyRuleMinimumAction) Valid() bool {
 
 // Defines values for PolicyRuleMinimumProtocol.
 const (
-	PolicyRuleMinimumProtocolAll        PolicyRuleMinimumProtocol = "all"
-	PolicyRuleMinimumProtocolIcmp       PolicyRuleMinimumProtocol = "icmp"
+	PolicyRuleMinimumProtocolAll             PolicyRuleMinimumProtocol = "all"
+	PolicyRuleMinimumProtocolIcmp            PolicyRuleMinimumProtocol = "icmp"
+	PolicyRuleMinimumProtocolTcp             PolicyRuleMinimumProtocol = "tcp"
+	PolicyRuleMinimumProtocolUdp             PolicyRuleMinimumProtocol = "udp"
 	PolicyRuleMinimumProtocolWardenclyffeSsh PolicyRuleMinimumProtocol = "wardenclyffe-ssh"
-	PolicyRuleMinimumProtocolTcp        PolicyRuleMinimumProtocol = "tcp"
-	PolicyRuleMinimumProtocolUdp        PolicyRuleMinimumProtocol = "udp"
 )
 
 // Valid indicates whether the value is a known member of the PolicyRuleMinimumProtocol enum.
@@ -882,11 +882,11 @@ func (e PolicyRuleMinimumProtocol) Valid() bool {
 		return true
 	case PolicyRuleMinimumProtocolIcmp:
 		return true
-	case PolicyRuleMinimumProtocolWardenclyffeSsh:
-		return true
 	case PolicyRuleMinimumProtocolTcp:
 		return true
 	case PolicyRuleMinimumProtocolUdp:
+		return true
+	case PolicyRuleMinimumProtocolWardenclyffeSsh:
 		return true
 	default:
 		return false
@@ -913,11 +913,11 @@ func (e PolicyRuleUpdateAction) Valid() bool {
 
 // Defines values for PolicyRuleUpdateProtocol.
 const (
-	PolicyRuleUpdateProtocolAll        PolicyRuleUpdateProtocol = "all"
-	PolicyRuleUpdateProtocolIcmp       PolicyRuleUpdateProtocol = "icmp"
+	PolicyRuleUpdateProtocolAll             PolicyRuleUpdateProtocol = "all"
+	PolicyRuleUpdateProtocolIcmp            PolicyRuleUpdateProtocol = "icmp"
+	PolicyRuleUpdateProtocolTcp             PolicyRuleUpdateProtocol = "tcp"
+	PolicyRuleUpdateProtocolUdp             PolicyRuleUpdateProtocol = "udp"
 	PolicyRuleUpdateProtocolWardenclyffeSsh PolicyRuleUpdateProtocol = "wardenclyffe-ssh"
-	PolicyRuleUpdateProtocolTcp        PolicyRuleUpdateProtocol = "tcp"
-	PolicyRuleUpdateProtocolUdp        PolicyRuleUpdateProtocol = "udp"
 )
 
 // Valid indicates whether the value is a known member of the PolicyRuleUpdateProtocol enum.
@@ -927,11 +927,11 @@ func (e PolicyRuleUpdateProtocol) Valid() bool {
 		return true
 	case PolicyRuleUpdateProtocolIcmp:
 		return true
-	case PolicyRuleUpdateProtocolWardenclyffeSsh:
-		return true
 	case PolicyRuleUpdateProtocolTcp:
 		return true
 	case PolicyRuleUpdateProtocolUdp:
+		return true
+	case PolicyRuleUpdateProtocolWardenclyffeSsh:
 		return true
 	default:
 		return false
@@ -1181,6 +1181,90 @@ func (e TenantResponseStatus) Valid() bool {
 	case TenantResponseStatusInvited:
 		return true
 	case TenantResponseStatusPending:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UIEventKind.
+const (
+	UIEventKindPopup   UIEventKind = "popup"
+	UIEventKindTooltip UIEventKind = "tooltip"
+)
+
+// Valid indicates whether the value is a known member of the UIEventKind enum.
+func (e UIEventKind) Valid() bool {
+	switch e {
+	case UIEventKindPopup:
+		return true
+	case UIEventKindTooltip:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UIEventTrigger.
+const (
+	UIEventTriggerClick  UIEventTrigger = "click"
+	UIEventTriggerFocus  UIEventTrigger = "focus"
+	UIEventTriggerHover  UIEventTrigger = "hover"
+	UIEventTriggerManual UIEventTrigger = "manual"
+)
+
+// Valid indicates whether the value is a known member of the UIEventTrigger enum.
+func (e UIEventTrigger) Valid() bool {
+	switch e {
+	case UIEventTriggerClick:
+		return true
+	case UIEventTriggerFocus:
+		return true
+	case UIEventTriggerHover:
+		return true
+	case UIEventTriggerManual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UIEventInputKind.
+const (
+	UIEventInputKindPopup   UIEventInputKind = "popup"
+	UIEventInputKindTooltip UIEventInputKind = "tooltip"
+)
+
+// Valid indicates whether the value is a known member of the UIEventInputKind enum.
+func (e UIEventInputKind) Valid() bool {
+	switch e {
+	case UIEventInputKindPopup:
+		return true
+	case UIEventInputKindTooltip:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for UIEventInputTrigger.
+const (
+	UIEventInputTriggerClick  UIEventInputTrigger = "click"
+	UIEventInputTriggerFocus  UIEventInputTrigger = "focus"
+	UIEventInputTriggerHover  UIEventInputTrigger = "hover"
+	UIEventInputTriggerManual UIEventInputTrigger = "manual"
+)
+
+// Valid indicates whether the value is a known member of the UIEventInputTrigger enum.
+func (e UIEventInputTrigger) Valid() bool {
+	switch e {
+	case UIEventInputTriggerClick:
+		return true
+	case UIEventInputTriggerFocus:
+		return true
+	case UIEventInputTriggerHover:
+		return true
+	case UIEventInputTriggerManual:
 		return true
 	default:
 		return false
@@ -5610,6 +5694,59 @@ type TenantResponse struct {
 // TenantResponseStatus The status of the tenant
 type TenantResponseStatus string
 
+// UIEvent defines model for UIEvent.
+type UIEvent struct {
+	// Body Plain text only; no markup or executable actions are interpreted.
+	Body    string `json:"body"`
+	Enabled bool   `json:"enabled"`
+
+	// Id Server-generated UI event identifier.
+	Id         string            `json:"id"`
+	Kind       UIEventKind       `json:"kind"`
+	Priority   int               `json:"priority"`
+	Provenance UIEventProvenance `json:"provenance"`
+
+	// Route Absolute pathname matched exactly, without whitespace, query, or fragment.
+	Route   string         `json:"route"`
+	Target  string         `json:"target"`
+	Title   string         `json:"title"`
+	Trigger UIEventTrigger `json:"trigger"`
+}
+
+// UIEventKind defines model for UIEvent.Kind.
+type UIEventKind string
+
+// UIEventTrigger defines model for UIEvent.Trigger.
+type UIEventTrigger string
+
+// UIEventInput defines model for UIEventInput.
+type UIEventInput struct {
+	// Body Plain text only; no markup or executable actions are interpreted.
+	Body       string            `json:"body"`
+	Enabled    bool              `json:"enabled"`
+	Kind       UIEventInputKind  `json:"kind"`
+	Priority   int               `json:"priority"`
+	Provenance UIEventProvenance `json:"provenance"`
+
+	// Route Absolute pathname matched exactly, without whitespace, query, or fragment.
+	Route   string              `json:"route"`
+	Target  string              `json:"target"`
+	Title   string              `json:"title"`
+	Trigger UIEventInputTrigger `json:"trigger"`
+}
+
+// UIEventInputKind defines model for UIEventInput.Kind.
+type UIEventInputKind string
+
+// UIEventInputTrigger defines model for UIEventInput.Trigger.
+type UIEventInputTrigger string
+
+// UIEventProvenance defines model for UIEventProvenance.
+type UIEventProvenance struct {
+	Signal string `json:"signal"`
+	Source string `json:"source"`
+}
+
 // UpdateAzureIntegrationRequest defines model for UpdateAzureIntegrationRequest.
 type UpdateAzureIntegrationRequest struct {
 	// ClientId Azure AD application (client) ID
@@ -5965,6 +6102,9 @@ type ZoneRequest struct {
 
 // Conflict Standard error response. Note: The exact structure of this error response is inferred from `util.WriteErrorResponse` and `util.WriteError` usage in the provided Go code, as a specific Go struct for errors was not provided.
 type Conflict = ErrorResponse
+
+// UnprocessableEntity Standard error response. Note: The exact structure of this error response is inferred from `util.WriteErrorResponse` and `util.WriteError` usage in the provided Go code, as a specific Go struct for errors was not provided.
+type UnprocessableEntity = ErrorResponse
 
 // bearerAuthContextKey is the context key for BearerAuth security scheme
 type bearerAuthContextKey string
@@ -6544,6 +6684,12 @@ type PostApiSetupKeysJSONRequestBody = CreateSetupKeyRequest
 
 // PutApiSetupKeysKeyIdJSONRequestBody defines body for PutApiSetupKeysKeyId for application/json ContentType.
 type PutApiSetupKeysKeyIdJSONRequestBody = SetupKeyRequest
+
+// PostApiUiEventsJSONRequestBody defines body for PostApiUiEvents for application/json ContentType.
+type PostApiUiEventsJSONRequestBody = UIEventInput
+
+// PutApiUiEventsIdJSONRequestBody defines body for PutApiUiEventsId for application/json ContentType.
+type PutApiUiEventsIdJSONRequestBody = UIEventInput
 
 // PostApiUsersJSONRequestBody defines body for PostApiUsers for application/json ContentType.
 type PostApiUsersJSONRequestBody = UserCreateRequest

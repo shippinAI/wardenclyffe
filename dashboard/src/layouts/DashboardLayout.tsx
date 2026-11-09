@@ -5,8 +5,8 @@ import { useOidcUser } from "@axa-fr/react-oidc";
 import { CanonicalButton } from "@components/canonical/CanonicalButton";
 import { UserAvatar } from "@components/ui/UserAvatar";
 import { cn } from "@utils/helpers";
-import { isWardenClyffe } from "@utils/wardenclyffe";
 import { useIsSm, useIsXs } from "@utils/responsive";
+import { isWardenClyffe } from "@utils/wardenclyffe";
 import { AnimatePresence, motion } from "framer-motion";
 import { XIcon } from "lucide-react";
 import React from "react";
@@ -24,9 +24,8 @@ import CountryProvider from "@/contexts/CountryProvider";
 import GroupsProvider from "@/contexts/GroupsProvider";
 import UsersProvider from "@/contexts/UsersProvider";
 import Navigation from "@/layouts/Navigation";
+import { UiEventsProvider } from "@/modules/a2ui/data/UiEventsProvider";
 import { OnboardingProvider } from "@/modules/onboarding/OnboardingProvider";
-import { ScriptedAssistantOverlay } from "@/modules/scripted-events/ScriptedAssistantOverlay";
-import { ScriptedEventsProvider } from "@/modules/scripted-events/ScriptedEventsProvider";
 import Header, { headerHeight } from "./Header";
 
 export default function DashboardLayout({
@@ -45,9 +44,9 @@ export default function DashboardLayout({
                   <CountryProvider>
                     <WardenClyffeProvider />
                     {!isWardenClyffe() && <OnboardingProvider />}
-                    <ScriptedEventsProvider>
+                    <UiEventsProvider>
                       <DashboardPageContent>{children}</DashboardPageContent>
-                    </ScriptedEventsProvider>
+                    </UiEventsProvider>
                   </CountryProvider>
                 </GroupsProvider>
               </BillingProvider>
@@ -92,7 +91,11 @@ function DashboardPageContent({
             x: -200,
           }}
         >
-          <div className={"flex items-center justify-between gap-3 pl-4 pr-8 pt-8 pb-3 w-11/12"}>
+          <div
+            className={
+              "flex items-center justify-between gap-3 pl-4 pr-8 pt-8 pb-3 w-11/12"
+            }
+          >
             <div className={"flex items-center gap-3 max-w-[22rem]"}>
               <UserAvatar size={"small"} />
               <div className="flex flex-col space-y-1">
@@ -121,7 +124,12 @@ function DashboardPageContent({
       <AnimatePresence mode={"wait"}>
         <motion.div
           layout={"position"}
-          className={cn(mobileNavOpen ? "border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75" : "", "bg-nb-gray-960")}
+          className={cn(
+            mobileNavOpen
+              ? "border border-nb-gray-900 shadow-inner overflow-hidden rounded-xl fixed scale-75"
+              : "",
+            "bg-nb-gray-960",
+          )}
           transition={{
             type: "spring",
             stiffness: 500,
@@ -166,7 +174,9 @@ function DashboardPageContent({
           >
             <Header />
             <div
-              className={"flex flex-row flex-grow px-[var(--wc-space-2)] pb-[var(--wc-space-2)] gap-[var(--wc-space-2)]"}
+              className={
+                "flex flex-row flex-grow px-[var(--wc-space-2)] pb-[var(--wc-space-2)] gap-[var(--wc-space-2)]"
+              }
               style={{
                 height: `calc(100vh - ${headerHeight + bannerHeight}px)`,
               }}
@@ -178,7 +188,6 @@ function DashboardPageContent({
                 <React.Fragment key={"page"}>{children}</React.Fragment>
               </div>
             </div>
-            <ScriptedAssistantOverlay />
           </motion.div>
         </motion.div>
       </AnimatePresence>

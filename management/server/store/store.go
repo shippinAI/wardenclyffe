@@ -309,6 +309,11 @@ type Store interface {
 	DeleteExpiredCustomDomain(ctx context.Context, d *domain.Domain, now time.Time) (bool, error)
 	DeleteCustomDomain(ctx context.Context, accountID string, domainID string) error
 
+	CreateUIEvent(ctx context.Context, event *types.UIEvent) error
+	GetAccountUIEvents(ctx context.Context, accountID string) ([]*types.UIEvent, error)
+	UpdateUIEvent(ctx context.Context, accountID, eventID string, event *types.UIEvent) error
+	DeleteUIEvent(ctx context.Context, accountID, eventID string) error
+
 	CreateAccessLog(ctx context.Context, log *accesslogs.AccessLogEntry) error
 	GetAccountAccessLogs(ctx context.Context, lockStrength LockingStrength, accountID string, filter accesslogs.AccessLogFilter) ([]*accesslogs.AccessLogEntry, int64, error)
 	DeleteOldAccessLogs(ctx context.Context, olderThan time.Time) (int64, error)

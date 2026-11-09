@@ -48,30 +48,18 @@ The dashboard makes it possible to:
 - Docker
 - Let's Encrypt
 
-## Scripted event contracts
+## UI ownership
 
-Dashboard scripted UI events (announcements/tooltips/popups) and MCP response
-payloads use strict Arktype contracts in
-`src/modules/scripted-events/contracts.ts`, parsed by
-`src/modules/scripted-events/parser.ts`.
+Database-driven tooltips and popups belong to `src/modules/a2ui/`.
+The independent conversation boundary belongs to `src/modules/chat/`.
+MCP tool payload contracts and adapters belong to `src/modules/mcp/`.
+Legacy machine-event contracts in `src/modules/scripted-events/` are not the
+production UI event source and do not render chat messages.
 
-The orchestrator lane model in `src/modules/scripted-events/orchestrator.ts`
-partitions visible UI events (for Clyffy/council surfaces) from background
-data-sink events used for behind-the-scenes optimization and testing
-comparisons.
-
-The live dashboard now mounts a persistent assistant overlay from
-`src/modules/scripted-events/ScriptedAssistantOverlay.tsx`, and an admin
-control surface in Agent Network Configuration (`?tab=scripted-events`) via
-`src/modules/scripted-events/ScriptedEventsAdminPanel.tsx`.
-
-Phase 1 canonical UI foundation now lives in:
-
-- `src/components/canonical/CanonicalButton.tsx`
-- `src/components/canonical/CanonicalCard.tsx`
-- `src/components/canonical/PersistentAssistantOverlay.tsx`
-- `src/app/globals.css` fluid clamp tokens (`--wc-*`) for responsive sizing
-  without breakpoint-driven typography/spacing.
+Shared cards and buttons live in `src/components/canonical/`. Colocated native
+controls live in `src/modules/a2ui/components/`, with fluid clamp tokens in
+`src/app/globals.css`. See the event and boundary sections below for runtime
+ownership, permissions, and remaining migration work.
 
 ## How to run
 
@@ -135,3 +123,78 @@ To migrate from the old dashboard (v1) `wiretrustee/dashboard:main` to the new o
 1. Stop the dashboard container `docker compose down dashboard`
 2. Replace the docker image name in your `docker-compose.yml` with `shippin/wardenclyffe/dashboard:main`
 3. Recreate the dashboard container `docker compose up -d --force-recreate dashboard`
+### Database-driven canonical UI events
+
+`src/modules/a2ui/` is the internal declarative UI library, not an implementation
+of an external A2UI protocol. Its contracts, runtime, data adapter, admin controls,
+and colocated input/textarea/tooltip/popup components have separate ownership.
+Existing `Input` and `Textarea` imports forward to the canonical implementations,
+preserving existing props, controlled values, refs, and password behavior.
+
+The authenticated `/ui-events` Studio combines a live control inventory, real
+input test surfaces, and an account-scoped event editor. Definitions are fetched
+from management `/api/ui-events`, validated with ArkType, and refreshed on focus
+and every 30 seconds. A failed fetch or invalid definition disables event
+delivery and surfaces an error; no browser-local fixture substitutes for it.
+
+Each definition names an exact route, stable target, native trigger, tooltip or
+popup presentation, priority, and source/signal provenance. Hover tooltips also
+respond to keyboard focus. Click/tap, focus, and explicit manual dispatch use
+the same dispatcher. Database text is rendered as text, never executable code
+or HTML. No UI event submits a form or calls a tool on its own.
+
+Give components an explicit `eventTarget="ui.<surface>.<field>"`, or native
+elements `data-ui-target`. Existing `id`/`name` fields are discovered as
+`<tag>.<id-or-name>`. The registry includes mounted native controls and reports
+missing names, missing stable targets, and duplicate targets. Missing/duplicate
+targets cannot dispatch events. Inspector controls are excluded from their own
+inventory to prevent recursive growth. Field values are never read or stored.
+
+All mounted controls are inventoried; this does **not** mean every existing
+screen has canonical IDs, accessible labels, or authored database help content.
+The Studio exposes that debt rather than manufacturing targets or claiming a
+completed application-wide migration. Sign-in and setup do not fetch private
+account event definitions.
+
+Example test path: create a tooltip for route `/ui-events`, target
+`ui.gallery.name`, trigger `hover`, save it, and hover/focus the Name input.
+Create a popup for `ui.gallery.action` with trigger `click`; clicking the real
+button opens the accessible popup. Neither experience requires Playwright in
+the application runtime. Playwright remains a test tool only.
+
+Verify persistence by reloading after saving. Updating the content must change
+the rendered event, disabling it must stop dispatch, and deleting it must remain
+effective after another reload. Check keyboard focus, Escape dismissal, popup
+focus restoration, unchanged input values, and viewport containment at 320px.
+Remove temporary verification definitions when finished.
+
+### Separate chat, event, and MCP boundaries
+
+- `src/modules/chat/`: conversation contracts and browser-local preferences,
+  `components/` for the bottom-right chat boundary, and `admin/` for chat controls.
+  It does not import event or MCP runtime code.
+- `src/modules/scripted-events/`: legacy knowledge-drop and machine-event
+  contracts, lane classification, and parsers. Its local preview is no longer
+  mounted as the production UI event source. Canonical UI rendering and persisted
+  event editing now belong to `a2ui/`; neither feeds chat automatically.
+- `src/modules/mcp/`: `contracts/` owns tool payloads, `adapters/` validates results
+  for explicit consumption by the event layer, and `admin/` owns connection status.
+  Tool payload contracts are not MCP JSON-RPC transport implementations.
+
+Configuration exposes independent `?tab=chat`, `?tab=scripted-events`, and `?tab=mcp`
+sections. Configuration access uses `agent_network.settings` permissions.
+The Studio uses settings read/update permissions; management enforces
+`Settings.Update` for UI-event mutations.
+Chat visibility remains a browser-local preference; UI event definitions are
+management-persisted records. MCP creation, credentials, execution, and auditing
+are unavailable until a server-side connection manager exists.
+
+Chat has no configured backend: the composer and send button are disabled.
+No fake assistant replies, event-to-message conversion, or automatic tool calls
+are generated. Close/reopen, minimize/expand, top docking, and Escape work within
+the dashboard chat boundary. Native UI events render outside it.
+
+The embedded Dex sign-in chat uses separate assets under
+`idp/dex/web/themes/light/chat/`, compiled into the combined service. It does not
+receive authenticated state or dashboard preferences across origins. Rebuild
+both dashboard and combined images to update both surfaces.

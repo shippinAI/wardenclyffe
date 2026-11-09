@@ -60,37 +60,6 @@ export const ScriptedEventContract = type({
 
 export type ScriptedEvent = typeof ScriptedEventContract.infer;
 
-export const ScriptedEventsMCPRequestContract = type({
-  "+": "reject",
-  requestId: "string > 0",
-  context: {
-    "+": "reject",
-    route: "string > 0",
-    locale: "string > 0",
-    "userRole?": "string > 0",
-    "featureFlags?": "Record<string, boolean>",
-  },
-  "signals?": {
-    "+": "reject",
-    "hoverTarget?": "string > 0",
-    "lastAction?": "string > 0",
-    "openPanels?": "string[]",
-  },
-});
-
-export type ScriptedEventsMCPRequest =
-  typeof ScriptedEventsMCPRequestContract.infer;
-
-export const ScriptedEventsMCPResponseContract = type({
-  "+": "reject",
-  requestId: "string > 0",
-  events: ScriptedEventContract.array(),
-  "generatedAt?": "string.date.iso",
-});
-
-export type ScriptedEventsMCPResponse =
-  typeof ScriptedEventsMCPResponseContract.infer;
-
 export const ScriptedAnnouncementsPayloadContract = type(
   ScriptedAnnouncementContract.array(),
   "|",

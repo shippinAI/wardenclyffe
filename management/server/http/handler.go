@@ -50,6 +50,7 @@ import (
 	"github.com/shippin/wardenclyffe/management/server/http/handlers/policies"
 	"github.com/shippin/wardenclyffe/management/server/http/handlers/routes"
 	"github.com/shippin/wardenclyffe/management/server/http/handlers/setup_keys"
+	"github.com/shippin/wardenclyffe/management/server/http/handlers/uievents"
 	"github.com/shippin/wardenclyffe/management/server/http/handlers/users"
 	"github.com/shippin/wardenclyffe/management/server/http/middleware"
 	"github.com/shippin/wardenclyffe/management/server/http/middleware/bypass"
@@ -122,6 +123,7 @@ func NewAPIHandler(ctx context.Context, router *mux.Router, accountManager accou
 	routes.AddEndpoints(accountManager, router)
 	dns.AddEndpoints(accountManager, router)
 	events.AddEndpoints(accountManager, router)
+	uievents.AddEndpoints(accountManager.GetStore(), permissionsManager, router)
 	networks.AddEndpoints(networksManager, resourceManager, routerManager, groupsManager, accountManager, router)
 	zonesManager.RegisterEndpoints(router, zManager)
 	recordsManager.RegisterEndpoints(router, rManager)

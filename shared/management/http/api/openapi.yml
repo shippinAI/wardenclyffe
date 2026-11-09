@@ -29,6 +29,8 @@ tags:
     description: Interact with and view information about custom DNS zones.
   - name: Events
     description: View information about the account and network events.
+  - name: UI Events
+    description: Manage account-scoped, plain-text UI event definitions.
   - name: Accounts
     description: View information about the accounts.
   - name: Ingress Ports
@@ -1791,7 +1793,7 @@ components:
         windows_path:
           description: Path to the process executable file in a Windows operating system
           type: string
-          example: "C:\ProgramData\WardenClyffe\wardenclyffe.exe"
+          example: 'C:\ProgramData\WardenClyffe\wardenclyffe.exe'
     Location:
       description: Describe geographical location information
       type: object
@@ -2420,6 +2422,115 @@ components:
         - initiator_email
         - target_id
         - meta
+    UIEventProvenance:
+      type: object
+      additionalProperties: false
+      properties:
+        source:
+          type: string
+          maxLength: 200
+        signal:
+          type: string
+          maxLength: 200
+      required:
+        - source
+        - signal
+    UIEventInput:
+      type: object
+      additionalProperties: false
+      properties:
+        enabled:
+          type: boolean
+        route:
+          type: string
+          maxLength: 2048
+          pattern: '^/[^\s?#]*$'
+          description: Absolute pathname matched exactly, without whitespace, query, or fragment.
+        target:
+          type: string
+          maxLength: 200
+          pattern: '^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,199}$'
+        trigger:
+          type: string
+          enum: [hover, focus, click, manual]
+        kind:
+          type: string
+          enum: [tooltip, popup]
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        body:
+          type: string
+          minLength: 1
+          maxLength: 4000
+          description: Plain text only; no markup or executable actions are interpreted.
+        priority:
+          type: integer
+          minimum: 0
+          maximum: 100000
+        provenance:
+          $ref: '#/components/schemas/UIEventProvenance'
+      required:
+        - enabled
+        - route
+        - target
+        - trigger
+        - kind
+        - title
+        - body
+        - priority
+        - provenance
+    UIEvent:
+      type: object
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+          description: Server-generated UI event identifier.
+        enabled:
+          type: boolean
+        route:
+          type: string
+          maxLength: 2048
+          pattern: '^/[^\s?#]*$'
+          description: Absolute pathname matched exactly, without whitespace, query, or fragment.
+        target:
+          type: string
+          maxLength: 200
+          pattern: '^[a-zA-Z0-9][a-zA-Z0-9._:-]{0,199}$'
+        trigger:
+          type: string
+          enum: [hover, focus, click, manual]
+        kind:
+          type: string
+          enum: [tooltip, popup]
+        title:
+          type: string
+          minLength: 1
+          maxLength: 200
+        body:
+          type: string
+          minLength: 1
+          maxLength: 4000
+          description: Plain text only; no markup or executable actions are interpreted.
+        priority:
+          type: integer
+          minimum: 0
+          maximum: 100000
+        provenance:
+          $ref: '#/components/schemas/UIEventProvenance'
+      required:
+        - id
+        - enabled
+        - route
+        - target
+        - trigger
+        - kind
+        - title
+        - body
+        - priority
+        - provenance
     IngressPeerCreateRequest:
       type: object
       properties:
@@ -6577,6 +6688,15 @@ components:
         X-Request-Id:
           $ref: '#/components/headers/X-Request-Id'
       content: { }
+    unprocessable_entity:
+      description: Request fields are invalid
+      headers:
+        X-Request-Id:
+          $ref: '#/components/headers/X-Request-Id'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
     internal_error:
       description: Internal Server Error
       headers:
@@ -9689,6 +9809,120 @@ paths:
           "$ref": "#/components/responses/requires_authentication"
         '403':
           "$ref": "#/components/responses/forbidden"
+        '500':
+          "$ref": "#/components/responses/internal_error"
+  /api/ui-events:
+    get:
+      summary: List UI event definitions
+      description: Returns UI event definitions for the authenticated account.
+      tags: [ UI Events ]
+      security:
+        - BearerAuth: [ ]
+        - TokenAuth: [ ]
+      responses:
+        '200':
+          description: Account UI event definitions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UIEvent'
+        '401':
+          "$ref": "#/components/responses/requires_authentication"
+        '500':
+          "$ref": "#/components/responses/internal_error"
+    post:
+      summary: Create a UI event definition
+      description: Creates a plain-text UI event definition for the authenticated account.
+      tags: [ UI Events ]
+      security:
+        - BearerAuth: [ ]
+        - TokenAuth: [ ]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UIEventInput'
+      responses:
+        '201':
+          description: Created UI event definition, including its server-generated id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UIEvent'
+        '400':
+          "$ref": "#/components/responses/bad_request"
+        '401':
+          "$ref": "#/components/responses/requires_authentication"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '422':
+          "$ref": "#/components/responses/unprocessable_entity"
+        '500':
+          "$ref": "#/components/responses/internal_error"
+  /api/ui-events/{id}:
+    put:
+      summary: Update a UI event definition
+      description: Replaces a UI event definition owned by the authenticated account.
+      tags: [ UI Events ]
+      security:
+        - BearerAuth: [ ]
+        - TokenAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UIEventInput'
+      responses:
+        '200':
+          description: Updated UI event definition.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UIEvent'
+        '400':
+          "$ref": "#/components/responses/bad_request"
+        '401':
+          "$ref": "#/components/responses/requires_authentication"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '404':
+          "$ref": "#/components/responses/not_found"
+        '422':
+          "$ref": "#/components/responses/unprocessable_entity"
+        '500':
+          "$ref": "#/components/responses/internal_error"
+    delete:
+      summary: Delete a UI event definition
+      description: Deletes a UI event definition owned by the authenticated account.
+      tags: [ UI Events ]
+      security:
+        - BearerAuth: [ ]
+        - TokenAuth: [ ]
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: UI event definition deleted.
+        '401':
+          "$ref": "#/components/responses/requires_authentication"
+        '403':
+          "$ref": "#/components/responses/forbidden"
+        '404':
+          "$ref": "#/components/responses/not_found"
         '500':
           "$ref": "#/components/responses/internal_error"
   /api/events/network-traffic:

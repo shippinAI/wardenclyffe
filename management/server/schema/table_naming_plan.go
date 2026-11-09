@@ -21,6 +21,7 @@ var tableNamingPlan = []TableNamingPlanEntry{
 	{Domain: "core", CurrentTable: "routes", TargetTable: "wardenclyffe_core_routes"},
 	{Domain: "core", CurrentTable: "setup_keys", TargetTable: "wardenclyffe_core_setup_keys"},
 	{Domain: "core", CurrentTable: "users", TargetTable: "wardenclyffe_core_users"},
+	{Domain: "core", CurrentTable: "ui_events", TargetTable: "wardenclyffe_core_ui_events"},
 	{Domain: "profile", CurrentTable: "account_onboardings", TargetTable: "wardenclyffe_profile_account_onboardings"},
 	{Domain: "profile", CurrentTable: "user_invites", TargetTable: "wardenclyffe_profile_user_invites"},
 	{Domain: "network", CurrentTable: "network_addresses", TargetTable: "wardenclyffe_network_addresses"},

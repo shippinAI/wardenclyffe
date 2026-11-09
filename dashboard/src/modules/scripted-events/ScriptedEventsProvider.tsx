@@ -1,9 +1,14 @@
 "use client";
 
-import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
+import { useValidatedLocalStorage } from "@/hooks/useValidatedLocalStorage";
 import type { ScriptedEvent } from "./contracts";
 import { defaultScriptedEvents } from "./defaults";
-import { buildScriptedEventComparison, partitionScriptedEvents } from "./orchestrator";
+import {
+  buildScriptedEventComparison,
+  partitionScriptedEvents,
+} from "./orchestrator";
+import { parseScriptedEventsPayload } from "./parser";
 
 const STORAGE_KEY = "wardenclyffe-scripted-events-v1";
 
@@ -23,7 +28,9 @@ interface ScriptedEventsContextValue {
   comparison: ReturnType<typeof buildScriptedEventComparison>;
 }
 
-const ScriptedEventsContext = createContext<ScriptedEventsContextValue | null>(null);
+const ScriptedEventsContext = createContext<ScriptedEventsContextValue | null>(
+  null,
+);
 
 const toRenderableText = (event: ScriptedEvent) => {
   if (event.kind === "announcement") return event.announcement?.text ?? "";
@@ -36,45 +43,39 @@ export const ScriptedEventsProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [events, setEvents] = useState<ScriptedEvent[]>(defaultScriptedEvents);
+  const [events, setEvents] = useValidatedLocalStorage(
+    STORAGE_KEY,
+    defaultScriptedEvents,
+    parseScriptedEventsPayload,
+  );
   const [laneFilters, setLaneFilters] = useState<LaneFilters>({
     clyffyVisible: true,
     councilVisible: true,
     includeBackground: false,
   });
 
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return;
-      const parsed = JSON.parse(raw) as ScriptedEvent[];
-      if (Array.isArray(parsed) && parsed.length > 0) {
-        setEvents(parsed);
-      }
-    } catch {
-      // ignore local cache errors
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-    } catch {
-      // ignore local cache errors
-    }
-  }, [events]);
-
   const filteredEvents = useMemo(() => {
     return events
       .filter((event) => event.enabled !== false)
       .filter((event) => {
-        if (event.visibility === "background" && !laneFilters.includeBackground) {
+        if (
+          event.visibility === "background" &&
+          !laneFilters.includeBackground
+        ) {
           return false;
         }
-        if (event.visibility === "visible" && event.actor === "clyffy" && !laneFilters.clyffyVisible) {
+        if (
+          event.visibility === "visible" &&
+          event.actor === "clyffy" &&
+          !laneFilters.clyffyVisible
+        ) {
           return false;
         }
-        if (event.visibility === "visible" && event.actor === "council" && !laneFilters.councilVisible) {
+        if (
+          event.visibility === "visible" &&
+          event.actor === "council" &&
+          !laneFilters.councilVisible
+        ) {
           return false;
         }
         return true;
@@ -84,13 +85,18 @@ export const ScriptedEventsProvider = ({
   }, [events, laneFilters]);
 
   const comparison = useMemo(
-    () => buildScriptedEventComparison(events.filter((event) => event.enabled !== false)),
+    () =>
+      buildScriptedEventComparison(
+        events.filter((event) => event.enabled !== false),
+      ),
     [events],
   );
 
   const setEventEnabled = (eventId: string, enabled: boolean) => {
     setEvents((prev) =>
-      prev.map((event) => (event.id === eventId ? { ...event, enabled } : event)),
+      prev.map((event) =>
+        event.id === eventId ? { ...event, enabled } : event,
+      ),
     );
   };
 
@@ -123,7 +129,9 @@ export const ScriptedEventsProvider = ({
 export const useScriptedEvents = () => {
   const value = useContext(ScriptedEventsContext);
   if (!value) {
-    throw new Error("useScriptedEvents must be used within ScriptedEventsProvider");
+    throw new Error(
+      "useScriptedEvents must be used within ScriptedEventsProvider",
+    );
   }
   return value;
 };
@@ -132,4 +140,3 @@ export const useScriptedEventLanes = () => {
   const { filteredEvents } = useScriptedEvents();
   return partitionScriptedEvents(filteredEvents);
 };
-

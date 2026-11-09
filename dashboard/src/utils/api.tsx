@@ -34,6 +34,7 @@ type RequestOptions = {
   refreshInterval?: number | ((latestData: any) => number);
   blob?: boolean;
   shouldRetryOnError?: boolean;
+  keepPreviousData?: boolean;
 };
 
 export type Params = Record<string, string | number | boolean>;
@@ -160,7 +161,7 @@ export default function useFetchApi<T>(
     cacheKey,
     fetchFn,
     {
-      keepPreviousData: true,
+      keepPreviousData: options?.keepPreviousData ?? true,
       revalidateOnFocus: revalidate,
       revalidateIfStale: revalidate,
       revalidateOnReconnect: revalidate,

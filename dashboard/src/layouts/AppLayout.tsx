@@ -8,6 +8,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { Viewport } from "next";
 import localFont from "next/font/local";
+import { usePathname } from "next/navigation";
 import React, { Suspense } from "react";
 import { Toaster } from "sonner";
 import OIDCProvider from "@/auth/OIDCProvider";
@@ -22,6 +23,8 @@ import InstanceSetupProvider from "@/contexts/InstanceSetupProvider";
 import { NavigationEvents } from "@/contexts/NavigationEvents";
 import { ThemeProvider } from "@/contexts/ThemeProvider";
 import { useSignupSource } from "@/hooks/useSignupSource";
+import { ChatProvider } from "@/modules/chat/ChatProvider";
+import { ChatOverlay } from "@/modules/chat/components/ChatOverlay";
 
 const inter = localFont({
   src: "../assets/fonts/Inter.ttf",
@@ -41,6 +44,8 @@ export default function AppLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   useAWSMarketplace();
   useSignupSource();
+  const pathname = usePathname();
+  const showChat = pathname !== "/install" && !pathname?.startsWith("/invite");
 
   return (
     <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
@@ -48,34 +53,37 @@ export default function AppLayout({
         <GoogleTagManagerHeadScript />
       </head>
       <body className={cn(inter.className)}>
-        <Suspense fallback={<FullScreenLoading />}>
-          <AnalyticsProvider>
-            <DialogProvider>
-              <ThemeProvider>
-                <ErrorBoundaryProvider>
-                  <InstanceSetupProvider>
-                    <OIDCProvider>
-                      <TooltipProvider delayDuration={0}>
-                        {children}
-                      </TooltipProvider>
-                    </OIDCProvider>
-                  </InstanceSetupProvider>
-                </ErrorBoundaryProvider>
-              </ThemeProvider>
-            </DialogProvider>
-            <Toaster
-              position="top-center"
-              duration={3000}
-              toastOptions={{ unstyled: true }}
-              style={{ "--width": "28rem" } as React.CSSProperties}
-              gap={0}
-              visibleToasts={5}
-              offset="12px"
-            />
-            <NavigationEvents />
-            <DisableDarkReader />
-          </AnalyticsProvider>
-        </Suspense>
+        <ChatProvider>
+          {showChat && <ChatOverlay />}
+          <Suspense fallback={<FullScreenLoading />}>
+            <AnalyticsProvider>
+              <DialogProvider>
+                <ThemeProvider>
+                  <ErrorBoundaryProvider>
+                    <InstanceSetupProvider>
+                      <OIDCProvider>
+                        <TooltipProvider delayDuration={0}>
+                          {children}
+                        </TooltipProvider>
+                      </OIDCProvider>
+                    </InstanceSetupProvider>
+                  </ErrorBoundaryProvider>
+                </ThemeProvider>
+              </DialogProvider>
+              <Toaster
+                position="top-center"
+                duration={3000}
+                toastOptions={{ unstyled: true }}
+                style={{ "--width": "28rem" } as React.CSSProperties}
+                gap={0}
+                visibleToasts={5}
+                offset="12px"
+              />
+              <NavigationEvents />
+              <DisableDarkReader />
+            </AnalyticsProvider>
+          </Suspense>
+        </ChatProvider>
       </body>
     </html>
   );
