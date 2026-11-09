@@ -138,7 +138,6 @@ func TestManager_Cleanup_NilMapping(t *testing.T) {
 	m.cleanup(context.Background(), gateway)
 }
 
-
 func TestManager_CreateMapping_PermanentLeaseFallback(t *testing.T) {
 	m := NewManager()
 	m.wgPort = 51820

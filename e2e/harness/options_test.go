@@ -8,11 +8,27 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func TestContainerWorkDirUsesNativePath(t *testing.T) {
+	dir, err := makeContainerWorkDir("nb-e2e-path-test-*")
+	require.NoError(t, err)
+	t.Cleanup(func() { require.NoError(t, os.RemoveAll(dir)) })
+	assert.True(t, filepath.IsAbs(dir), "container bind source must be an absolute native path")
+	if runtime.GOOS == "windows" {
+		assert.NotEmpty(t, filepath.VolumeName(dir), "Windows bind source must include a volume")
+	}
+	path := filepath.Join(dir, "config.yaml")
+	require.NoError(t, os.WriteFile(path, []byte("test: true\n"), 0o600))
+	data, err := os.ReadFile(path)
+	require.NoError(t, err)
+	assert.Equal(t, "test: true\n", string(data), "bind source must contain the written config")
+}
 
 // The options exist so a suite can ask for a deployment this harness would not
 // otherwise give it. What they configure is a container environment and a config

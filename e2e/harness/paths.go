@@ -8,12 +8,22 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 	"strings"
 )
 
 // modulePath is this module, used both to recognise the repo when walking up
 // from the working directory and to locate it when the suite lives elsewhere.
 const modulePath = "github.com/shippin/wardenclyffe"
+
+func makeContainerWorkDir(prefix string) (string, error) {
+	dir := ""
+	// Docker Desktop shares /tmp on macOS, but not the default /var/folders temp.
+	if runtime.GOOS == "darwin" {
+		dir = "/tmp"
+	}
+	return os.MkdirTemp(dir, prefix)
+}
 
 // repoRoot returns the directory the component Dockerfiles are built from.
 //

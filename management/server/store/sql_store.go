@@ -46,6 +46,7 @@ import (
 	networkTypes "github.com/shippin/wardenclyffe/management/server/networks/types"
 	nbpeer "github.com/shippin/wardenclyffe/management/server/peer"
 	"github.com/shippin/wardenclyffe/management/server/posture"
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/management/server/telemetry"
 	"github.com/shippin/wardenclyffe/management/server/types"
 	"github.com/shippin/wardenclyffe/management/server/util"
@@ -817,9 +818,10 @@ func (s *SqlStore) GetUserByPATID(ctx context.Context, lockStrength LockingStren
 	}
 
 	var user types.User
+	tokenUser := s.db.Model(&types.PersonalAccessToken{}).
+		Select("user_id").Where("id = ?", patID)
 	result := tx.
-		Joins("JOIN personal_access_tokens ON personal_access_tokens.user_id = users.id").
-		Where("personal_access_tokens.id = ?", patID).Take(&user)
+		Where("id IN (?)", tokenUser).Take(&user)
 	if result.Error != nil {
 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 			return nil, status.NewPATNotFoundError(patID)
@@ -3475,7 +3477,8 @@ func (s *SqlStore) GetPeerGroups(ctx context.Context, lockStrength LockingStreng
 
 	var groups []*types.Group
 	query := tx.
-		Joins("JOIN group_peers ON group_peers.group_id = groups.id").
+		Table(schema.RuntimeTableName("groups")+" AS groups").
+		Joins("JOIN "+schema.RuntimeTableName("group_peers")+" AS group_peers ON group_peers.group_id = groups.id").
 		Where("groups.account_id = ? AND group_peers.peer_id = ?", accountId, peerId).
 		Preload(clause.Associations).
 		Find(&groups)
@@ -3903,7 +3906,8 @@ func (s *SqlStore) GetGroupByName(ctx context.Context, lockStrength LockingStren
 
 	result := query.
 		Model(&types.Group{}).
-		Joins("LEFT JOIN group_peers ON group_peers.group_id = groups.id").
+		Table(schema.RuntimeTableName("groups")+" AS groups").
+		Joins("LEFT JOIN "+schema.RuntimeTableName("group_peers")+" AS group_peers ON group_peers.group_id = groups.id").
 		Where("groups.account_id = ? AND groups.name = ?", accountID, groupName).
 		Group("groups.id").
 		Order("COUNT(group_peers.peer_id) DESC").

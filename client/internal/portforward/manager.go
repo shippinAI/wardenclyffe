@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/shippinAI/go-nat"
+	"github.com/netbirdio/go-nat"
 	log "github.com/sirupsen/logrus"
 )
 

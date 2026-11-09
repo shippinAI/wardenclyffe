@@ -50,7 +50,7 @@ type FakeUpstream struct {
 
 // StartFakeUpstream runs the self-signed upstream on the shared network.
 func StartFakeUpstream(ctx context.Context, c *Combined) (*FakeUpstream, error) {
-	workDir, err := os.MkdirTemp("/tmp", "nb-e2e-upstream-*")
+	workDir, err := makeContainerWorkDir("nb-e2e-upstream-*")
 	if err != nil {
 		return nil, fmt.Errorf("create upstream work dir: %w", err)
 	}

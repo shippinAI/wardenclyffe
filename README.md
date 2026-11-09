@@ -50,6 +50,23 @@
 
 https://github.com/user-attachments/assets/10cec749-bb56-4ab3-97af-4e38850108d2
 
+### Release target
+
+The WardenClyffe release target is **0.5.0**, recorded in
+[`RELEASE_VERSION`](RELEASE_VERSION).
+This is WardenClyffe's product version, not a claim of NetBird release parity.
+Development builds remain marked as development until release acceptance passes.
+No `v0.5.0` release has been published by setting this target.
+
+Before publishing, verify self-hosted installation, trusted HTTPS, initial setup
+and login, direct and relayed peer connectivity, policy enforcement, persistence,
+backup/restore, and supported upgrades. MCPL acceptance is separate and remains
+incomplete.
+
+Client versions currently participate in capability and posture checks.
+Do not substitute `0.5.0` into those checks or lower inherited minimum versions
+without a tested product-version and compatibility design.
+
 ### Self-host WardenClyffe (video)
 
 [![Watch the video](https://img.youtube.com/vi/bZAgpT6nzaQ/0.jpg)](https://youtu.be/bZAgpT6nzaQ)
@@ -157,4 +174,3 @@ Those directories are licensed under the GNU Affero General Public License versi
 
 _WireGuard_ and the _WireGuard_ logo are [registered trademarks](https://www.wireguard.com/trademark-policy/) of Jason A. Donenfeld.
  
-

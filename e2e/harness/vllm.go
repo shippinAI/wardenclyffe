@@ -170,7 +170,7 @@ type VLLM struct {
 
 // StartVLLM runs the mock vLLM server on the shared network over plain HTTP.
 func StartVLLM(ctx context.Context, c *Combined) (*VLLM, error) {
-	workDir, err := os.MkdirTemp("/tmp", "nb-e2e-vllm-*")
+	workDir, err := makeContainerWorkDir("nb-e2e-vllm-*")
 	if err != nil {
 		return nil, fmt.Errorf("create vllm work dir: %w", err)
 	}

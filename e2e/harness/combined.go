@@ -137,9 +137,7 @@ func StartCombined(ctx context.Context, opts ...CombinedOption) (*Combined, erro
 		return nil, fmt.Errorf("create shared network: %w", err)
 	}
 
-	// Work dir under /tmp so Docker Desktop file sharing (which excludes
-	// macOS's /var/folders TMPDIR) can bind-mount it.
-	workDir, err := os.MkdirTemp("/tmp", "nb-e2e-combined-*")
+	workDir, err := makeContainerWorkDir("nb-e2e-combined-*")
 	if err != nil {
 		_ = net.Remove(ctx)
 		return nil, fmt.Errorf("create work dir: %w", err)
