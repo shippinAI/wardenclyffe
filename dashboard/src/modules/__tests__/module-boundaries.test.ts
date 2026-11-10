@@ -17,6 +17,7 @@ describe("module ownership boundaries", () => {
     ["scripted-events", ["chat", "mcp"]],
     ["mcp", ["chat"]],
     ["a2ui", ["chat", "mcp"]],
+    ["mcpl", ["chat", "mcp"]],
   ] as const)(
     "%s does not import forbidden domain runtimes",
     (module, forbidden) => {

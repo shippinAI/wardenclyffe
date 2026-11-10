@@ -54,3 +54,7 @@ playwright-report*.zip
 /public/wardenclyffe.wasm
 .idea
 src/.local-config*
+
+# Local MCPL discovery exports
+/mcpl-discovery.json
+/mcpl-catalog.json

@@ -67,7 +67,8 @@ The confirmed differences above are not a complete capability audit.
 | Clean installer run on a disposable deployment host | Not verified |
 | Published installable images and client artifacts | Not established; installers still use local or inconsistent registry references |
 | Backup/restore and supported upgrade path | Not verified |
-| PostgreSQL account-loader parity | Not verified; raw pgx queries still contain legacy table names |
+| PostgreSQL canonical account loading | Fresh PostgreSQL passes populated account, nested relation and custom-domain tests; service/target values match GORM |
+| Canonical log queries | SQLite and PostgreSQL pass group/search filtering, account isolation and retention tests |
 | Full platform/test/lint acceptance | Not established |
 
 Focused repeatable commands, run from the repository root:
@@ -75,8 +76,14 @@ Focused repeatable commands, run from the repository root:
 ```shell
 go test -tags 'e2e devcert' ./e2e/harness ./e2e/selfhost ./e2e/remotejobs -count=1 -timeout 25m -p 1
 go test -race -tags devcert ./management/server/store -run '^TestSqlStore(PATUserUsesRuntimeTables|GroupLookupsUseRuntimeTables|UIEventsPersistAndIsolateAccounts)$' -count=1
+go test -race -tags 'e2e devcert' ./management/server/store -run '^(TestPostgresRuntimeAccountLoaders|TestGetAccount_ComprehensiveFieldValidation|TestSqlStoreLogQueriesUseRuntimeTables)$' -count=1 -timeout 3m
 bash infrastructure_files/tests/readiness_test.sh
 ```
+
+The PostgreSQL test requires `WARDENCLYFFE_TEST_POSTGRES_DSN` pointing to an empty,
+disposable database owned by the test. Without it, that test explicitly skips.
+Never point it at an existing deployment. Verification used PostgreSQL
+`17.10-alpine` in an isolated container bound to a random loopback port.
 
 The shell tests require Bash, curl and jq. Container e2e requires Docker and
 runs networking changes only inside disposable containers. Test encryption keys
@@ -86,7 +93,10 @@ These tests do not prove production TLS, browser SSO or internet NAT traversal.
 Fixes implemented in this execution: native Windows bind paths, Linux entrypoint
 line endings/executable mode, published go-nat module identity at the unchanged
 revision, canonical-table PAT/group queries, persistent test encryption
-configuration, and strict installer readiness.
+configuration, and strict installer readiness. All 18 pgx account-loader queries
+now resolve tables through the shared canonical naming map. Log retention and
+group/user subqueries use GORM models rather than legacy table literals. These
+query corrections do not change persisted models or introduce a migration.
 
 The version-fetch lifecycle race is fixed: stop cancels an active request and
 waits for the fetch loop, repeated stop is safe, and stop-before-start prevents
@@ -107,16 +117,27 @@ backup/restore, upgrades and remaining platform coverage.
 Already implemented: account-persisted tooltip/popup definitions and native
 hover/focus/click rendering. Those do not constitute MCPL execution.
 
-Before implementation, confirm:
+Confirmed scope: WardenClyffe only, dashboard interactions first. Nomen and
+Vaultiix are independent implementations, not integration targets. Navigation
+and non-sensitive drafts are permitted; consequential submissions, configuration
+changes and tool execution require approval for the exact action and inputs.
 
-1. Whether the scripted cursor is an in-app visual cursor or an OS pointer.
-2. Which real operations it performs: scrolling, row selection, opening menus,
-   field editing, clicks, and tool execution.
-3. Action approvals, cancellation, pause/resume and interruption behavior.
-4. AI representative identity, role/status, placeholders and concurrent actors.
-5. MCPL ownership relative to separate AI chat, MCP connections and A2UI.
-6. Table/row layouts, contextual help, keyboard equivalents, reduced motion,
-   touch behavior and recovery when a target disappears.
+The approved framework sequence is source discovery, a canonical alias catalog,
+typed data composition with existing-signal adapters, then a real interaction
+executor and one complete workflow. Discovery never grants execution permission.
+
+The first inspectable version now has a TypeScript-AST source scanner,
+machine-readable discovery/catalog exports, exact kind-scoped alias resolution,
+and read-only evidence inspection in the existing Database UI Events screen.
+It reuses the live target inventory and distinguishes missing, ambiguous and
+disabled identities. Dynamic syntax remains explicitly unresolved. See the
+[MCPL integration instructions](../dashboard/src/modules/mcpl/README.md).
+
+Recipes, data pooling, live signal subscriptions, cursor/typing execution,
+approval enforcement for executable actions and operational AI/MCP adapters are
+not implemented by this discovery version. No candidate can execute an action.
+Representative concurrency, reduced-motion behavior, touch interaction and
+target-disappearance recovery remain acceptance requirements for the executor.
 
 Then implement one approved real-panel workflow with persisted definitions,
 visible representative/cursor state, exact targets, accessible help and

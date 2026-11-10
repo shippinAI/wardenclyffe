@@ -18,6 +18,7 @@
     "test:dev": "cross-env APP_ENV=test next dev -p 1337",
     "test": "npx playwright test --config=e2e/playwright.config.ts",
     "test:unit": "vitest run",
+    "mcpl:scan": "node scripts/mcpl-discover.mjs",
     "test:unit:watch": "vitest",
     "test:ui": "npx playwright test --config=e2e/playwright.config.ts --ui",
     "test:ci": "cross-env APP_ENV=test next build && npx playwright test --config=e2e/playwright.config.ts"
