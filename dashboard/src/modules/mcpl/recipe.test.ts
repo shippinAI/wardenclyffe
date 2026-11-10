@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { composeRecipe, type ContentFact, parseRecipe, RecipeJsonSchema } from "./recipe";
+import {
+  composeRecipe,
+  type ContentFact,
+  parseRecipe,
+  RecipeJsonSchema,
+} from "./recipe";
 
 const content: ContentFact = {
   id: "saved-help",

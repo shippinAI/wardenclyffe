@@ -231,6 +231,13 @@ try {
     name: "MCPL live recipes",
     exact: true,
   });
+  assert.equal(
+    JSON.parse(
+      await panel.getByLabel("JSON Schema for MCPL recipes").inputValue(),
+    ).additionalProperties,
+    false,
+    "The deployed panel must expose its strict machine-readable recipe schema.",
+  );
   await panel
     .getByLabel("Use saved content")
     .selectOption({ label: "MCPL saved content acceptance" });
@@ -313,12 +320,19 @@ try {
   );
   proposal.origin = "ai-proposal";
   proposal.label = "UnbrokenLabel".repeat(12);
+  proposal.output.title = [{ literal: "<img src=not-executed>" }];
   await panel.getByLabel("MCPL recipe JSON").fill(JSON.stringify(proposal));
   await panel
     .getByRole("button", { name: "Start observing recipe", exact: true })
     .click();
   await title.click();
   await panel.getByRole("article").first().waitFor();
+  assert.equal(
+    await panel.getByRole("article").first().getByRole("heading").innerText(),
+    "<img src=not-executed>",
+    "Composed markup must remain plain text.",
+  );
+  assert.equal(await panel.getByRole("article").locator("img").count(), 0);
   assert.match(
     await panel.getByRole("article").first().innerText(),
     /declared ai-proposal \(unverified\)/,

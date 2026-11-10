@@ -190,7 +190,9 @@ function RecipeSession({
           />
         </label>
         <details>
-          <summary className="cursor-pointer">Machine-readable recipe schema</summary>
+          <summary className="cursor-pointer">
+            Machine-readable recipe schema
+          </summary>
           <label className="block">
             JSON Schema for MCPL recipes
             <textarea
@@ -199,7 +201,10 @@ function RecipeSession({
               value={JSON.stringify(RecipeJsonSchema, null, 2)}
             />
           </label>
-          <p>Generated from the same ArkType contract. Runtime catalog resolution and current-account content checks are still required.</p>
+          <p>
+            Generated from the same ArkType contract. Runtime catalog resolution
+            and current-account content checks are still required.
+          </p>
         </details>
         <div className="flex flex-wrap gap-2">
           <CanonicalButton disabled={!!active || !draft} onClick={start}>
