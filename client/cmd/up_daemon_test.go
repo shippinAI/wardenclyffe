@@ -7,6 +7,8 @@ import (
 	"testing"
 	"time"
 
+	"path/filepath"
+
 	"github.com/shippin/wardenclyffe/client/internal"
 	"github.com/shippin/wardenclyffe/client/internal/profilemanager"
 )
@@ -17,8 +19,10 @@ func TestUpDaemon(t *testing.T) {
 
 	tempDir := t.TempDir()
 	origDefaultProfileDir := profilemanager.DefaultConfigPathDir
+	origDefaultConfigPath := profilemanager.DefaultConfigPath
 	origActiveProfileStatePath := profilemanager.ActiveProfileStatePath
 	profilemanager.DefaultConfigPathDir = tempDir
+	profilemanager.DefaultConfigPath = filepath.Join(tempDir, "default.json")
 	profilemanager.ActiveProfileStatePath = tempDir + "/active_profile.json"
 	profilemanager.ConfigDirOverride = tempDir
 
@@ -46,6 +50,7 @@ func TestUpDaemon(t *testing.T) {
 
 	t.Cleanup(func() {
 		profilemanager.DefaultConfigPathDir = origDefaultProfileDir
+		profilemanager.DefaultConfigPath = origDefaultConfigPath
 		profilemanager.ActiveProfileStatePath = origActiveProfileStatePath
 		profilemanager.ConfigDirOverride = ""
 	})

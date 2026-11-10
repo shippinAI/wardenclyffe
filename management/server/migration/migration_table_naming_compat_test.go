@@ -12,7 +12,7 @@ import (
 )
 
 func TestCreatePrefixedTableCopies_CopiesLegacyData(t *testing.T) {
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("file:pref-copy?mode=memory&cache=shared"), &gorm.Config{})
 	require.NoError(t, err)
 
 	require.NoError(t, db.Exec(`CREATE TABLE accounts (id TEXT PRIMARY KEY, created_by TEXT)`).Error)
@@ -28,8 +28,23 @@ func TestCreatePrefixedTableCopies_CopiesLegacyData(t *testing.T) {
 	require.EqualValues(t, 1, copied)
 }
 
+func TestCreatePrefixedTableCopies_CopiesSharedColumnsWhenShapesDiffer(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("file:pref-shape?mode=memory&cache=shared"), &gorm.Config{})
+	require.NoError(t, err)
+
+	require.NoError(t, db.Exec(`CREATE TABLE extra_settings (account_id TEXT, peer_approval_enabled NUMERIC)`).Error)
+	require.NoError(t, db.Exec(`INSERT INTO extra_settings (account_id, peer_approval_enabled) VALUES ('acc-1', 1)`).Error)
+	require.NoError(t, db.Exec(`CREATE TABLE wardenclyffe_core_extra_settings (account_id TEXT, peer_approval_enabled NUMERIC, user_approval_required NUMERIC, integrated_validator_groups TEXT)`).Error)
+
+	require.NoError(t, migration.CreatePrefixedTableCopies(context.Background(), db))
+
+	var copied int64
+	require.NoError(t, db.Raw(`SELECT COUNT(1) FROM "wardenclyffe_core_extra_settings" WHERE account_id = 'acc-1' AND peer_approval_enabled = 1`).Scan(&copied).Error)
+	require.EqualValues(t, 1, copied)
+}
+
 func TestCreatePrefixedTableCopies_IsIdempotent(t *testing.T) {
-	db, err := gorm.Open(sqlite.Open("file::memory:?cache=shared"), &gorm.Config{})
+	db, err := gorm.Open(sqlite.Open("file:pref-idem?mode=memory&cache=shared"), &gorm.Config{})
 	require.NoError(t, err)
 
 	require.NoError(t, db.Exec(`CREATE TABLE accounts (id TEXT PRIMARY KEY, created_by TEXT)`).Error)

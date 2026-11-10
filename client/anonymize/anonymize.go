@@ -58,13 +58,21 @@ func (l Level) String() string {
 	return LevelDefaultString
 }
 
-// protectedDomains are Shippin-operated suffixes that stay recognizable in an
-// anonymized bundle. At LevelStrict the labels in front of them (the peer
-// name) are still replaced, except under wardenclyffe.shippin.cloud, which only hosts
-// WardenClyffe infrastructure (api, signal, flow), never peer names.
-var protectedDomains = []string{"wardenclyffe.app", "wardenclyffe.selfhosted", "wardenclyffe.cloud", "wardenclyffe.stage"}
+// protectedDomains are suffixes that stay recognizable in an anonymized
+// bundle. At LevelStrict the labels in front of them (the peer name) are
+// still replaced. shippin.cloud is the peer zone. The other suffixes are
+// WardenClyffe service domains.
+var protectedDomains = []string{
+	"shippin.cloud",
+	"wardenclyffe.app",
+	"wardenclyffe.selfhosted",
+	"wardenclyffe.cloud",
+	"wardenclyffe.stage",
+}
 
-const infraDomain = "shippin.cloud"
+// infraDomain stays fully readable at every level, labels included. It only
+// hosts WardenClyffe infrastructure (api, signal, flow), never peer names.
+const infraDomain = "wardenclyffe.wardenclyffe.app"
 
 var (
 	macColonRegex = regexp.MustCompile(`\b[0-9a-fA-F]{2}(?::[0-9a-fA-F]{2}){5}\b`)
@@ -581,16 +589,23 @@ func generateAnonymousKey() string {
 	return base64.StdEncoding.EncodeToString(buf)
 }
 
-// protectedSuffix returns the protected WardenClyffe suffix baseDomain ends with,
+// protectedSuffix returns the longest protected suffix baseDomain ends with,
 // or empty. The match is label-anchored so an unrelated domain that merely
-// ends in the same characters is not preserved.
+// ends in the same characters is not preserved. The longest match wins so
+// wardenclyffe.wardenclyffe.app is infrastructure rather than a peer name
+// under wardenclyffe.app.
 func protectedSuffix(baseDomain string) string {
-	for _, d := range protectedDomains {
-		if baseDomain == d || strings.HasSuffix(baseDomain, "."+d) {
-			return d
+	best := ""
+	consider := func(d string) {
+		if (baseDomain == d || strings.HasSuffix(baseDomain, "."+d)) && len(d) > len(best) {
+			best = d
 		}
 	}
-	return ""
+	for _, d := range protectedDomains {
+		consider(d)
+	}
+	consider(infraDomain)
+	return best
 }
 
 func withTrailingDot(domain string, hasDot bool) string {

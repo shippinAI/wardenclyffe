@@ -359,7 +359,7 @@ EOF
     cat <<EOF
 
   ${POSTGRES_SERVICE}:
-    image: postgres:17
+    image: postgres:18
     container_name: wardenclyffe-postgres
     restart: unless-stopped
     networks: [${COMPOSE_NETWORK}]

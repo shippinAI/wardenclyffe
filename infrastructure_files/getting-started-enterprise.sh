@@ -435,7 +435,7 @@ WARDENCLYFFE_DOMAIN=${WARDENCLYFFE_DOMAIN}
 
 # Reverse proxy (Traefik)
 WARDENCLYFFE_LETSENCRYPT_EMAIL=${WARDENCLYFFE_LETSENCRYPT_EMAIL}
-WARDENCLYFFE_TRAEFIK_TAG=${WARDENCLYFFE_TRAEFIK_TAG:-v3.6}
+WARDENCLYFFE_TRAEFIK_TAG=${WARDENCLYFFE_TRAEFIK_TAG:-v3.7.17}
 WARDENCLYFFE_TRAEFIK_IP=${TRAEFIK_IP}
 
 # Image tags. Default to "latest"
@@ -723,7 +723,7 @@ render_compose_postgres() {
   cat <<'EOF'
   postgres:
     <<: *default
-    image: postgres:17
+    image: postgres:18
     container_name: wardenclyffe-postgres
     networks: [wardenclyffe]
     environment:

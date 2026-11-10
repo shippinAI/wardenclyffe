@@ -12,6 +12,7 @@ import (
 	"gorm.io/gorm/clause"
 
 	agentNetworkTypes "github.com/shippin/wardenclyffe/management/internals/modules/agentnetwork/types"
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/shared/management/status"
 )
 
@@ -439,7 +440,7 @@ func (s *SqlStore) IncrementAgentNetworkConsumption(
 		CostUSD:        costUSD,
 		UpdatedAt:      time.Now().UTC(),
 	}
-	const tbl = "agent_network_consumption"
+	tbl := schema.RuntimeTableName("agent_network_consumption")
 	err := s.db.Clauses(clause.OnConflict{
 		Columns: []clause.Column{
 			{Name: "account_id"},
@@ -588,7 +589,7 @@ func (s *SqlStore) IncrementAgentNetworkConsumptionBatch(
 		return nil
 	}
 
-	const tbl = "agent_network_consumption"
+	tbl := schema.RuntimeTableName("agent_network_consumption")
 	err := s.db.Transaction(func(tx *gorm.DB) error {
 		for _, k := range keys {
 			if k.DimID == "" || k.WindowSeconds <= 0 {

@@ -19,6 +19,7 @@ import (
 	agentNetworkTypes "github.com/shippin/wardenclyffe/management/internals/modules/agentnetwork/types"
 	"github.com/shippin/wardenclyffe/management/server/migration"
 	nbpeer "github.com/shippin/wardenclyffe/management/server/peer"
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/management/server/testutil"
 	"github.com/shippin/wardenclyffe/management/server/types"
 	"github.com/shippin/wardenclyffe/route"
@@ -652,7 +653,9 @@ type legacyCostRow struct {
 	CacheCostUSD float64
 }
 
-func (legacyCostRow) TableName() string { return "agent_network_request_usage" }
+func (legacyCostRow) TableName() string {
+	return schema.RuntimeTableName("agent_network_request_usage")
+}
 
 // TestFoldCostAggregatesIntoBuckets_PreservesHistoricalCost covers the upgrade
 // path: a table written under the old schema must come out with its per-row
@@ -746,7 +749,9 @@ type legacyAgentNetworkSettings struct {
 	EnableLogCollection bool
 }
 
-func (legacyAgentNetworkSettings) TableName() string { return "agent_network_settings" }
+func (legacyAgentNetworkSettings) TableName() string {
+	return schema.RuntimeTableName("agent_network_settings")
+}
 
 // TestMigrateAgentNetworkSettingsToDomain_BackfillsAndDropsLegacyColumns pins
 // the reshape: domain becomes `<subdomain>.<cluster>`, proxy_address becomes
@@ -830,7 +835,9 @@ type partialAgentNetworkSettings struct {
 	ProxyAddress string `gorm:"type:varchar(255)"`
 }
 
-func (partialAgentNetworkSettings) TableName() string { return "agent_network_settings" }
+func (partialAgentNetworkSettings) TableName() string {
+	return schema.RuntimeTableName("agent_network_settings")
+}
 
 // TestMigrateAgentNetworkSettingsToDomain_ResumesAfterPartialDrop pins MySQL
 // resumability: a rerun over the interrupted state must remove the leftover

@@ -886,7 +886,7 @@ services:
           condition: 'service_healthy'
   # PostgreSQL for management
   postgres:
-    image: postgres:17
+    image: postgres:18
     restart: unless-stopped
     networks: [wardenclyffe]
     environment:

@@ -6,6 +6,8 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+
+	"github.com/shippin/wardenclyffe/management/server/schema"
 )
 
 // agentNetworkSettingsMigration is a local view of the agent_network_settings
@@ -20,7 +22,9 @@ type agentNetworkSettingsMigration struct {
 	ProxyAddress string `gorm:"type:varchar(255)"`
 }
 
-func (agentNetworkSettingsMigration) TableName() string { return "agent_network_settings" }
+func (agentNetworkSettingsMigration) TableName() string {
+	return schema.RuntimeTableName("agent_network_settings")
+}
 
 // MigrateAgentNetworkSettingsToDomain reshapes agent_network_settings from the
 // legacy (cluster, subdomain) identity columns to (domain, proxy_address):
@@ -71,8 +75,8 @@ func MigrateAgentNetworkSettingsToDomain(ctx context.Context, db *gorm.DB) error
 				concat = "CONCAT(subdomain, '.', cluster)"
 			}
 			res := tx.Exec(fmt.Sprintf(
-				"UPDATE agent_network_settings SET domain = %s, proxy_address = cluster WHERE (domain IS NULL OR domain = '') AND cluster <> '' AND subdomain <> ''",
-				concat,
+				"UPDATE %s SET domain = %s, proxy_address = cluster WHERE (domain IS NULL OR domain = '') AND cluster <> '' AND subdomain <> ''",
+				schema.RuntimeTableName("agent_network_settings"), concat,
 			))
 			if res.Error != nil {
 				return fmt.Errorf("backfill agent_network_settings domain: %w", res.Error)

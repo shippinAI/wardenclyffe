@@ -838,7 +838,7 @@ generate_docker_compose_traefik() {
 services:
   # Traefik reverse proxy (automatic TLS via Let's Encrypt)
   traefik:
-    image: traefik:v3.6
+    image: traefik:v3.7.17
     container_name: wardenclyffe-traefik
     restart: unless-stopped
     networks:

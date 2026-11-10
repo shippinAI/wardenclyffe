@@ -18,6 +18,7 @@ import (
 	"github.com/jackc/pgx/v5/pgxpool"
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 
 	nbdns "github.com/shippin/wardenclyffe/dns"
 	"github.com/shippin/wardenclyffe/management/internals/modules/reverseproxy/domain"
@@ -249,7 +250,9 @@ func setupBenchmarkDB(b testing.TB) (*SqlStore, func(), string) {
 		b.Fatalf("failed to create test container: %v", err)
 	}
 
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// The raw account loader reads wardenclyffe_* tables. The benchmark
+	// database has to be created with the same naming strategy.
+	db, err := gorm.Open(postgres.Open(dsn), getGormConfig())
 	if err != nil {
 		b.Fatalf("failed to connect database: %v", err)
 	}
@@ -549,12 +552,12 @@ func TestAccountEquivalence(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			expected, errOld := tt.expectedF(ctx, accountID)
-			assert.NoError(t, errOld, "expected function should not return an error")
-			assert.NotNil(t, expected, "expected should not be nil")
+			require.NoError(t, errOld, "expected function should not return an error")
+			require.NotNil(t, expected, "expected should not be nil")
 
 			actual, errNew := tt.actualF(ctx, accountID)
-			assert.NoError(t, errNew, "actual function should not return an error")
-			assert.NotNil(t, actual, "actual should not be nil")
+			require.NoError(t, errNew, "actual function should not return an error")
+			require.NotNil(t, actual, "actual should not be nil")
 			testAccountEquivalence(t, expected, actual)
 		})
 	}
