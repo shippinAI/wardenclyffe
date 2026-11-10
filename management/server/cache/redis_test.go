@@ -18,7 +18,7 @@ func startRedis(t *testing.T) string {
 	t.Helper()
 
 	ctx := context.Background()
-	redisContainer, err := testcontainersredis.Run(ctx, "redis:7")
+	redisContainer, err := testcontainersredis.Run(ctx, "redis:8")
 	require.NoError(t, err, "couldn't start redis container")
 
 	t.Cleanup(func() {

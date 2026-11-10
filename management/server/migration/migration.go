@@ -17,6 +17,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+
+	"github.com/shippin/wardenclyffe/management/server/schema"
 )
 
 func GetColumnName(db *gorm.DB, column string) string {
@@ -24,6 +26,66 @@ func GetColumnName(db *gorm.DB, column string) string {
 		return fmt.Sprintf("`%s`", column)
 	}
 	return column
+}
+
+func identOK(name string) bool {
+	if name == "" {
+		return false
+	}
+	for _, r := range name {
+		if (r < 'a' || r > 'z') && (r < 'A' || r > 'Z') && (r < '0' || r > '9') && r != '_' {
+			return false
+		}
+	}
+	return true
+}
+
+// columnExists reports whether table has column. It matches the name exactly.
+// GORM's SQLite migrator treats the column as a substring of the CREATE
+// statement, which reports a hit for "name" inside "service_user_name".
+func columnExists(db *gorm.DB, table, column string) (bool, error) {
+	if !identOK(table) || !identOK(column) {
+		return false, fmt.Errorf("refusing non-identifier %s.%s", table, column)
+	}
+
+	var count int64
+	var query string
+	var args []any
+	switch db.Name() {
+	case "sqlite":
+		query = fmt.Sprintf("SELECT COUNT(1) FROM pragma_table_info('%s') WHERE name = ?", table)
+		args = []any{column}
+	case "postgres":
+		query = `SELECT COUNT(1) FROM information_schema.columns WHERE table_schema = CURRENT_SCHEMA() AND table_name = ? AND column_name = ?`
+		args = []any{table, column}
+	case "mysql":
+		query = `SELECT COUNT(1) FROM information_schema.columns WHERE table_schema = DATABASE() AND table_name = ? AND column_name = ?`
+		args = []any{table, column}
+	default:
+		return false, fmt.Errorf("unsupported database %q", db.Name())
+	}
+	if err := db.Raw(query, args...).Scan(&count).Error; err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+func dropColumnIfExists(db *gorm.DB, table, column string) error {
+	exists, err := columnExists(db, table, column)
+	if err != nil || !exists {
+		return err
+	}
+	quoted := table
+	if db.Name() == "mysql" {
+		quoted = "`" + table + "`"
+	} else {
+		quoted = `"` + table + `"`
+	}
+	col := column
+	if db.Name() == "mysql" {
+		col = "`" + column + "`"
+	}
+	return db.Exec(fmt.Sprintf("ALTER TABLE %s DROP COLUMN %s", quoted, col)).Error
 }
 
 // MigrateFieldFromGobToJSON migrates a column from Gob encoding to JSON encoding.
@@ -290,8 +352,10 @@ func MigrateSetupKeyToHashedSetupKey[T any](ctx context.Context, db *gorm.DB) er
 			}
 		}
 
-		if err := tx.Exec(fmt.Sprintf("ALTER TABLE %s DROP COLUMN IF EXISTS %s", "peers", "setup_key")).Error; err != nil {
-			log.WithContext(ctx).Errorf("Failed to drop column %s: %v", "setup_key", err)
+		for _, peersTable := range []string{"peers", schema.RuntimeTableName("peers")} {
+			if err := dropColumnIfExists(tx, peersTable, "setup_key"); err != nil {
+				log.WithContext(ctx).Errorf("Failed to drop column setup_key from %s: %v", peersTable, err)
+			}
 		}
 
 		return nil
@@ -328,14 +392,21 @@ func MigrateNewField[T any](ctx context.Context, db *gorm.DB, columnName string,
 	}
 	tableName := stmt.Schema.Table
 
-	if err := db.Transaction(func(tx *gorm.DB) error {
-		if !tx.Migrator().HasColumn(&model, columnName) {
-			log.WithContext(ctx).Infof("Column %s does not exist in table %s, adding it", columnName, tableName)
-			if err := tx.Migrator().AddColumn(&model, columnName); err != nil {
-				return fmt.Errorf("add column %s: %w", columnName, err)
-			}
+	// GORM's SQLite HasColumn matches the column name as a substring of the
+	// CREATE TABLE statement, so "name" looks present when the only column is
+	// service_user_name. Ask the catalog for an exact name instead.
+	exists, err := columnExists(db, tableName, columnName)
+	if err != nil {
+		return fmt.Errorf("check column %s.%s: %w", tableName, columnName, err)
+	}
+	if !exists {
+		log.WithContext(ctx).Infof("Column %s does not exist in table %s, adding it", columnName, tableName)
+		if err := db.Migrator().AddColumn(&model, columnName); err != nil {
+			return fmt.Errorf("add column %s: %w", columnName, err)
 		}
+	}
 
+	if err := db.Transaction(func(tx *gorm.DB) error {
 		var rows []map[string]any
 		if err := tx.Table(tableName).Select("id", columnName).Where(columnName + " IS NULL").Find(&rows).Error; err != nil {
 			return fmt.Errorf("failed to find rows with empty %s: %w", columnName, err)

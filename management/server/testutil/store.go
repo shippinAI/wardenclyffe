@@ -120,7 +120,7 @@ func noOpCleanup() {
 func CreateRedisTestContainer() (func(), string, error) {
 	ctx := context.Background()
 
-	redisContainer, err := testcontainersredis.Run(ctx, "redis:7")
+	redisContainer, err := testcontainersredis.Run(ctx, "redis:8")
 	if err != nil {
 		return nil, "", err
 	}

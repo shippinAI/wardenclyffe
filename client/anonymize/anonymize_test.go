@@ -289,7 +289,7 @@ func TestAnonymizeDomain_StrictLevel(t *testing.T) {
 
 	t.Run("wardenclyffe infrastructure preserved", func(t *testing.T) {
 		assert.Equal(t, "api.wardenclyffe.wardenclyffe.app", anonymizer.AnonymizeDomain("api.wardenclyffe.wardenclyffe.app"),
-			"wardenclyffe.shippin.cloud hosts infrastructure, not peer names, and should stay readable")
+			"wardenclyffe.wardenclyffe.app hosts infrastructure, not peer names, and should stay readable")
 	})
 
 	t.Run("leading labels of other domains", func(t *testing.T) {
@@ -434,7 +434,7 @@ func TestAnonymizeDomain(t *testing.T) {
 		{
 			"Protected Domain",
 			"wardenclyffe.app",
-			`^shippin\.ai$`,
+			`^wardenclyffe\.app$`,
 			false,
 		},
 		{
@@ -446,7 +446,7 @@ func TestAnonymizeDomain(t *testing.T) {
 		{
 			"Protected Domain with Trailing Dot",
 			"wardenclyffe.app.",
-			`^shippin\.ai.$`,
+			`^wardenclyffe\.app\.$`,
 			false,
 		},
 	}

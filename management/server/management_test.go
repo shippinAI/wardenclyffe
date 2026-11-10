@@ -321,15 +321,15 @@ func TestSyncNewPeerConfiguration(t *testing.T) {
 	}
 
 	expectedSignalConfig := &mgmtProto.HostConfig{
-		Uri:      "signal.wardenclyffe.wardenclyffe.app:10000",
+		Uri:      "signal.wardenclyffe.app:10000",
 		Protocol: mgmtProto.HostConfig_HTTP,
 	}
 	expectedStunsConfig := &mgmtProto.HostConfig{
-		Uri:      "stun:stun.wardenclyffe.wardenclyffe.app:3468",
+		Uri:      "stun:stun.wardenclyffe.app:3468",
 		Protocol: mgmtProto.HostConfig_UDP,
 	}
 	expectedTRUNHost := &mgmtProto.HostConfig{
-		Uri:      "turn:stun.wardenclyffe.wardenclyffe.app:3468",
+		Uri:      "turn:stun.wardenclyffe.app:3468",
 		Protocol: mgmtProto.HostConfig_UDP,
 	}
 
@@ -591,16 +591,16 @@ func TestLoginRegisteredPeer(t *testing.T) {
 	}
 
 	expectedSignalConfig := &mgmtProto.HostConfig{
-		Uri:      "signal.wardenclyffe.wardenclyffe.app:10000",
+		Uri:      "signal.wardenclyffe.app:10000",
 		Protocol: mgmtProto.HostConfig_HTTP,
 	}
 	expectedStunsConfig := &mgmtProto.HostConfig{
-		Uri:      "stun:stun.wardenclyffe.wardenclyffe.app:3468",
+		Uri:      "stun:stun.wardenclyffe.app:3468",
 		Protocol: mgmtProto.HostConfig_UDP,
 	}
 	expectedTurnsConfig := &mgmtProto.ProtectedHostConfig{
 		HostConfig: &mgmtProto.HostConfig{
-			Uri:      "turn:stun.wardenclyffe.wardenclyffe.app:3468",
+			Uri:      "turn:stun.wardenclyffe.app:3468",
 			Protocol: mgmtProto.HostConfig_UDP,
 		},
 		User:     "some_user",

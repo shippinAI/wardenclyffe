@@ -435,7 +435,7 @@ initialize_default_values() {
   # Combined server replaces separate signal, relay, and management containers
   WARDENCLYFFE_SERVER_IMAGE=${WARDENCLYFFE_SERVER_IMAGE:-"wardenclyffe-server:local"}
   WARDENCLYFFE_PROXY_IMAGE=${WARDENCLYFFE_PROXY_IMAGE:-"wardenclyffe-proxy:local"}
-  TRAEFIK_IMAGE=${TRAEFIK_IMAGE:-"traefik:v3.6"}
+  TRAEFIK_IMAGE=${TRAEFIK_IMAGE:-"traefik:v3.7.17"}
   CROWDSEC_IMAGE=${CROWDSEC_IMAGE:-"crowdsecurity/crowdsec:v1.7.7"}
   # Reverse proxy configuration
   REVERSE_PROXY_TYPE="0"

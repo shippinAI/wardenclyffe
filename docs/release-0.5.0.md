@@ -31,7 +31,7 @@ Confirmed differences requiring review before any port:
 | --- | --- | --- |
 | HA route selection | 20ms and 20% latency margins, noise evaluation, 30s dwell | Older score selection with a 10ms margin |
 | CLI peer table | `status --table`, compatible filters | No table flag in the current status command |
-| Installer reverse proxy | Traefik v3.7.14 default; rejects versions below v3.7.13 for header-sanitization compatibility | Traefik v3.6 default, without the corresponding version guard |
+| Installer reverse proxy | Traefik v3.7.14 default; rejects versions below v3.7.13 for header-sanitization compatibility | Traefik v3.7.17 default. The installer still does not reject older tags |
 
 Evidence: [upstream routing](https://github.com/netbirdio/netbird/blob/v0.82.0/client/internal/routemanager/client/client.go),
 [local routing](../client/internal/routemanager/client/client.go),

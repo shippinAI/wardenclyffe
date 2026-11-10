@@ -31,6 +31,7 @@ import (
 	networkTypes "github.com/shippin/wardenclyffe/management/server/networks/types"
 	nbpeer "github.com/shippin/wardenclyffe/management/server/peer"
 	"github.com/shippin/wardenclyffe/management/server/posture"
+	"github.com/shippin/wardenclyffe/management/server/schema"
 	"github.com/shippin/wardenclyffe/management/server/types"
 	"github.com/shippin/wardenclyffe/management/server/util"
 	nbroute "github.com/shippin/wardenclyffe/route"
@@ -3370,7 +3371,7 @@ func TestSqlStore_SaveUserWithEncryption(t *testing.T) {
 
 		// Verify using direct database query that empty strings remain empty (not encrypted)
 		var raw rawUser
-		err = store.(*SqlStore).db.Table("users").Select("id, email, name").Where("id = ?", user.Id).First(&raw).Error
+		err = store.(*SqlStore).db.Table(schema.RuntimeTableName("users")).Select("id, email, name").Where("id = ?", user.Id).First(&raw).Error
 		require.NoError(t, err)
 		require.Equal(t, "", raw.Email, "empty email should remain empty in database")
 		require.Equal(t, "", raw.Name, "empty name should remain empty in database")
@@ -3399,7 +3400,7 @@ func TestSqlStore_SaveUserWithEncryption(t *testing.T) {
 
 		// Verify using direct database query that the data is encrypted (not plaintext)
 		var raw rawUser
-		err = store.(*SqlStore).db.Table("users").Select("id, email, name").Where("id = ?", user.Id).First(&raw).Error
+		err = store.(*SqlStore).db.Table(schema.RuntimeTableName("users")).Select("id, email, name").Where("id = ?", user.Id).First(&raw).Error
 		require.NoError(t, err)
 		require.NotEqual(t, "test@example.com", raw.Email, "email should be encrypted in database")
 		require.NotEqual(t, "Test User", raw.Name, "name should be encrypted in database")
@@ -3434,14 +3435,14 @@ func TestSqlStore_SaveUserWithEncryption(t *testing.T) {
 
 		// Verify first user (empty fields) using direct database query
 		var raw1 rawUser
-		err = store.(*SqlStore).db.Table("users").Select("id, email, name").Where("id = ?", "batch-user-1").First(&raw1).Error
+		err = store.(*SqlStore).db.Table(schema.RuntimeTableName("users")).Select("id, email, name").Where("id = ?", "batch-user-1").First(&raw1).Error
 		require.NoError(t, err)
 		require.Equal(t, "", raw1.Email, "empty email should remain empty in database")
 		require.Equal(t, "", raw1.Name, "empty name should remain empty in database")
 
 		// Verify second user (with fields) using direct database query
 		var raw2 rawUser
-		err = store.(*SqlStore).db.Table("users").Select("id, email, name").Where("id = ?", "batch-user-2").First(&raw2).Error
+		err = store.(*SqlStore).db.Table(schema.RuntimeTableName("users")).Select("id, email, name").Where("id = ?", "batch-user-2").First(&raw2).Error
 		require.NoError(t, err)
 		require.NotEqual(t, "batch@example.com", raw2.Email, "email should be encrypted in database")
 		require.NotEqual(t, "Batch User", raw2.Name, "name should be encrypted in database")

@@ -138,8 +138,8 @@ func TestSanitizeProfileName(t *testing.T) {
 		{"!@#$%^&*()", ""},
 
 		// unicode letters and digits
-		{"ÃœserÃ‡", "ÃœserÃ‡"},
-		{"æ¼¢å­—ãƒ†ã‚¹ãƒˆ123", "æ¼¢å­—ãƒ†ã‚¹ãƒˆ123"},
+		{"ÜserÇ", "ÜserÇ"},
+		{"漢字テスト123", "漢字テスト123"},
 	}
 
 	for _, tc := range tests {
