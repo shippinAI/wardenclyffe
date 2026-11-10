@@ -37,8 +37,9 @@ export function McplCatalogPanel({ targets }: { targets: RuntimeTarget[] }) {
       <div data-ui-registry-inspector className="space-y-4">
         <p>
           Source scan, canonical aliases, runtime verification, then future
-          approved execution. This version does not move the cursor, type,
-          subscribe to new signals, or execute recipes.
+          approved execution. Discovery never moves the cursor or types. The
+          separate live recipe panel can observe native signals and compose
+          text.
         </p>
         <details>
           <summary className="cursor-pointer">Canonical alias catalog</summary>
@@ -65,7 +66,7 @@ export function McplCatalogPanel({ targets }: { targets: RuntimeTarget[] }) {
                     <td className="p-2">{entry.aliases.join(", ")}</td>
                     <td className="p-2">
                       {entry.kind === "signal"
-                        ? "Signal vocabulary only"
+                        ? "Native observer available"
                         : "No MCPL executor"}
                     </td>
                   </tr>

@@ -133,9 +133,32 @@ It reuses the live target inventory and distinguishes missing, ambiguous and
 disabled identities. Dynamic syntax remains explicitly unresolved. See the
 [MCPL integration instructions](../dashboard/src/modules/mcpl/README.md).
 
-Recipes, data pooling, live signal subscriptions, cursor/typing execution,
-approval enforcement for executable actions and operational AI/MCP adapters are
-not implemented by this discovery version. No candidate can execute an action.
+Typed `mcpl.recipe/1` text composition now binds current-account saved content
+to canonical native dashboard signals through an explicit start/stop observer.
+Named bindings pool title/body and signal identity/target without collecting
+input values. Unknown bindings/scripts are rejected; changed content, route
+and account context invalidate the session. Declared recipe origins remain
+unverified. Compositions are bounded, in-memory records, not signed audit trails.
+
+Production-mode dashboard artifact acceptance now runs with
+`npm run mcpl:acceptance` from the dashboard directory. It creates a fresh
+isolated management/dashboard pair and owner, signs in normally, skips optional
+onboarding through its UI, saves content through the management-backed editor,
+reloads it and proves native focus composition. It also checks synthetic and
+ambiguous event denial, password exclusion, value privacy, common operator/AI
+proposal validation, stop/clear and 320px layout. Its disposable resources are
+cleaned up. This focused test disables geolocation, as the existing e2e harness
+does, and does not establish trusted public HTTPS.
+
+Full dashboard unit validation is not yet a clean gate: one run passed 823 of
+824 tests, with the unchanged `DraftLeaveGuard` confirmed-discard browser-history
+test failing. Its isolated 19-test file passes; its fixed asynchronous-history
+waits need investigation before calling the full gate green. Do not waive that
+failure or represent the complete suite as passing.
+
+Cursor/typing execution, approval enforcement for executable actions and
+operational AI/MCP adapters are not implemented. No candidate or recipe can
+execute an action.
 Representative concurrency, reduced-motion behavior, touch interaction and
 target-disappearance recovery remain acceptance requirements for the executor.
 
