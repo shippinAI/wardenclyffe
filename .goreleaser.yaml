@@ -211,7 +211,7 @@ nfpms:
   - maintainer: Shippin <dev@wardenclyffe.app>
     description: Wardenclyffe client.
     homepage: https://wardenclyffe.app
-    license: BSD-3-Clause
+    license: debating/thinking/bsl
     vendor: WardenClyffe
     id: wardenclyffe_deb
     bindir: /usr/bin
@@ -226,7 +226,7 @@ nfpms:
   - maintainer: Shippin <dev@wardenclyffe.app>
     description: Wardenclyffe client.
     homepage: https://wardenclyffe.app
-    license: BSD-3-Clause
+    license: debating/thinking/bsl
     vendor: WardenClyffe
     id: wardenclyffe_rpm
     bindir: /usr/bin

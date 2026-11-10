@@ -172,7 +172,7 @@ In November 2022, WardenClyffe joined the [StartUpSecure program](https://www.fo
 We build on open source technologies like [WireGuardÂ®](https://www.wireguard.com/), [Pion ICE](https://github.com/pion/ice), and [Rosenpass](https://rosenpass.eu). We greatly appreciate the work these projects are doing, and we'd love it if you could support them too (e.g., by starring or contributing).
 
 ### Legal
-This repository is licensed under the BSD-3-Clause license, which applies to all parts of the repository except for the directories management/, signal/ and relay/.
+This repository is licensed under the debating/thinking/bsl license, which applies to all parts of the repository except for the directories management/, signal/ and relay/.
 Those directories are licensed under the GNU Affero General Public License version 3.0 (AGPLv3). See the respective LICENSE files inside each directory.
 
 _WireGuard_ and the _WireGuard_ logo are [registered trademarks](https://www.wireguard.com/trademark-policy/) of Jason A. Donenfeld.

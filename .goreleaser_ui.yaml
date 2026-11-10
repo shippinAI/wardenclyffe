@@ -77,7 +77,7 @@ nfpms:
   - maintainer: Shippin <dev@wardenclyffe.app>
     description: Wardenclyffe client UI.
     homepage: https://wardenclyffe.app
-    license: BSD-3-Clause
+    license: debating/thinking/bsl
     vendor: WardenClyffe
     id: wardenclyffe_ui_deb
     package_name: wardenclyffe-ui
@@ -106,7 +106,7 @@ nfpms:
   - maintainer: Shippin <dev@wardenclyffe.app>
     description: Wardenclyffe client UI.
     homepage: https://wardenclyffe.app
-    license: BSD-3-Clause
+    license: debating/thinking/bsl
     vendor: WardenClyffe
     id: wardenclyffe_ui_rpm
     package_name: wardenclyffe-ui

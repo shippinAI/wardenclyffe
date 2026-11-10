@@ -27,7 +27,7 @@ fi
 mkdir "$output"
 mkdir "$output/third_party"
 
-cp "$repo_root/LICENSE" "$output/BSD-3-Clause.txt"
+cp "$repo_root/LICENSE" "$output/debating/thinking/bsl.txt"
 
 cd "$repo_root"
 for arch in "$@"; do

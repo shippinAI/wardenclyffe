@@ -59,8 +59,11 @@ in this file, not duplicated there.
 - **Weakening a security control** — authentication, authorization, certificate
   verification, privilege dropping, or peer identity checks — even when it is
   the fastest way to make a test pass.
-- **Force-pushing to `main`**, force-pushing any branch that is already under
-  review, amending pushed commits, or bypassing hooks with `--no-verify`.
+- **Force-pushing to `main` without explicit user authorization**, force-pushing
+  any branch that is already under review, amending pushed commits, or bypassing
+  hooks with `--no-verify`. A user-authorized reset must be narrowly scoped,
+  explain that GitHub cannot guarantee immediate erasure of unreachable objects,
+  and verify the exact target and current worktree before rewriting.
 
 ## Quick reference
 
@@ -676,10 +679,11 @@ assert.Equal(t, expectedResult, result, "Result should match expected")
   the "changes since your last review" diff a reviewer relies on, and discards
   the CI history that showed which commit broke what. Add commits instead —
   including for fixups and reverts. Force-push only when there is no
-  alternative: a rebase to clear a genuine conflict, or removing a secret or a
-  large binary that was committed by mistake. When you must, ask the user first,
-  then say so in a PR comment so reviewers know their anchors moved. Never
-  force-push `main`, and never force-push a branch you do not own.
+  alternative: a rebase to clear a genuine conflict, removing a secret or a
+  large binary that was committed by mistake, or a history reset the user
+  explicitly authorized. When you must, ask the user first. For a reviewed
+  branch, say so in a PR comment so reviewers know their anchors moved. Never
+  force-push a branch you do not own.
 
 - **One PR, one purpose.** Split refactors out of fixes and fixes out of
   features.
